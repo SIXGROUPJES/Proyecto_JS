@@ -6,7 +6,7 @@ Este documento establece las reglas de convivencia, comunicación y estándares 
 | Nombre | Rol | Usuario de GitHub |
 | :--- | :--- | :--- |
 | Jhon Stiven Poveda | Líder (Arquitecto) | `@jhonpoved01` |
-| [Nombre del Aprendiz 2] | Desarrollador | `@usuario2` |
+| [linni saray puerto cubides] | Desarrollador | `@saray-cod` |
 | [Nombre del Aprendiz 3] | Desarrollador | `@usuario3` |
 
 ## 2. Canales de Comunicación
