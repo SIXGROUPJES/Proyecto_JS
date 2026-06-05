@@ -9,6 +9,7 @@ Este documento establece las reglas de convivencia, comunicación y estándares 
 | [Nombre del Aprendiz 2] | Desarrollador | `@usuario2` |
 | [ELISEO AMAYA GUERRERO] | Desarrollador | `@eliam170` |
 
+
 ## 2. Canales de Comunicación
 Para mantener el orden y separar lo profesional de lo personal, usaremos los siguientes canales:
 * **Comunicación Oficial y Archivos:** [Ej: correo corporativo / Microsoft Teams]
