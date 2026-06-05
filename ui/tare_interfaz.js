@@ -1,4 +1,9 @@
 
+import { API_URL } from '../config/api.config.js';
+import { renderizarTareas } from '../utils/func_aux.js';
+
+let usuarioActual = null;
+
 // ============================================
 // MOSTRAR DATOS USUARIO
 // ============================================
@@ -64,10 +69,18 @@ export async function cargarTareasDisponibles() {
         const respuesta = await fetch(`${API_URL}/tareasDisponibles`);
         const tareas    = await respuesta.json();
 
-        const lista = document.getElementById('dropdownLista');
+        const lista = document.getElementById('listaTareasDisponibles');
         lista.innerHTML = '';
 
+        const selector = document.getElementById('selectorTareas');
+        selector.innerHTML = '<option value="">-- Selecciona una tarea --</option>';
+
         tareas.forEach(tarea => {
+            const opcion = document.createElement('option');
+            opcion.value = tarea.id;
+            opcion.textContent = tarea.titulo;
+            selector.appendChild(opcion);
+
             const fila = document.createElement('div');
             fila.classList.add('dropdown-item');
 
@@ -83,7 +96,7 @@ export async function cargarTareasDisponibles() {
             fila.querySelector('.dropdown-item-titulo').addEventListener('click', function () {
                 document.getElementById('selectorTareas').value = tarea.id;
                 document.getElementById('dropdownTexto').textContent = tarea.titulo;
-                document.getElementById('dropdownLista').classList.remove('abierto');
+                document.getElementById('listaTareasDisponibles').classList.remove('abierto');
             });
 
             // Editar

@@ -1,3 +1,5 @@
+import { API_URL } from '../config/api.config.js';
+
 // ============================================
 // ELIMINAR TAREA
 // ============================================
@@ -7,7 +9,7 @@
  * 
  * @param {number} idTarea
  */
-async function eliminarTarea(idTarea) {
+export async function eliminarTarea(idTarea) {
 
     try {
 

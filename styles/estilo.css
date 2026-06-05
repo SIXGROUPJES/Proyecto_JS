@@ -178,6 +178,118 @@ select:focus {
 
 }
 
+/* DROPDOWN DE TAREAS */
+.selector-tareas-original {
+
+    position: absolute;
+
+    width: 1px;
+
+    height: 1px;
+
+    opacity: 0;
+
+    pointer-events: none;
+
+}
+
+.dropdown-tareas {
+
+    position: relative;
+
+}
+
+.dropdown-cabecera {
+
+    background-color: var(--color-secundario);
+
+    color: var(--color-texto);
+
+    border: 1px solid var(--color-borde);
+
+    border-radius: 10px;
+
+    padding: 12px;
+
+    cursor: pointer;
+
+}
+
+.dropdown-lista {
+
+    display: none;
+
+    position: absolute;
+
+    top: calc(100% + 6px);
+
+    left: 0;
+
+    right: 0;
+
+    z-index: 10;
+
+    max-height: 260px;
+
+    overflow-y: auto;
+
+    background-color: var(--color-secundario);
+
+    border: 1px solid var(--color-borde);
+
+    border-radius: 10px;
+
+}
+
+.dropdown-lista.abierto {
+
+    display: block;
+
+}
+
+.dropdown-item {
+
+    display: flex;
+
+    justify-content: space-between;
+
+    gap: 12px;
+
+    padding: 12px;
+
+    border-bottom: 1px solid var(--color-borde);
+
+}
+
+.dropdown-item:last-child {
+
+    border-bottom: none;
+
+}
+
+.dropdown-item-titulo {
+
+    cursor: pointer;
+
+}
+
+.dropdown-item-acciones {
+
+    display: flex;
+
+    gap: 10px;
+
+    white-space: nowrap;
+
+}
+
+.accion-editar,
+.accion-eliminar {
+
+    cursor: pointer;
+
+}
+
 
 /* Textarea */
 textarea {

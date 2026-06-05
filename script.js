@@ -3,17 +3,17 @@
 // ============================================
 import {
     buscarUsuario,
-} from './func_api.js';
+} from './ui/func_api.js';
 
 // ============================================
 import {
     mostrarDatosUsuario,
     cargarTareasDisponibles,
-    cargarTareasusuario,
+    cargarTareasUsuario,
     registrarTarea,
     limpiarTodasLasTareas
 
-} from './tare_interfaz.js';
+} from './ui/tare_interfaz.js';
 
 // ============================================
 import {
@@ -24,13 +24,15 @@ import {
     formatearFecha,
     validarCampoVacio
 
-} from './tare_general.js';
+} from './ui/tare_general.js';
 
 // ============================================
 
 import {
     eliminarTarea,
-} from './eliminar.js';
+} from './services/eliminar.js';
+
+import { API_URL } from './config/api.config.js';
 
 
 // ============================================
@@ -360,7 +362,11 @@ async function manejarRegistroTarea(evento) {
 // DROPDOWN PERSONALIZADO
 function configurarDropdown() {
     const cabecera = document.getElementById('dropdownCabecera');
-    const lista    = document.getElementById('dropdownLista');
+    const lista    = document.getElementById('listaTareasDisponibles');
+
+    if (!cabecera || !lista) {
+        return;
+    }
 
     cabecera.addEventListener('click', function (e) {
         e.stopPropagation();
@@ -377,25 +383,26 @@ function configurarDropdown() {
 }
 // BOTON AGREGAR TAREAS
 const boton = document.getElementById('botonAgregarTarea');
-boton.addEventListener('click', async () => {
-    const titulo = prompt('Ingrese el título de la nueva tarea: ');
-    if (!titulo) return;
-    const descripcion = prompt('Ingrese la descripción de la nueva tarea: ');
-    if (!descripcion) return;
+if (boton) {
+    boton.addEventListener('click', async () => {
+        const titulo = prompt('Ingrese el título de la nueva tarea: ');
+        if (!titulo) return;
+        const descripcion = prompt('Ingrese la descripción de la nueva tarea: ');
+        if (!descripcion) return;
 
-    try {
-        const API_URL = `${window.location.protocol}//${window.location.hostname}:3000`;
-        const respuesta = await fetch(`${API_URL}/tareasDisponibles`, {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ titulo, descripcion })
-        });
-        if (!respuesta.ok) throw new Error('Error al guardar');
+        try {
+            const respuesta = await fetch(`${API_URL}/tareasDisponibles`, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ titulo, descripcion })
+            });
+            if (!respuesta.ok) throw new Error('Error al guardar');
 
-        await cargarTareasDisponibles(); // recarga el dropdown con la nueva tarea
-        alert('Tarea agregada correctamente');
-    } catch (error) {
-        console.error(error);
-        alert('Error ha habido al agregar la tarea');
-    }
-});
+            await cargarTareasDisponibles(); // recarga el dropdown con la nueva tarea
+            alert('Tarea agregada correctamente');
+        } catch (error) {
+            console.error(error);
+            alert('Error ha habido al agregar la tarea');
+        }
+    });
+}

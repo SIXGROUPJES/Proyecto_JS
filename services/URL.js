@@ -2,4 +2,6 @@
 // S=> SERVICIO DE PUERTO DE LA PAGINA
 // ============================================
 
-fetch("http://192.168.40.30:3005");
+import { API_URL } from '../config/api.config.js';
+
+fetch(API_URL);
