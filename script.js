@@ -3,7 +3,7 @@
 // ============================================
 import {
     buscarUsuario,
-} from './func_api.js';
+} from './ui/func_api.js';
 
 // ============================================
 import {
@@ -13,7 +13,7 @@ import {
     registrarTarea,
     limpiarTodasLasTareas
 
-} from './tare_interfaz.js';
+} from './ui/tare_interfaz.js';
 
 // ============================================
 import {
@@ -24,13 +24,15 @@ import {
     formatearFecha,
     validarCampoVacio
 
-} from './tare_general.js';
+} from './ui/tare_general.js';
 
 // ============================================
 
 import {
     eliminarTarea,
-} from './eliminar.js';
+} from './services/eliminar.js';
+
+import { API_URL } from './config/api.config.js';
 
 
 // ============================================
@@ -384,7 +386,6 @@ boton.addEventListener('click', async () => {
     if (!descripcion) return;
 
     try {
-        const API_URL = `${window.location.protocol}//${window.location.hostname}:3000`;
         const respuesta = await fetch(`${API_URL}/tareasDisponibles`, {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },

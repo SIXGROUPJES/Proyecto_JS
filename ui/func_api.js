@@ -3,7 +3,7 @@
 // URL DEL SERVIDOR
 // ============================================
 
-const API_URL = `${window.location.protocol}//${window.location.hostname}:3000`;
+import { API_URL } from '../config/api.config.js';
 
 
 // ============================================
