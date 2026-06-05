@@ -9,7 +9,7 @@ import { API_URL } from '../config/api.config.js';
  * 
  * @param {number} idTarea
  */
-async function eliminarTarea(idTarea) {
+export async function eliminarTarea(idTarea) {
 
     try {
 

@@ -7,7 +7,7 @@
  * 
  * @param {Array} tareas
  */
-function renderizarTareas(tareas) {
+export function renderizarTareas(tareas) {
 
     const cuerpoTabla =
         document.getElementById(
