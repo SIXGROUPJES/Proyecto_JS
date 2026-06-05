@@ -1,1 +1,439 @@
-/*jhwrhggg*/
+
+/* CONFIGURACIÓN GENERAL */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+
+/*
+    Variables de colores
+*/
+:root {
+
+    --color-fondo: #0f172a;
+
+    --color-contenedor: #1e293b;
+
+    --color-secundario: #334155;
+
+    --color-texto: #f8fafc;
+
+    --color-texto-secundario: #cbd5e1;
+
+    --color-boton: #3b82f6;
+
+    --color-boton-hover: #2563eb;
+
+    --color-error: #ef4444;
+
+    --color-progreso: #f59e0b;
+
+    --color-completada: #22c55e;
+
+    --color-borde: #475569;
+
+}
+
+
+/* BODY */
+body {
+
+    background-color: var(--color-fondo);
+
+    color: var(--color-texto);
+
+    font-family: Arial, Helvetica, sans-serif;
+
+    min-height: 100vh;
+
+    padding: 30px;
+
+}
+
+
+/* CONTENEDOR PRINCIPAL */
+.contenedor-principal {
+
+    max-width: 1200px;
+
+    margin: auto;
+
+}
+
+
+/* ENCABEZADO */
+.encabezado {
+
+    text-align: center;
+
+    margin-bottom: 40px;
+
+}
+
+.encabezado h1 {
+
+    font-size: 2.5rem;
+
+    margin-bottom: 10px;
+
+}
+
+.encabezado p {
+
+    color: var(--color-texto-secundario);
+
+}
+
+
+/* SECCIONES */
+section {
+
+    background-color: var(--color-contenedor);
+
+    padding: 25px;
+
+    border-radius: 15px;
+
+    margin-bottom: 25px;
+
+    border: 1px solid var(--color-borde);
+
+    box-shadow: 0 5px 20px rgba(0,0,0,0.3);
+
+}
+
+
+/* TÍTULOS */
+h2 {
+
+    margin-bottom: 20px;
+
+    color: var(--color-texto);
+
+}
+
+h3 {
+
+    margin-bottom: 15px;
+
+}
+
+
+/* FORMULARIOS */
+.grupo-formulario {
+
+    display: flex;
+
+    flex-direction: column;
+
+    margin-bottom: 20px;
+
+}
+
+
+/* Labels */
+label {
+
+    margin-bottom: 8px;
+
+    font-weight: bold;
+
+}
+
+
+/* Inputs */
+input,
+textarea,
+select {
+
+    background-color: var(--color-secundario);
+
+    color: var(--color-texto);
+
+    border: 1px solid var(--color-borde);
+
+    border-radius: 10px;
+
+    padding: 12px;
+
+    font-size: 1rem;
+
+    outline: none;
+
+    transition: 0.3s;
+
+}
+
+
+/* Focus */
+input:focus,
+textarea:focus,
+select:focus {
+
+    border-color: var(--color-boton);
+
+    box-shadow: 0 0 10px rgba(59,130,246,0.5);
+
+}
+
+
+/* Textarea */
+textarea {
+
+    resize: vertical;
+
+    min-height: 120px;
+
+}
+
+
+/* BOTONES */
+button {
+
+    background-color: var(--color-boton);
+
+    color: white;
+
+    border: none;
+
+    padding: 12px 20px;
+
+    border-radius: 10px;
+
+    cursor: pointer;
+
+    font-size: 1rem;
+
+    transition: 0.3s;
+
+    margin-right: 10px;
+
+}
+
+
+/* Hover */
+button:hover {
+
+    background-color: var(--color-boton-hover);
+
+    transform: translateY(-2px);
+
+}
+
+
+/* BOTONES ESPECIALES */
+
+/* Botón eliminar */
+button:last-child {
+
+    background-color: var(--color-error);
+
+}
+
+button:last-child:hover {
+
+    background-color: #dc2626;
+
+}
+
+
+/* TABLA */
+table {
+
+    width: 100%;
+
+    border-collapse: collapse;
+
+    margin-top: 20px;
+
+    overflow: hidden;
+
+    border-radius: 15px;
+
+}
+
+
+/* Encabezado */
+thead {
+
+    background-color: var(--color-secundario);
+
+}
+
+
+/* Celdas */
+th,
+td {
+
+    padding: 15px;
+
+    text-align: left;
+
+    border-bottom: 1px solid var(--color-borde);
+
+}
+
+
+/* Hover filas */
+tbody tr:hover {
+
+    background-color: rgba(255,255,255,0.05);
+
+}
+
+
+/* MENSAJES */
+#mensajeSistema {
+
+    margin-bottom: 20px;
+
+    padding: 15px;
+
+    border-radius: 10px;
+
+    font-weight: bold;
+
+}
+
+
+/* Mensaje éxito */
+.success {
+
+    background-color: rgba(34,197,94,0.2);
+
+    color: var(--color-completada);
+
+    border: 1px solid var(--color-completada);
+
+}
+
+
+/* Mensaje error */
+.error {
+
+    background-color: rgba(239,68,68,0.2);
+
+    color: var(--color-error);
+
+    border: 1px solid var(--color-error);
+
+}
+
+
+/* Mensaje información */
+.info {
+
+    background-color: rgba(59,130,246,0.2);
+
+    color: var(--color-boton);
+
+    border: 1px solid var(--color-boton);
+
+}
+
+
+/* MENSAJES DE ERROR FORMULARIOS */
+.mensaje-error {
+
+    color: var(--color-error);
+
+    margin-top: 5px;
+
+    font-size: 0.9rem;
+
+}
+
+
+/* CONTADOR DE CARACTERES */
+.contador-caracteres {
+
+    margin-top: 8px;
+
+    color: var(--color-texto-secundario);
+
+    font-size: 0.9rem;
+
+}
+
+
+/* ESTADOS DE TAREAS */
+.estado-pendiente {
+
+    color: var(--color-error);
+
+    font-weight: bold;
+
+}
+
+.estado-progreso {
+
+    color: var(--color-progreso);
+
+    font-weight: bold;
+
+}
+
+.estado-completada {
+
+    color: var(--color-completada);
+
+    font-weight: bold;
+
+}
+
+
+/* CLASE HIDDEN */
+.hidden {
+
+    display: none;
+
+}
+
+
+/* ANIMACIONES */
+section,
+table,
+button,
+input,
+textarea,
+select {
+
+    transition: all 0.3s ease;
+
+}
+
+
+/* RESPONSIVE */
+@media (max-width: 768px) {
+
+    body {
+
+        padding: 15px;
+
+    }
+
+    .encabezado h1 {
+
+        font-size: 2rem;
+
+    }
+
+    table {
+
+        display: block;
+
+        overflow-x: auto;
+
+    }
+
+    button {
+
+        width: 100%;
+
+        margin-bottom: 10px;
+
+    }
+
+}
