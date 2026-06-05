@@ -51,8 +51,7 @@ document.addEventListener(
         );
 
         console.log(
-            '📝 Sistema de asignación de tareas iniciado'
-        );
+            '📝 Sistema de asignación de tareas iniciado');
 
         /*
             Configurar eventos
