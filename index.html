@@ -5,7 +5,161 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>GRUPO 6</title>
 </head>
+
 <body>
-    
+    <!-- CONTENEDOR PRINCIPAL -->
+    <div class="contenedor-principal">
+
+        <!-- ENCABEZADO -->
+        <header class="encabezado">
+            <h1>Sistema de Registro de Tareas</h1>
+            <p>
+                Gestión de tareas utilizando JavaScript,
+                DOM y JSON Server
+            </p>
+        </header>
+                
+            
+        <!-- FORMULARIO DE BÚSQUEDA DE USUARIO -->
+        <section class="seccion-busqueda-usuario">
+            <h2>Buscar Usuario</h2>
+            <form id="formularioBusquedaUsuario">
+
+                <!-- Documento -->
+                <div class="grupo-formulario">
+                    <label for="documentoUsuario"> Documento del Usuario</label>
+                    <input type="text" id="documentoUsuario"
+                    placeholder="Ejemplo: 1000000001" required>
+                        
+                    <!-- Mensaje de error -->
+                    <span
+                        id="errorDocumentoUsuario"
+                        class="mensaje-error"
+                    ></span>
+                </div>
+
+                <!-- Botón -->
+                <button type="submit">Buscar Usuario</button>
+            </form>
+        </section>
+
+
+        <!-- MENSAJES DEL SISTEMA -->
+        <div id="mensajeSistema"></div>
+
+
+        <!-- DATOS DEL USUARIO -->
+        <section id="seccionDatosUsuario" class="hidden" >
+            <h2>Información del Usuario</h2>
+            <p>
+                <strong>Nombre:</strong>
+                <span id="nombreUsuario"></span>
+            </p>
+            <p>
+                <strong>Correo:</strong>
+                <span id="correoUsuario"></span>
+            </p>
+        </section>
+
+
+        <!-- FORMULARIO DE REGISTRO DE TAREAS -->
+        <section id="seccionFormularioTareas" class="hidden">
+
+            <h2>Registrar Nueva Tarea</h2>
+            
+            <form id="formularioTareas">
+            
+                <!-- SELECCIONAR TAREA -->
+                <div class="grupo-formulario">
+                    <label for="selectorTareas">Selecciona una tarea</label>
+                    <select id="selectorTareas" required>
+                        <option value="">-- Selecciona una tarea --</option>
+                    </select>
+                    <span id="errorSelectorTareas" class="mensaje-error"></span>
+                </div>
+
+                <!-- ESTADO -->
+                <div class="grupo-formulario">
+                    <label for="estadoTarea">Estado de la Tarea</label>               
+                    <select id="estadoTarea" required>
+                        <option value="" disabled selected>Selecciona un estado </option>
+                        <option value="Pendiente">Pendiente</option>
+                        <option value="En progreso">En progreso</option>
+                        <option value="Completada">Completada</option>
+                    </select>
+                    <span id="errorEstadoTarea" class="mensaje-error"></span>
+                </div>
+
+
+                <!-- BOTONES -->
+                <div class="acciones-formulario">
+                    <button type="submit">Registrar Tarea</button>
+
+                    <!-- Botón limpiar -->
+                    <button type="button" id="botonLimpiarTareas" 
+                        class="hidden">Limpiar Tareas
+                    </button>
+                </div>
+            </form>
+        </section>
+                    
+
+        <!-- FILTRO DE TAREAS -->
+        <section id="seccionFiltroTareas" class="hidden">
+            <h2>Filtrar Tareas</h2>
+            <div class="grupo-formulario">
+                <label for="filtroEstado">Filtrar por estado</label>
+                <select id="filtroEstado">
+                    <option value="Todas">Todas</option>
+                    <option value="Pendiente">Pendiente</option>
+                    <option value="En progreso">En progreso</option>
+                    <option value="Completada">Completada</option>
+                </select>
+            </div>
+        </section>
+
+
+        <!-- TABLA DE TAREAS -->
+        <section class="seccion-tabla-tareas">
+
+            <h2>Tareas Registradas</h2>
+
+            <!-- Mensaje sin tareas -->
+            <div id="mensajeSinTareas">
+                <p>No hay tareas registradas.</p>
+            </div>
+                
+            <!-- Tabla -->
+            <table id="tablaTareas" class="hidden">
+                <thead>
+                    <tr>
+                        <th>Título</th>
+
+                        <th>Descripción</th>
+
+                        <th>Estado</th>
+
+                        <th>Fecha</th>
+
+                        <th>Usuario</th>
+
+                        <th>Acciones</th>
+                    </tr>
+                </thead>
+
+
+                <!--
+                    Aquí se insertarán las tareas
+                    dinámicamente desde JavaScript
+                -->
+
+                <tbody id="cuerpoTablaTareas"></tbody>
+            </table>
+        </section>
+    </div>
+
+                
+    <!-- SCRIPT PRINCIPAL -->
+    <script src="script.js" type="module"></script>
 </body>
 </html>
