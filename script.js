@@ -32,7 +32,9 @@ import {
     eliminarTarea,
 } from './services/eliminar.js';
 
-import { API_URL } from './config/api.config.js';
+import {
+    crearTareaDisponible,
+} from './services/tareasDisponibles.service.js';
 
 
 // ============================================
@@ -391,11 +393,7 @@ if (boton) {
         if (!descripcion) return;
 
         try {
-            const respuesta = await fetch(`${API_URL}/tareasDisponibles`, {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({ titulo, descripcion })
-            });
+            const respuesta = await crearTareaDisponible({ titulo, descripcion });
             if (!respuesta.ok) throw new Error('Error al guardar');
 
             await cargarTareasDisponibles(); // recarga el dropdown con la nueva tarea

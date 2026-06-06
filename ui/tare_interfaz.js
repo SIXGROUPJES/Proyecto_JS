@@ -1,6 +1,11 @@
 
 import { API_URL } from '../config/api.config.js';
 import { renderizarTareas } from '../utils/func_aux.js';
+import {
+    obtenerTareasDisponibles,
+    actualizarTareaDisponible,
+    eliminarTareaDisponible
+} from '../services/tareasDisponibles.service.js';
 
 let usuarioActual = null;
 
@@ -66,8 +71,7 @@ export function mostrarDatosUsuario(usuario) {
 // ============================================
 export async function cargarTareasDisponibles() {
     try {
-        const respuesta = await fetch(`${API_URL}/tareasDisponibles`);
-        const tareas    = await respuesta.json();
+        const tareas = await obtenerTareasDisponibles();
 
         const lista = document.getElementById('listaTareasDisponibles');
         lista.innerHTML = '';
@@ -105,11 +109,7 @@ export async function cargarTareasDisponibles() {
                 const id = this.dataset.id;
                 const nuevoTitulo = prompt('Ingrese el nuevo nombre de la tarea:');
                 if (!nuevoTitulo) return;
-                await fetch(`${API_URL}/tareasDisponibles/${id}`, {
-                    method: 'PATCH',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({ titulo: nuevoTitulo })
-                });
+                await actualizarTareaDisponible(id, { titulo: nuevoTitulo });
                 if (document.getElementById('selectorTareas').value === id) {
                     document.getElementById('dropdownTexto').textContent = nuevoTitulo;
                 }
@@ -122,9 +122,7 @@ export async function cargarTareasDisponibles() {
                 const id = this.dataset.id;
                 const confirmar = confirm('¿Deseas eliminar esta tarea disponible?');
                 if (!confirmar) return;
-                await fetch(`${API_URL}/tareasDisponibles/${id}`, {
-                    method: 'DELETE'
-                });
+                await eliminarTareaDisponible(id);
                 if (document.getElementById('selectorTareas').value === id) {
                     document.getElementById('selectorTareas').value = '';
                     document.getElementById('dropdownTexto').textContent = '-- Selecciona una tarea --';
@@ -219,24 +217,11 @@ export async function registrarTarea(datosTarea) {
             1. OBTENER TAREAS DISPONIBLES
             =====================================
         */
-        const respuestaTareas =
-            await fetch(
-                `${API_URL}/tareasDisponibles`
-            );
-
-        if (!respuestaTareas.ok) {
-
-            throw new Error(
-                'Error al cargar tareas disponibles'
-            );
-
-        }
-
         /*
             Convertir respuesta JSON
         */
         const tareasDisponibles =
-            await respuestaTareas.json();
+            await obtenerTareasDisponibles();
 
         /*
             =====================================

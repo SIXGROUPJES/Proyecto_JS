@@ -53,13 +53,8 @@
   ],
   "tareasDisponibles": [
     {
-      "id": "1",
-      "titulo": "Practicar JavaScript",
-      "descripcion": "Estudiar DOM, eventos y fetch API"
-    },
-    {
       "id": "2",
-      "titulo": "Diseñar interfaz",
+      "titulo": "interfaz",
       "descripcion": "Crear estilos CSS responsivos"
     },
     {
@@ -102,11 +97,11 @@
     {
       "usuarioId": "1000000005",
       "usuarioNombre": "Laura Martínez",
-      "tareaId": "2",
-      "titulo": "Diseñar interfaz",
-      "descripcion": "Crear estilos CSS responsivos",
+      "tareaId": "3",
+      "titulo": "base",
+      "descripcion": "Configurar JSON Server correctamente",
       "estado": "Pendiente",
-      "fechaAsignacion": "2026-06-06T00:37:45.276Z",
+      "fechaAsignacion": "2026-06-06T01:00:51.531Z",
       "id": 3
     }
   ]
