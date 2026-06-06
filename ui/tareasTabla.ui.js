@@ -1,4 +1,4 @@
-import { eliminarTarea } from '../services/eliminar.js';
+import { eliminarTareaAsignada } from '../services/tareasAsignadas.service.js';
 
 // ============================================
 // RENDERIZAR TAREAS
@@ -140,7 +140,7 @@ export function renderizarTareas(tareas, onTareaEliminada) {
                             'data-id'
                         );
 
-                    await eliminarTarea(
+                    await eliminarTareaAsignada(
                         id
                     );
 
