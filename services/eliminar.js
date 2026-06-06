@@ -1,4 +1,4 @@
-import { API_URL } from '../config/api.config.js';
+import { eliminarTareaAsignada } from './tareasAsignadas.service.js';
 
 // ============================================
 // ELIMINAR TAREA
@@ -16,20 +16,9 @@ export async function eliminarTarea(idTarea) {
         /*
             Petición eliminar
         */
-        const respuesta = await fetch(
-            `${API_URL}/tareasAsignadas/${idTarea}`,
-            {
-                method: 'DELETE'
-            }
+        await eliminarTareaAsignada(
+            idTarea
         );
-
-        if (!respuesta.ok) {
-
-            throw new Error(
-                'Error al eliminar tarea'
-            );
-
-        }
 
     } catch (error) {
 

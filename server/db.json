@@ -53,11 +53,6 @@
   ],
   "tareasDisponibles": [
     {
-      "id": "2",
-      "titulo": "interfaz",
-      "descripcion": "Crear estilos CSS responsivos"
-    },
-    {
       "id": "3",
       "titulo": "base",
       "descripcion": "Configurar JSON Server correctamente"

@@ -1,11 +1,15 @@
 
-import { API_URL } from '../config/api.config.js';
 import { renderizarTareas } from '../utils/func_aux.js';
 import {
     obtenerTareasDisponibles,
     actualizarTareaDisponible,
     eliminarTareaDisponible
 } from '../services/tareasDisponibles.service.js';
+import {
+    obtenerTareasAsignadasPorUsuario,
+    crearTareaAsignada,
+    eliminarTareasAsignadasPorUsuario
+} from '../services/tareasAsignadas.service.js';
 
 let usuarioActual = null;
 
@@ -156,24 +160,11 @@ export async function cargarTareasUsuario(usuarioId) {
         /*
             Petición
         */
-        const respuesta =
-            await fetch(
-                `${API_URL}/tareasAsignadas?usuarioId=${encodeURIComponent(String(usuarioId))}`
-            );
-
-        if (!respuesta.ok) {
-
-            throw new Error(
-                'Error al cargar tareas asignadas'
-            );
-
-        }
-
         /*
             Convertir respuesta
         */
         const tareas =
-            await respuesta.json();
+            await obtenerTareasAsignadasPorUsuario(usuarioId);
 
         console.log(
             'Tareas encontradas:',
@@ -295,27 +286,8 @@ export async function registrarTarea(datosTarea) {
             =====================================
         */
         const respuesta =
-            await fetch(
-
-                `${API_URL}/tareasAsignadas`,
-
-                {
-
-                    method: 'POST',
-
-                    headers: {
-
-                        'Content-Type':
-                            'application/json'
-
-                    },
-
-                    body: JSON.stringify(
-                        tareaAsignada
-                    )
-
-                }
-
+            await crearTareaAsignada(
+                tareaAsignada
             );
 
         /*
@@ -368,30 +340,9 @@ export async function limpiarTodasLasTareas() {
         /*
             Obtener tareas
         */
-        const respuesta =
-            await fetch(
-                `${API_URL}/tareasAsignadas?usuarioId=${usuarioActual.id}`
-            );
-
-        /*
-            Convertir respuesta
-        */
-        const tareas =
-            await respuesta.json();
-
-        /*
-            Eliminar una por una
-        */
-        for (const tarea of tareas) {
-
-            await fetch(
-                `${API_URL}/tareasAsignadas/${tarea.id}`,
-                {
-                    method: 'DELETE'
-                }
-            );
-
-        }
+        await eliminarTareasAsignadasPorUsuario(
+            usuarioActual.id
+        );
 
         /*
             Recargar tabla
