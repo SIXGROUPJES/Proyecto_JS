@@ -160,8 +160,16 @@ export async function cargarTareasUsuario(usuarioId) {
         */
         const respuesta =
             await fetch(
-                `${API_URL}/tareasAsignadas?usuarioId=${usuarioId.toString()}`
+                `${API_URL}/tareasAsignadas?usuarioId=${encodeURIComponent(String(usuarioId))}`
             );
+
+        if (!respuesta.ok) {
+
+            throw new Error(
+                'Error al cargar tareas asignadas'
+            );
+
+        }
 
         /*
             Convertir respuesta
@@ -178,7 +186,8 @@ export async function cargarTareasUsuario(usuarioId) {
             Renderizar tabla
         */
         renderizarTareas(
-            tareas
+            tareas,
+            () => cargarTareasUsuario(usuarioId)
         );
 
     } catch (error) {
@@ -215,6 +224,14 @@ export async function registrarTarea(datosTarea) {
                 `${API_URL}/tareasDisponibles`
             );
 
+        if (!respuestaTareas.ok) {
+
+            throw new Error(
+                'Error al cargar tareas disponibles'
+            );
+
+        }
+
         /*
             Convertir respuesta JSON
         */
@@ -235,7 +252,14 @@ export async function registrarTarea(datosTarea) {
                     datosTarea.idTarea
 
             );
-    
+
+        if (!tareaSeleccionada) {
+
+            throw new Error(
+                'La tarea seleccionada no existe'
+            );
+
+        }
 
 
         /*
@@ -271,9 +295,14 @@ export async function registrarTarea(datosTarea) {
                 datosTarea.estado,
 
             fechaAsignacion:
-                new Date()
+                new Date().toISOString()
 
         };
+
+        console.log(
+            'Enviando asignación:',
+            tareaAsignada
+        );
 
         /*
             =====================================

@@ -64,12 +64,12 @@
     },
     {
       "id": "3",
-      "titulo": "Crear base de datos",
+      "titulo": "base",
       "descripcion": "Configurar JSON Server correctamente"
     },
     {
       "id": "4",
-      "titulo": "Estudiar modularización",
+      "titulo": "modulos",
       "descripcion": "Separar funciones en diferentes archivos JS"
     },
     {
@@ -93,6 +93,26 @@
       "estado": "Completada",
       "fechaAsignacion": "2026-06-05T06:26:51.450Z",
       "id": 1
+    },
+    {
+      "usuarioId": "1000000002",
+      "usuarioNombre": "Carlos Gómez",
+      "tareaId": "5",
+      "titulo": "Practicar GitHub",
+      "descripcion": "Realizar commits y push correctamente",
+      "estado": "En progreso",
+      "fechaAsignacion": "2026-06-06T00:06:43.025Z",
+      "id": 2
+    },
+    {
+      "usuarioId": "1000000005",
+      "usuarioNombre": "Laura Martínez",
+      "tareaId": "2",
+      "titulo": "Diseñar interfaz",
+      "descripcion": "Crear estilos CSS responsivos",
+      "estado": "Pendiente",
+      "fechaAsignacion": "2026-06-06T00:37:45.276Z",
+      "id": 3
     }
   ]
 }

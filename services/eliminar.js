@@ -16,19 +16,20 @@ export async function eliminarTarea(idTarea) {
         /*
             Petición eliminar
         */
-        await fetch(
+        const respuesta = await fetch(
             `${API_URL}/tareasAsignadas/${idTarea}`,
             {
                 method: 'DELETE'
             }
         );
 
-        /*
-            Recargar tareas
-        */
-        cargarTareasUsuario(
-            usuarioActual.id
-        );
+        if (!respuesta.ok) {
+
+            throw new Error(
+                'Error al eliminar tarea'
+            );
+
+        }
 
     } catch (error) {
 
@@ -36,6 +37,8 @@ export async function eliminarTarea(idTarea) {
             'Error:',
             error
         );
+
+        throw error;
 
     }
 

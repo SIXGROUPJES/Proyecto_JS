@@ -1,3 +1,5 @@
+import { eliminarTarea } from '../services/eliminar.js';
+
 // ============================================
 // RENDERIZAR TAREAS
 // ============================================
@@ -6,8 +8,9 @@
  * Mostrar tareas en tabla
  * 
  * @param {Array} tareas
+ * @param {Function} onTareaEliminada
  */
-export function renderizarTareas(tareas) {
+export function renderizarTareas(tareas, onTareaEliminada) {
 
     const cuerpoTabla =
         document.getElementById(
@@ -42,8 +45,6 @@ export function renderizarTareas(tareas) {
             'hidden'
         );
 
-        tabla.style.display = 'table';
-
         return;
 
     }
@@ -55,11 +56,11 @@ export function renderizarTareas(tareas) {
         'hidden'
     );
 
+    tabla.style.display = '';
+
     mensaje.classList.add(
         'hidden'
     );
-
-    mensaje.style.display = 'none';
 
     /*
         Recorrer tareas
@@ -142,6 +143,12 @@ export function renderizarTareas(tareas) {
                     await eliminarTarea(
                         id
                     );
+
+                    if (typeof onTareaEliminada === 'function') {
+
+                        await onTareaEliminada();
+
+                    }
 
                 }
             );
