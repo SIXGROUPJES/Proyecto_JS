@@ -74,13 +74,8 @@
     },
     {
       "id": "5",
-      "titulo": "Practicar GitHub",
+      "titulo": "github",
       "descripcion": "Realizar commits y push correctamente"
-    },
-    {
-      "id": "6",
-      "titulo": "Optimizar código",
-      "descripcion": "Mejorar legibilidad y reutilización"
     }
   ],
   "tareasAsignadas": [

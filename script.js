@@ -3,7 +3,7 @@
 // ============================================
 import {
     buscarUsuario,
-} from './ui/func_api.js';
+} from './services/usuarios.service.js';
 
 // ============================================
 import {
