@@ -9,7 +9,6 @@ import {
 import {
     mostrarDatosUsuario,
     cargarTareasDisponibles,
-    cargarTareasUsuario,
     registrarTarea,
     limpiarTodasLasTareas
 
@@ -20,17 +19,11 @@ import {
 
     mostrarError,
     limpiarError,
-    mostrarMensajeSistema,
-    formatearFecha,
     validarCampoVacio
 
 } from './ui/tare_general.js';
 
 // ============================================
-
-import {
-    eliminarTarea,
-} from './services/eliminar.js';
 
 import {
     crearTareaDisponible,
