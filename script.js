@@ -21,7 +21,7 @@ import {
     limpiarError,
     validarCampoVacio
 
-} from './ui/tare_general.js';
+} from './ui/formularios.ui.js';
 
 // ============================================
 

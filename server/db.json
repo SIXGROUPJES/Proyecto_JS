@@ -85,16 +85,6 @@
   ],
   "tareasAsignadas": [
     {
-      "usuarioId": "1000000004",
-      "usuarioNombre": "Juan Pérez",
-      "tareaId": "3",
-      "titulo": "Crear base de datos",
-      "descripcion": "Configurar JSON Server correctamente",
-      "estado": "Completada",
-      "fechaAsignacion": "2026-06-05T06:26:51.450Z",
-      "id": 1
-    },
-    {
       "usuarioId": "1000000002",
       "usuarioNombre": "Carlos Gómez",
       "tareaId": "5",
