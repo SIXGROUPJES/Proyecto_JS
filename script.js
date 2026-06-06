@@ -12,7 +12,7 @@ import {
     registrarTarea,
     limpiarTodasLasTareas
 
-} from './ui/tare_interfaz.js';
+} from './ui/tareas.ui.js';
 
 // ============================================
 import {
