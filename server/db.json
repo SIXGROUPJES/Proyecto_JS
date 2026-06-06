@@ -53,19 +53,34 @@
   ],
   "tareasDisponibles": [
     {
+      "id": "1",
+      "titulo": "Practicar JavaScript",
+      "descripcion": "Estudiar DOM, eventos y fetch API"
+    },
+    {
+      "id": "2",
+      "titulo": "Diseñar interfaz",
+      "descripcion": "Crear estilos CSS responsivos"
+    },
+    {
       "id": "3",
-      "titulo": "base",
+      "titulo": "Crear base de datos",
       "descripcion": "Configurar JSON Server correctamente"
     },
     {
       "id": "4",
-      "titulo": "modulos",
+      "titulo": "Estudiar modularización",
       "descripcion": "Separar funciones en diferentes archivos JS"
     },
     {
       "id": "5",
-      "titulo": "github",
+      "titulo": "Practicar GitHub",
       "descripcion": "Realizar commits y push correctamente"
+    },
+    {
+      "id": "6",
+      "titulo": "Optimizar código",
+      "descripcion": "Mejorar legibilidad y reutilización"
     }
   ],
   "tareasAsignadas": [
@@ -88,16 +103,6 @@
       "estado": "En progreso",
       "fechaAsignacion": "2026-06-06T00:06:43.025Z",
       "id": 2
-    },
-    {
-      "usuarioId": "1000000005",
-      "usuarioNombre": "Laura Martínez",
-      "tareaId": "3",
-      "titulo": "base",
-      "descripcion": "Configurar JSON Server correctamente",
-      "estado": "Pendiente",
-      "fechaAsignacion": "2026-06-06T01:00:51.531Z",
-      "id": 3
     }
   ]
 }

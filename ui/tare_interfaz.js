@@ -1,5 +1,5 @@
 
-import { renderizarTareas } from '../utils/func_aux.js';
+import { renderizarTareas } from './tareasTabla.ui.js';
 import {
     obtenerTareasDisponibles,
     actualizarTareaDisponible,
@@ -92,23 +92,37 @@ export async function cargarTareasDisponibles() {
             const fila = document.createElement('div');
             fila.classList.add('dropdown-item');
 
-            fila.innerHTML = `
-                <span class="dropdown-item-titulo">${tarea.titulo}</span>
-                <span class="dropdown-item-acciones">
-                    <span class="accion-editar"   data-id="${tarea.id}">Editar ✏️</span>
-                    <span class="accion-eliminar" data-id="${tarea.id}">Eliminar 🗑️</span>
-                </span>
-            `;
+            const titulo = document.createElement('span');
+            titulo.classList.add('dropdown-item-titulo');
+            titulo.textContent = tarea.titulo;
+
+            const acciones = document.createElement('span');
+            acciones.classList.add('dropdown-item-acciones');
+
+            const botonEditar = document.createElement('span');
+            botonEditar.classList.add('accion-editar');
+            botonEditar.dataset.id = tarea.id;
+            botonEditar.textContent = 'Editar ✏️';
+
+            const botonEliminar = document.createElement('span');
+            botonEliminar.classList.add('accion-eliminar');
+            botonEliminar.dataset.id = tarea.id;
+            botonEliminar.textContent = 'Eliminar 🗑️';
+
+            acciones.appendChild(botonEditar);
+            acciones.appendChild(botonEliminar);
+            fila.appendChild(titulo);
+            fila.appendChild(acciones);
 
             // Seleccionar tarea al hacer clic en el título
-            fila.querySelector('.dropdown-item-titulo').addEventListener('click', function () {
+            titulo.addEventListener('click', function () {
                 document.getElementById('selectorTareas').value = tarea.id;
                 document.getElementById('dropdownTexto').textContent = tarea.titulo;
                 document.getElementById('listaTareasDisponibles').classList.remove('abierto');
             });
 
             // Editar
-            fila.querySelector('.accion-editar').addEventListener('click', async function (e) {
+            botonEditar.addEventListener('click', async function (e) {
                 e.stopPropagation();
                 const id = this.dataset.id;
                 const nuevoTitulo = prompt('Ingrese el nuevo nombre de la tarea:');
@@ -121,7 +135,7 @@ export async function cargarTareasDisponibles() {
             });
 
             // Eliminar
-            fila.querySelector('.accion-eliminar').addEventListener('click', async function (e) {
+            botonEliminar.addEventListener('click', async function (e) {
                 e.stopPropagation();
                 const id = this.dataset.id;
                 const confirmar = confirm('¿Deseas eliminar esta tarea disponible?');
@@ -347,7 +361,7 @@ export async function limpiarTodasLasTareas() {
         /*
             Recargar tabla
         */
-        cargarTareasUsuario(
+        await cargarTareasUsuario(
             usuarioActual.id
         );
 

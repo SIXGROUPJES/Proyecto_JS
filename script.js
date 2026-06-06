@@ -122,16 +122,7 @@ function configurarEventos() {
             'click',
             async function () {
 
-                const confirmar =
-                    confirm(
-                        '¿Deseas eliminar todas las tareas?'
-                    );
-
-                if (confirmar) {
-
-                    await limpiarTodasLasTareas();
-
-                }
+                await limpiarTodasLasTareas();
 
             }
         );

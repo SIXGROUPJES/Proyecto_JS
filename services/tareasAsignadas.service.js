@@ -75,21 +75,15 @@ export async function eliminarTareaAsignada(idTarea) {
 
 export async function eliminarTareasAsignadasPorUsuario(usuarioId) {
 
-    const respuesta =
-        await fetch(
-            `${API_URL}/tareasAsignadas?usuarioId=${usuarioId}`
-        );
-
     const tareas =
-        await respuesta.json();
+        await obtenerTareasAsignadasPorUsuario(
+            usuarioId
+        );
 
     for (const tarea of tareas) {
 
-        await fetch(
-            `${API_URL}/tareasAsignadas/${tarea.id}`,
-            {
-                method: 'DELETE'
-            }
+        await eliminarTareaAsignada(
+            tarea.id
         );
 
     }
