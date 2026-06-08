@@ -89,3 +89,32 @@ export async function eliminarTareasAsignadasPorUsuario(usuarioId) {
     }
 
 }
+// ============================================
+// ACTUALIZAR TAREA ASIGNADA
+// Ely
+// ============================================
+
+/**
+ * Actualizar parcialmente una tarea asignada (por ejemplo, el estado)
+ * * @param {string|number} idTarea 
+ * @param {Object} datosActualizados 
+ * @returns {Promise<Response>}
+ */
+export async function actualizarTareaAsignada(idTarea, datosActualizados) {
+    const respuesta = await fetch(
+        `${API_URL}/tareasAsignadas/${idTarea}`,
+        {
+            method: 'PATCH',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(datosActualizados)
+        }
+    );
+
+    if (!respuesta.ok) {
+        throw new Error('Error al actualizar la tarea asignada');
+    }
+
+    return respuesta;
+}

@@ -81,59 +81,78 @@
       "titulo": "Diseñar interfaz",
       "descripcion": "Crear estilos CSS responsivos",
       "estado": "Pendiente",
-      "fechaAsignacion": "2026-06-08T00:54:25.431Z",
-      "id": "X0oT03jNrWw"
+      "fechaAsignacion": "2026-06-06T20:41:55.306Z",
+      "id": 1
     },
     {
-      "usuarioId": "1000000001",
-      "usuarioNombre": "Ana Torres",
+      "usuarioId": "1000000003",
+      "usuarioNombre": "María López",
       "tareaId": "1",
       "titulo": "Practicar JavaScript",
       "descripcion": "Estudiar DOM, eventos y fetch API",
       "estado": "En progreso",
-      "fechaAsignacion": "2026-06-08T00:58:14.988Z",
-      "id": "3Ej5xsG"
+      "fechaAsignacion": "2026-06-06T20:46:33.401Z",
+      "id": 2
     },
     {
-      "usuarioId": "1000000001",
-      "usuarioNombre": "Ana Torres",
-      "tareaId": "1",
-      "titulo": "Practicar JavaScript",
-      "descripcion": "Estudiar DOM, eventos y fetch API",
-      "estado": "Pendiente",
-      "fechaAsignacion": "2026-06-08T01:02:36.553Z",
-      "id": "k0ie0G3"
-    },
-    {
-      "usuarioId": "1000000001",
-      "usuarioNombre": "Ana Torres",
+      "usuarioId": "1000000002",
+      "usuarioNombre": "Carlos Gómez",
       "tareaId": "1",
       "titulo": "Practicar JavaScript",
       "descripcion": "Estudiar DOM, eventos y fetch API",
       "estado": "En progreso",
-      "fechaAsignacion": "2026-06-08T01:03:19.189Z",
-      "id": "1I7na-h"
+      "fechaAsignacion": "2026-06-06T20:47:30.131Z",
+      "id": 3
     },
     {
       "usuarioId": "1000000001",
       "usuarioNombre": "Ana Torres",
-      "tareaId": "2",
-      "titulo": "lo logre",
-      "descripcion": "att saray",
+      "tareaId": "1",
+      "titulo": "Practicar JavaScript",
+      "descripcion": "Estudiar DOM, eventos y fetch API",
       "estado": "Pendiente",
-      "fechaAsignacion": "2026-06-08T06:57:09.602Z",
-      "id": "VW9vxC4"
+      "fechaAsignacion": "2026-06-06T20:54:09.045Z",
+      "id": 4
     },
     {
-      "usuarioId": "1000000001",
-      "usuarioNombre": "Ana Torres",
-      "tareaId": "2",
-      "titulo": "yai",
-      "descripcion": "tagfhjgj",
+      "usuarioId": "1000000003",
+      "usuarioNombre": "María López",
+      "tareaId": "5",
+      "titulo": "Practicar GitHub",
+      "descripcion": "Realizar commits y push correctamente",
       "estado": "Pendiente",
-      "fechaAsignacion": "2026-06-08T06:58:16.746Z",
-      "id": "fMVsgRW"
+      "fechaAsignacion": "2026-06-06T20:57:33.421Z",
+      "id": 7
+    },
+    {
+      "usuarioId": "1000000004",
+      "usuarioNombre": "Juan Pérez",
+      "tareaId": "2",
+      "titulo": "Diseñar interfaz",
+      "descripcion": "Crear estilos CSS responsivos",
+      "estado": "En progreso",
+      "fechaAsignacion": "2026-06-06T20:58:08.605Z",
+      "id": 8
+    },
+    {
+      "usuarioId": "1000000005",
+      "usuarioNombre": "linny saray",
+      "tareaId": "3",
+      "titulo": "Crear base de datos",
+      "descripcion": "Configurar JSON Server correctamente",
+      "estado": "En progreso",
+      "fechaAsignacion": "2026-06-08T06:03:48.397Z",
+      "id": 9
+    },
+    {
+      "usuarioId": "1000000005",
+      "usuarioNombre": "carlos gomez",
+      "tareaId": "2",
+      "titulo": "Diseñar interfaz",
+      "descripcion": "hacer la tarea",
+      "estado": "En progreso",
+      "fechaAsignacion": "2026-06-08T06:05:02.427Z",
+      "id": 10
     }
-  ],
-  "$schema": "./node_modules/json-server/schema.json"
+  ]
 }

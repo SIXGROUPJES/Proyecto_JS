@@ -122,7 +122,50 @@ function configurarEventos() {
 
             }
         );
+    /*
+        Guardar cambios de la tarea editada - CORREGIDO
+        Ely
+        */
+    document
+        .getElementById('formularioEditarTarea')
+        .addEventListener('submit', async function (evento) {
+            evento.preventDefault();
+            
+            const id = document.getElementById('editarAsignadaId').value;
+            
+            // Enviamos únicamente los campos modificados. 
+            // json-server mantendrá intactos el usuarioId, tareaId y fechaAsignacion.
+            const datosActualizados = {
+                titulo: document.getElementById('editarAsignadaTitulo').value.trim(),
+                descripcion: document.getElementById('editarAsignadaDescripcion').value.trim(),
+                estado: document.getElementById('editarAsignadaEstado').value,
+                usuarioNombre: document.getElementById('editarAsignadaUsuario').value.trim()
+            };
 
+            try {
+                // 1. Importamos el servicio correcto
+                const { actualizarTareaAsignada } = await import('./services/tareasAsignadas.service.js');
+                await actualizarTareaAsignada(id, datosActualizados);
+
+                // 2. Ocultar la sección de edición tras guardar
+                document.getElementById('seccionEditarTareaAsignada').classList.add('hidden');
+                
+                // 3. RECARGA SEGURA: En lugar de simular el botón limpiar (que borraba todo),
+                // importamos de forma dinámica la función que redibuja la tabla de tu compañero
+                const { cargarTareasUsuario } = await import('./ui/tareas.ui.js');
+                
+                // Obtenemos el documento del input para saber a qué usuario recargarle la tabla
+                const documentoUsuario = document.getElementById('documentoUsuario').value.trim();
+                if (documentoUsuario) {
+                    await cargarTareasUsuario(documentoUsuario);
+                }
+
+                alert('¡Tarea actualizada correctamente!');
+            } catch (error) {
+                console.error('Error al actualizar la tarea:', error);
+                alert('Ocurrió un error al intentar guardar los cambios.');
+            }
+        });
 }
 
 

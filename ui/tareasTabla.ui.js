@@ -1,5 +1,5 @@
-import { eliminarTareaAsignada } from '../services/tareasAsignadas.service.js';
-
+//import { eliminarTareaAsignada } from '../services/tareasAsignadas.service.js';
+import { eliminarTareaAsignada, actualizarTareaAsignada } from '../services/tareasAsignadas.service.js';
 // ============================================
 // RENDERIZAR TAREAS
 // ============================================
@@ -97,9 +97,17 @@ export function renderizarTareas(tareas, onTareaEliminada) {
 
         <td>
             ${tarea.usuarioNombre}
-        </td>
-
-        <td>
+        </td>   
+        <td> 
+            <button 
+                class="boton-editar-asignada"
+                data-id="${tarea.id}"
+                data-titulo="${tarea.titulo}"
+                data-estado="${tarea.estado}"
+                style="background-color: #f1c40f; color: white; border: none; padding: 10px 25px; border-radius: 8px; cursor: pointer; margin-right: 10px;"
+            >
+                Editar
+            </button>
 
             <button
                 class="boton-eliminar"
@@ -153,6 +161,51 @@ export function renderizarTareas(tareas, onTareaEliminada) {
                 }
             );
 
-        });
+        }); // <- Este es el cierre del forEach de eliminar
 
-}
+    /*
+        Eventos editar tarea asignada
+        esto es del boton editar de tareas asignadas
+        Ely
+    
+  
+    /*
+    Ely
+       
+    Eventos editar tarea asignada (Abrir sección de formulario)
+    */
+    document
+        .querySelectorAll(
+            '.boton-editar-asignada'
+        )
+        .forEach(boton => {
+
+            boton.addEventListener(
+                'click',
+                (evento) => {
+                    // Encontrar el objeto de la tarea correspondiente buscando en el array recibido
+                    const id = evento.target.getAttribute('data-id');
+                    const tareaSeleccionada = tareas.find(t => t.id == id);
+
+                    if (!tareaSeleccionada) return;
+
+                    // 1. Rellenar los campos de la sección de edición con los datos actuales
+                    document.getElementById('editarAsignadaId').value = tareaSeleccionada.id;
+                    document.getElementById('editarAsignadaTitulo').value = tareaSeleccionada.titulo;
+                    document.getElementById('editarAsignadaDescripcion').value = tareaSeleccionada.descripcion;
+                    document.getElementById('editarAsignadaEstado').value = tareaSeleccionada.estado;
+                    document.getElementById('editarAsignadaUsuario').value = tareaSeleccionada.usuarioNombre;
+
+                    // 2. Mostrar la sección removiendo la clase 'hidden'
+                    const seccionEdicion = document.getElementById('seccionEditarTareaAsignada');
+                    seccionEdicion.classList.remove('hidden');
+
+                    // 3. Hacer un scroll suave hacia el formulario para que el usuario note que se abrió
+                    seccionEdicion.scrollIntoView({ behavior: 'smooth' });
+                }
+            );
+
+        });
+} // <- Este es el cierre final de la función renderizarTareas "boton editar (tarea asignada)Ely"
+
+
