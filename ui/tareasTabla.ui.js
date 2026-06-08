@@ -167,6 +167,12 @@ export function renderizarTareas(tareas, onTareaEliminada) {
         Eventos editar tarea asignada
         esto es del boton editar de tareas asignadas
         Ely
+    
+  
+    /*
+    Ely
+       
+    Eventos editar tarea asignada (Abrir sección de formulario)
     */
     document
         .querySelectorAll(
@@ -176,47 +182,30 @@ export function renderizarTareas(tareas, onTareaEliminada) {
 
             boton.addEventListener(
                 'click',
-                async (evento) => {
-
+                (evento) => {
+                    // Encontrar el objeto de la tarea correspondiente buscando en el array recibido
                     const id = evento.target.getAttribute('data-id');
-                    const titulo = evento.target.getAttribute('data-titulo');
-                    const estadoActual = evento.target.getAttribute('data-estado');
+                    const tareaSeleccionada = tareas.find(t => t.id == id);
 
-                    const nuevoEstado = prompt(
-                        `Modificar estado para la tarea: "${titulo}"\n\nEscriba el nuevo estado exactamente:\n- Pendiente\n- En progreso\n- Completada`,
-                        estadoActual
-                    );
+                    if (!tareaSeleccionada) return;
 
-                    if (!nuevoEstado) return;
+                    // 1. Rellenar los campos de la sección de edición con los datos actuales
+                    document.getElementById('editarAsignadaId').value = tareaSeleccionada.id;
+                    document.getElementById('editarAsignadaTitulo').value = tareaSeleccionada.titulo;
+                    document.getElementById('editarAsignadaDescripcion').value = tareaSeleccionada.descripcion;
+                    document.getElementById('editarAsignadaEstado').value = tareaSeleccionada.estado;
+                    document.getElementById('editarAsignadaUsuario').value = tareaSeleccionada.usuarioNombre;
 
-                    const estadoFormateado = nuevoEstado.trim();
+                    // 2. Mostrar la sección removiendo la clase 'hidden'
+                    const seccionEdicion = document.getElementById('seccionEditarTareaAsignada');
+                    seccionEdicion.classList.remove('hidden');
 
-                    if (
-                        estadoFormateado !== 'Pendiente' && 
-                        estadoFormateado !== 'En progreso' && 
-                        estadoFormateado !== 'Completada'
-                    ) {
-                        alert('Estado inválido. Por favor escribe: Pendiente, En progreso o Completada.');
-                        return;
-                    }
-
-                    try {
-                        await actualizarTareaAsignada(id, { estado: estadoFormateado });
-
-                        // Usamos la misma función de recarga que pasaron por parámetro
-                        if (typeof onTareaEliminada === 'function') {
-                            await onTareaEliminada();
-                        }
-                    } catch (error) {
-                        console.error(error);
-                        alert('No se pudo actualizar el estado.');
-                    }
-
+                    // 3. Hacer un scroll suave hacia el formulario para que el usuario note que se abrió
+                    seccionEdicion.scrollIntoView({ behavior: 'smooth' });
                 }
             );
 
         });
-
 } // <- Este es el cierre final de la función renderizarTareas "boton editar (tarea asignada)Ely"
 
 

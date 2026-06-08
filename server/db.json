@@ -125,26 +125,6 @@
       "id": 4
     },
     {
-      "usuarioId": "1000000005",
-      "usuarioNombre": "Laura Martínez",
-      "tareaId": "3",
-      "titulo": "Crear base de datos",
-      "descripcion": "Configurar JSON Server correctamente",
-      "estado": "Pendiente",
-      "fechaAsignacion": "2026-06-06T20:55:11.142Z",
-      "id": 5
-    },
-    {
-      "usuarioId": "1000000005",
-      "usuarioNombre": "Laura Martínez",
-      "tareaId": "1",
-      "titulo": "Practicar JavaScript",
-      "descripcion": "Estudiar DOM, eventos y fetch API",
-      "estado": "Pendiente",
-      "fechaAsignacion": "2026-06-06T20:56:45.224Z",
-      "id": 6
-    },
-    {
       "usuarioId": "1000000003",
       "usuarioNombre": "María López",
       "tareaId": "5",
@@ -163,6 +143,26 @@
       "estado": "En progreso",
       "fechaAsignacion": "2026-06-06T20:58:08.605Z",
       "id": 8
+    },
+    {
+      "usuarioId": "1000000005",
+      "usuarioNombre": "linny saray",
+      "tareaId": "3",
+      "titulo": "Crear base de datos",
+      "descripcion": "Configurar JSON Server correctamente",
+      "estado": "En progreso",
+      "fechaAsignacion": "2026-06-08T06:03:48.397Z",
+      "id": 9
+    },
+    {
+      "usuarioId": "1000000005",
+      "usuarioNombre": "carlos gomez",
+      "tareaId": "2",
+      "titulo": "Diseñar interfaz",
+      "descripcion": "hacer la tarea",
+      "estado": "En progreso",
+      "fechaAsignacion": "2026-06-08T06:05:02.427Z",
+      "id": 10
     }
   ]
 }
