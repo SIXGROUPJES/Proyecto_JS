@@ -53,24 +53,14 @@
   ],
   "tareasDisponibles": [
     {
-      "id": "1",
-      "titulo": "Practicar JavaScript",
-      "descripcion": "Estudiar DOM, eventos y fetch API"
-    },
-    {
       "id": "2",
-      "titulo": "Diseñar interfaz",
-      "descripcion": "Crear estilos CSS responsivos"
+      "titulo": "yai",
+      "descripcion": "tagfhjgj"
     },
     {
       "id": "3",
       "titulo": "Crear base de datos",
       "descripcion": "Configurar JSON Server correctamente"
-    },
-    {
-      "id": "4",
-      "titulo": "Estudiar modularización",
-      "descripcion": "Separar funciones en diferentes archivos JS"
     },
     {
       "id": "5",
@@ -83,5 +73,67 @@
       "descripcion": "Mejorar legibilidad y reutilización"
     }
   ],
-  "tareasAsignadas": []
+  "tareasAsignadas": [
+    {
+      "usuarioId": "1000000001",
+      "usuarioNombre": "Ana Torres",
+      "tareaId": "2",
+      "titulo": "Diseñar interfaz",
+      "descripcion": "Crear estilos CSS responsivos",
+      "estado": "Pendiente",
+      "fechaAsignacion": "2026-06-08T00:54:25.431Z",
+      "id": "X0oT03jNrWw"
+    },
+    {
+      "usuarioId": "1000000001",
+      "usuarioNombre": "Ana Torres",
+      "tareaId": "1",
+      "titulo": "Practicar JavaScript",
+      "descripcion": "Estudiar DOM, eventos y fetch API",
+      "estado": "En progreso",
+      "fechaAsignacion": "2026-06-08T00:58:14.988Z",
+      "id": "3Ej5xsG"
+    },
+    {
+      "usuarioId": "1000000001",
+      "usuarioNombre": "Ana Torres",
+      "tareaId": "1",
+      "titulo": "Practicar JavaScript",
+      "descripcion": "Estudiar DOM, eventos y fetch API",
+      "estado": "Pendiente",
+      "fechaAsignacion": "2026-06-08T01:02:36.553Z",
+      "id": "k0ie0G3"
+    },
+    {
+      "usuarioId": "1000000001",
+      "usuarioNombre": "Ana Torres",
+      "tareaId": "1",
+      "titulo": "Practicar JavaScript",
+      "descripcion": "Estudiar DOM, eventos y fetch API",
+      "estado": "En progreso",
+      "fechaAsignacion": "2026-06-08T01:03:19.189Z",
+      "id": "1I7na-h"
+    },
+    {
+      "usuarioId": "1000000001",
+      "usuarioNombre": "Ana Torres",
+      "tareaId": "2",
+      "titulo": "lo logre",
+      "descripcion": "att saray",
+      "estado": "Pendiente",
+      "fechaAsignacion": "2026-06-08T06:57:09.602Z",
+      "id": "VW9vxC4"
+    },
+    {
+      "usuarioId": "1000000001",
+      "usuarioNombre": "Ana Torres",
+      "tareaId": "2",
+      "titulo": "yai",
+      "descripcion": "tagfhjgj",
+      "estado": "Pendiente",
+      "fechaAsignacion": "2026-06-08T06:58:16.746Z",
+      "id": "fMVsgRW"
+    }
+  ],
+  "$schema": "./node_modules/json-server/schema.json"
 }

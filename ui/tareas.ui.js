@@ -3,12 +3,14 @@ import { renderizarTareas } from './tareasTabla.ui.js';
 import {
     obtenerTareasDisponibles,
     actualizarTareaDisponible,
-    eliminarTareaDisponible
+    eliminarTareaDisponible,
+    crearTareaDisponible
 } from '../services/tareasDisponibles.service.js';
 import {
     obtenerTareasAsignadasPorUsuario,
     crearTareaAsignada,
     eliminarTareasAsignadasPorUsuario
+    
 } from '../services/tareasAsignadas.service.js';
 
 let usuarioActual = null;
@@ -73,6 +75,32 @@ export function mostrarDatosUsuario(usuario) {
 // ============================================
 // CARGAR TAREAS DISPONIBLES
 // ============================================
+let tareaEnEdicion = null;
+
+export async function abrirPanelAgregar() {
+    tareaEnEdicion = null;
+    document.getElementById('tituloTareaSeleccionada').textContent = 'Agregar tarea';
+    document.getElementById('panelInputTitulo').value = '';
+    document.getElementById('panelInputDescripcion').value = '';
+    document.getElementById('panelTarea').classList.remove('hidden');
+
+}
+
+export async function abrirPanelEditar(id, titulo) {
+    tareaEnEdicion = id;
+    document.getElementById('tituloTareaSeleccionada').textContent = 'Editar tarea';
+    document.getElementById('panelInputTitulo').value = titulo;
+    document.getElementById('panelInputDescripcion').value = '';
+    document.getElementById('panelTarea').classList.remove('hidden');
+}
+
+export async function cerrarPanel() {
+    tareaEnEdicion = null;
+    document.getElementById('panelTarea').classList.add('hidden');
+    document.getElementById('panelInputTitulo').value = '';
+    document.getElementById('panelInputDescripcion').value = '';
+}
+
 export async function cargarTareasDisponibles() {
     try {
         const tareas = await obtenerTareasDisponibles();
@@ -102,6 +130,7 @@ export async function cargarTareasDisponibles() {
             const botonEditar = document.createElement('span');
             botonEditar.classList.add('accion-editar');
             botonEditar.dataset.id = tarea.id;
+            botonEditar.dataset.titulo = tarea.titulo;
             botonEditar.textContent = 'Editar ✏️';
 
             const botonEliminar = document.createElement('span');
@@ -121,25 +150,15 @@ export async function cargarTareasDisponibles() {
                 document.getElementById('listaTareasDisponibles').classList.remove('abierto');
             });
 
-            // Editar
-            botonEditar.addEventListener('click', async function (e) {
+            botonEditar.addEventListener('click', function (e) {
                 e.stopPropagation();
-                const id = this.dataset.id;
-                const nuevoTitulo = prompt('Ingrese el nuevo nombre de la tarea:');
-                if (!nuevoTitulo) return;
-                await actualizarTareaDisponible(id, { titulo: nuevoTitulo });
-                if (document.getElementById('selectorTareas').value === id) {
-                    document.getElementById('dropdownTexto').textContent = nuevoTitulo;
-                }
-                await cargarTareasDisponibles();
+                abrirPanelEditar(this.dataset.id, this.dataset.titulo);
             });
 
-            // Eliminar
+            // Eliminar (sin confirmar)
             botonEliminar.addEventListener('click', async function (e) {
                 e.stopPropagation();
                 const id = this.dataset.id;
-                const confirmar = confirm('¿Deseas eliminar esta tarea disponible?');
-                if (!confirmar) return;
                 await eliminarTareaDisponible(id);
                 if (document.getElementById('selectorTareas').value === id) {
                     document.getElementById('selectorTareas').value = '';
@@ -151,12 +170,39 @@ export async function cargarTareasDisponibles() {
             lista.appendChild(fila);
         });
 
-    } catch (error) {
-        console.error('Error al cargar tareas:', error);
+        
+        document.getElementById('panelBotonListo').onclick = async function () {
+            const titulo = document.getElementById('panelInputTitulo').value.trim();
+            const descripcion = document.getElementById('panelInputDescripcion').value.trim();
+
+            if (!titulo) {
+                document.getElementById('panelInputTitulo').focus();
+                return;
+            }
+
+            if (tareaEnEdicion) {
+                // Modo EDITAR
+                await actualizarTareaDisponible(Number(tareaEnEdicion), { titulo, descripcion });
+                if (document.getElementById('selectorTareas').value === tareaEnEdicion) {
+                    document.getElementById('dropdownTexto').textContent = titulo;
+                }
+            } else {
+                // Modo AGREGAR
+                await crearTareaDisponible({ titulo, descripcion });
+            }
+
+            cerrarPanel();
+            await cargarTareasDisponibles();
+        };
+        
+        
+        // Conectar botón Cancelar
+        document.getElementById('panelBotonCancelar').onclick = cerrarPanel;
+
+       } catch (error) {
+           console.error('Error al cargar tareas:', error);
     }
 }
-
-
 
 // ============================================
 // CARGAR TAREAS USUARIO

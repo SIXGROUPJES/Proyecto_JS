@@ -10,7 +10,10 @@ import {
     mostrarDatosUsuario,
     cargarTareasDisponibles,
     registrarTarea,
-    limpiarTodasLasTareas
+    limpiarTodasLasTareas,
+    cerrarPanel,
+    abrirPanelEditar,
+    abrirPanelAgregar
 
 } from './ui/tareas.ui.js';
 
@@ -346,7 +349,7 @@ async function manejarRegistroTarea(evento) {
 }
 
 // DROPDOWN PERSONALIZADO
-function configurarDropdown() {
+async function configurarDropdown() {
     const cabecera = document.getElementById('dropdownCabecera');
     const lista    = document.getElementById('listaTareasDisponibles');
 
@@ -368,23 +371,10 @@ function configurarDropdown() {
     });
 }
 // BOTON AGREGAR TAREAS
+
 const boton = document.getElementById('botonAgregarTarea');
 if (boton) {
-    boton.addEventListener('click', async () => {
-        const titulo = prompt('Ingrese el título de la nueva tarea: ');
-        if (!titulo) return;
-        const descripcion = prompt('Ingrese la descripción de la nueva tarea: ');
-        if (!descripcion) return;
-
-        try {
-            const respuesta = await crearTareaDisponible({ titulo, descripcion });
-            if (!respuesta.ok) throw new Error('Error al guardar');
-
-            await cargarTareasDisponibles(); // recarga el dropdown con la nueva tarea
-            alert('Tarea agregada correctamente');
-        } catch (error) {
-            console.error(error);
-            alert('Error ha habido al agregar la tarea');
-        }
+    boton.addEventListener('click', () => {
+        abrirPanelAgregar();
     });
 }
