@@ -53,24 +53,14 @@
   ],
   "tareasDisponibles": [
     {
-      "id": "1",
-      "titulo": "Practicar JavaScript",
-      "descripcion": "Estudiar DOM, eventos y fetch API"
-    },
-    {
       "id": "2",
-      "titulo": "Diseñar interfaz",
-      "descripcion": "Crear estilos CSS responsivos"
+      "titulo": "yai",
+      "descripcion": "tagfhjgj"
     },
     {
       "id": "3",
       "titulo": "Crear base de datos",
       "descripcion": "Configurar JSON Server correctamente"
-    },
-    {
-      "id": "4",
-      "titulo": "Estudiar modularización",
-      "descripcion": "Separar funciones en diferentes archivos JS"
     },
     {
       "id": "5",
@@ -163,6 +153,26 @@
       "estado": "En progreso",
       "fechaAsignacion": "2026-06-08T06:05:02.427Z",
       "id": 10
+    },
+    {
+      "usuarioId": "1000000002",
+      "usuarioNombre": "Carlos Gómez",
+      "tareaId": "3",
+      "titulo": "Crear base de datos",
+      "descripcion": "Configurar JSON Server correctamente",
+      "estado": "Pendiente",
+      "fechaAsignacion": "2026-06-08T23:50:52.834Z",
+      "id": 11
+    },
+    {
+      "usuarioId": "1000000002",
+      "usuarioNombre": "Carlos Gómez",
+      "tareaId": "2",
+      "titulo": "yai",
+      "descripcion": "tagfhjgj",
+      "estado": "Pendiente",
+      "fechaAsignacion": "2026-06-09T00:02:54.603Z",
+      "id": 12
     }
   ]
 }

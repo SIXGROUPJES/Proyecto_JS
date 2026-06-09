@@ -549,3 +549,76 @@ select {
     }
 
 }
+
+/* Panel inline agregar/editar */
+.panel-tarea {
+    background-color: #001e46;
+    border: 1px solid #2e4a6a;
+    border-radius: 8px;
+    margin-top: 8px;
+    padding: 16px;
+    transition: all 0.2s ease;
+}
+
+.panel-tarea.hidden {
+    display: none;
+}
+
+.panel-tarea h4 {
+    margin: 0 0 12px 0;
+    color: #0062ff;
+    font-size: 0.95rem;
+    font-weight: 600;
+}
+
+.panel-tarea-acciones {
+    display: flex;
+    gap: 8px;
+    margin-top: 12px;
+}
+
+.boton-listo {
+    background-color: #2e7d4f;
+    color: white;
+    border: none;
+    padding: 6px 16px;
+    border-radius: 6px;
+    cursor: pointer;
+    font-size: 0.875rem;
+}
+
+.boton-listo:hover {
+    background-color: #3a9e63;
+}
+
+.boton-cancelar {
+    background: transparent;
+    color: #aaa;
+    border: 1px solid #444;
+    padding: 6px 16px;
+    border-radius: 6px;
+    cursor: pointer;
+    font-size: 0.875rem;
+}
+
+.boton-cancelar:hover {
+    color: #fff;
+    border-color: #888;
+}
+
+.boton-agregar {
+    margin-top: 10px;
+    background: transparent;
+    border: 1px dashed #4a7fa5;
+    color: #4a7fa5;
+    padding: 6px 14px;
+    border-radius: 6px;
+    cursor: pointer;
+    font-size: 0.85rem;
+}
+
+.boton-agregar:hover {
+    background-color: #1a2f45;
+    color: #7ab8dc;
+}
+
