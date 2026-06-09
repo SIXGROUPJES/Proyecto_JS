@@ -9,7 +9,8 @@ import {
 import {
     obtenerTareasAsignadasPorUsuario,
     crearTareaAsignada,
-    eliminarTareasAsignadasPorUsuario
+    eliminarTareasAsignadasPorUsuario,
+    actualizarTareaAsignada
     
 } from '../services/tareasAsignadas.service.js';
 
@@ -382,6 +383,74 @@ export async function registrarTarea(datosTarea) {
         );
 
     }
+
+}
+
+
+// ============================================
+// EDICIÓN DE TAREA ASIGNADA
+// ============================================
+
+/**
+ * Configurar eventos del formulario de edición de tarea asignada
+ */
+export function configurarEdicionTareaAsignada() {
+
+    document
+        .getElementById('formularioEditarTarea')
+        .addEventListener('submit', manejarGuardarEdicionTareaAsignada);
+
+    document
+        .getElementById('botonCancelarEdicion')
+        .addEventListener('click', cancelarEdicionTareaAsignada);
+
+}
+
+/**
+ * Guardar cambios de la tarea asignada editada
+ * 
+ * @param {Event} evento
+ */
+export async function manejarGuardarEdicionTareaAsignada(evento) {
+
+    evento.preventDefault();
+
+    const id = document.getElementById('editarAsignadaId').value;
+
+    // Enviamos únicamente los campos modificados.
+    // json-server mantendrá intactos el usuarioId, tareaId y fechaAsignacion.
+    const datosActualizados = {
+        titulo: document.getElementById('editarAsignadaTitulo').value.trim(),
+        descripcion: document.getElementById('editarAsignadaDescripcion').value.trim(),
+        estado: document.getElementById('editarAsignadaEstado').value,
+        usuarioNombre: document.getElementById('editarAsignadaUsuario').value.trim()
+    };
+
+    try {
+        await actualizarTareaAsignada(id, datosActualizados);
+
+        document.getElementById('seccionEditarTareaAsignada').classList.add('hidden');
+
+        const documentoUsuario = document.getElementById('documentoUsuario').value.trim();
+        if (documentoUsuario) {
+            await cargarTareasUsuario(documentoUsuario);
+        }
+
+        alert('¡Tarea actualizada correctamente!');
+    } catch (error) {
+        console.error('Error al actualizar la tarea:', error);
+        alert('Ocurrió un error al intentar guardar los cambios.');
+    }
+
+}
+
+/**
+ * Cancelar edición de tarea asignada
+ */
+export function cancelarEdicionTareaAsignada() {
+
+    document.getElementById('formularioEditarTarea').reset();
+    document.getElementById('seccionEditarTareaAsignada').classList.add('hidden');
 
 }
 

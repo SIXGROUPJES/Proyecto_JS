@@ -53,11 +53,6 @@
   ],
   "tareasDisponibles": [
     {
-      "id": "2",
-      "titulo": "yrgdsdg",
-      "descripcion": "dfbh"
-    },
-    {
       "id": "3",
       "titulo": "Crear base de datos",
       "descripcion": "Configurar JSON Server correctamente"
