@@ -686,3 +686,46 @@ button.boton-cancelar-edicion:hover {
         margin-bottom: 10px;
     }
 }
+
+/*esta seccion esta para pueva de el 3 punto de la transferencia */
+
+/* ============================================
+   ESTILOS DEL SISTEMA DE NOTIFICACIONES (RF03)
+   ============================================ */
+#mensajeSistema {
+    position: fixed;
+    top: 20px;
+    right: 20px;
+    z-index: 9999;
+    padding: 12px 20px;
+    border-radius: 6px;
+    font-weight: bold;
+    font-size: 0.95em;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+    transition: all 0.3s ease;
+    max-width: 350px;
+}
+
+/* Cuando no hay mensajes, se mantiene invisible */
+#mensajeSistema:empty {
+    display: none;
+}
+
+/* Variaciones por tipo de respuesta */
+#mensajeSistema.exito {
+    background-color: #2ecc71;
+    color: white;
+    border-left: 5px solid #27ae60;
+}
+
+#mensajeSistema.error {
+    background-color: #e74c3c;
+    color: white;
+    border-left: 5px solid #c0392b;
+}
+
+#mensajeSistema.info {
+    background-color: #3498db;
+    color: white;
+    border-left: 5px solid #2980b9;
+}
