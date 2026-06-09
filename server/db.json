@@ -85,11 +85,11 @@
       "id": 3
     },
     {
-      "usuarioId": "1000000004",
-      "usuarioNombre": "Juan Pérez",
-      "tareaId": "1",
-      "titulo": "Practicar JavaScript",
-      "descripcion": "Estudiar DOM, eventos y fetch API",
+      "usuarioId": "1000000002",
+      "usuarioNombre": "Carlos Gómez",
+      "tareaId": "5",
+      "titulo": "Practicar GitHub",
+      "descripcion": "Realizar commits y push correctamente",
       "estado": "Pendiente",
       "fechaAsignacion": "2026-06-06T20:54:09.045Z",
       "id": 4

@@ -18,6 +18,7 @@ import {
 } from '../services/usuarios.service.js';
 
 let usuarioActual = null;
+let dropdownsEdicionConfigurados = false;
 
 // ============================================
 // MOSTRAR DATOS USUARIO
@@ -407,18 +408,28 @@ export function configurarEdicionTareaAsignada() {
         .getElementById('botonCancelarEdicion')
         .addEventListener('click', cancelarEdicionTareaAsignada);
 
+    if (dropdownsEdicionConfigurados) {
+        return;
+    }
+
     configurarDropdownEdicionTareaAsignada();
     configurarDropdownEdicionUsuarioAsignado();
+    dropdownsEdicionConfigurados = true;
 
 }
 
 /**
- * Configurar dropdown de tareas disponibles en edición
+ * Configurar comportamiento visual base de un dropdown de edición
+ *
+ * @param {string} cabeceraId
+ * @param {string} listaId
+ * @param {Function} cerrarDropdown
+ * @param {Function} cargarOpciones
  */
-export async function configurarDropdownEdicionTareaAsignada() {
+async function configurarDropdownVisual(cabeceraId, listaId, cerrarDropdown, cargarOpciones) {
 
-    const cabecera = document.getElementById('dropdownEditarTareaCabecera');
-    const lista = document.getElementById('listaEditarTareasDisponibles');
+    const cabecera = document.getElementById(cabeceraId);
+    const lista = document.getElementById(listaId);
 
     if (!cabecera || !lista) {
         return;
@@ -433,9 +444,23 @@ export async function configurarDropdownEdicionTareaAsignada() {
         evento.stopPropagation();
     });
 
-    document.addEventListener('click', cerrarDropdownEdicionTarea);
+    document.addEventListener('click', cerrarDropdown);
 
-    await cargarDropdownTareasEdicion();
+    await cargarOpciones();
+
+}
+
+/**
+ * Configurar dropdown de tareas disponibles en edición
+ */
+export async function configurarDropdownEdicionTareaAsignada() {
+
+    await configurarDropdownVisual(
+        'dropdownEditarTareaCabecera',
+        'listaEditarTareasDisponibles',
+        cerrarDropdownEdicionTarea,
+        cargarDropdownTareasEdicion
+    );
 
 }
 
@@ -510,25 +535,12 @@ function cerrarDropdownEdicionTarea() {
  */
 export async function configurarDropdownEdicionUsuarioAsignado() {
 
-    const cabecera = document.getElementById('dropdownEditarUsuarioCabecera');
-    const lista = document.getElementById('listaEditarUsuariosDisponibles');
-
-    if (!cabecera || !lista) {
-        return;
-    }
-
-    cabecera.addEventListener('click', function (evento) {
-        evento.stopPropagation();
-        lista.classList.toggle('abierto');
-    });
-
-    lista.addEventListener('click', function (evento) {
-        evento.stopPropagation();
-    });
-
-    document.addEventListener('click', cerrarDropdownEdicionUsuario);
-
-    await cargarDropdownUsuariosEdicion();
+    await configurarDropdownVisual(
+        'dropdownEditarUsuarioCabecera',
+        'listaEditarUsuariosDisponibles',
+        cerrarDropdownEdicionUsuario,
+        cargarDropdownUsuariosEdicion
+    );
 
 }
 
