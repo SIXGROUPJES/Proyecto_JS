@@ -178,6 +178,18 @@
             <h2>Editar Tarea Asignada</h2>
             <form id="formularioEditarTarea">
                 <input type="hidden" id="editarAsignadaId">
+                <input type="hidden" id="editarAsignadaTareaId">
+                <input type="hidden" id="editarAsignadaUsuarioId">
+
+                <div class="grupo-formulario">
+                    <label for="dropdownEditarTareaCabecera">Selecciona una tarea disponible</label>
+                    <div class="dropdown-tareas">
+                        <div id="dropdownEditarTareaCabecera" class="dropdown-cabecera">
+                            <span id="dropdownEditarTareaTexto">-- Selecciona una tarea --</span>
+                        </div>
+                        <div id="listaEditarTareasDisponibles" class="dropdown-lista"></div>
+                    </div>
+                </div>
 
                 <div class="grupo-formulario">
                     <label for="editarAsignadaTitulo">Título de la Tarea</label>
@@ -199,8 +211,18 @@
                 </div>
 
                 <div class="grupo-formulario">
+                    <label for="dropdownEditarUsuarioCabecera">Selecciona un usuario asignado</label>
+                    <div class="dropdown-tareas">
+                        <div id="dropdownEditarUsuarioCabecera" class="dropdown-cabecera">
+                            <span id="dropdownEditarUsuarioTexto">-- Selecciona un usuario --</span>
+                        </div>
+                        <div id="listaEditarUsuariosDisponibles" class="dropdown-lista"></div>
+                    </div>
+                </div>
+
+                <div class="grupo-formulario">
                     <label for="editarAsignadaUsuario">Nombre del Usuario Asignado</label>
-                    <input type="text" id="editarAsignadaUsuario" required>
+                    <input type="text" id="editarAsignadaUsuario" placeholder="Selecciona un usuario desde el dropdown" readonly required>
                 </div>
 
                 <div class="acciones-formulario acciones-editar-tarea">

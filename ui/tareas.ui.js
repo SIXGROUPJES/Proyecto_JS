@@ -13,6 +13,9 @@ import {
     actualizarTareaAsignada
     
 } from '../services/tareasAsignadas.service.js';
+import {
+    obtenerUsuarios
+} from '../services/usuarios.service.js';
 
 let usuarioActual = null;
 
@@ -404,6 +407,194 @@ export function configurarEdicionTareaAsignada() {
         .getElementById('botonCancelarEdicion')
         .addEventListener('click', cancelarEdicionTareaAsignada);
 
+    configurarDropdownEdicionTareaAsignada();
+    configurarDropdownEdicionUsuarioAsignado();
+
+}
+
+/**
+ * Configurar dropdown de tareas disponibles en edición
+ */
+export async function configurarDropdownEdicionTareaAsignada() {
+
+    const cabecera = document.getElementById('dropdownEditarTareaCabecera');
+    const lista = document.getElementById('listaEditarTareasDisponibles');
+
+    if (!cabecera || !lista) {
+        return;
+    }
+
+    cabecera.addEventListener('click', function (evento) {
+        evento.stopPropagation();
+        lista.classList.toggle('abierto');
+    });
+
+    lista.addEventListener('click', function (evento) {
+        evento.stopPropagation();
+    });
+
+    document.addEventListener('click', cerrarDropdownEdicionTarea);
+
+    await cargarDropdownTareasEdicion();
+
+}
+
+/**
+ * Cargar tareas disponibles en el dropdown de edición
+ */
+export async function cargarDropdownTareasEdicion() {
+
+    try {
+        const tareas = await obtenerTareasDisponibles();
+        const lista = document.getElementById('listaEditarTareasDisponibles');
+
+        if (!lista) {
+            return;
+        }
+
+        lista.innerHTML = '';
+
+        tareas.forEach(tarea => {
+            const item = document.createElement('div');
+            item.classList.add('dropdown-item');
+
+            const titulo = document.createElement('span');
+            titulo.classList.add('dropdown-item-titulo');
+            titulo.textContent = tarea.titulo;
+
+            item.appendChild(titulo);
+
+            item.addEventListener('click', function () {
+                seleccionarTareaParaEdicion(tarea);
+            });
+
+            lista.appendChild(item);
+        });
+    } catch (error) {
+        console.error('Error al cargar tareas para edición:', error);
+    }
+
+}
+
+/**
+ * Sincronizar tarea seleccionada con el formulario de edición
+ *
+ * @param {Object} tarea
+ */
+export function seleccionarTareaParaEdicion(tarea) {
+
+    document.getElementById('editarAsignadaTareaId').value = tarea.id;
+    document.getElementById('editarAsignadaTitulo').value = tarea.titulo;
+    document.getElementById('editarAsignadaDescripcion').value = tarea.descripcion;
+    document.getElementById('dropdownEditarTareaTexto').textContent = tarea.titulo;
+
+    cerrarDropdownEdicionTarea();
+
+}
+
+/**
+ * Cerrar dropdown de tareas disponibles en edición
+ */
+function cerrarDropdownEdicionTarea() {
+
+    const lista = document.getElementById('listaEditarTareasDisponibles');
+
+    if (lista) {
+        lista.classList.remove('abierto');
+    }
+
+}
+
+/**
+ * Configurar dropdown de usuarios disponibles en edición
+ */
+export async function configurarDropdownEdicionUsuarioAsignado() {
+
+    const cabecera = document.getElementById('dropdownEditarUsuarioCabecera');
+    const lista = document.getElementById('listaEditarUsuariosDisponibles');
+
+    if (!cabecera || !lista) {
+        return;
+    }
+
+    cabecera.addEventListener('click', function (evento) {
+        evento.stopPropagation();
+        lista.classList.toggle('abierto');
+    });
+
+    lista.addEventListener('click', function (evento) {
+        evento.stopPropagation();
+    });
+
+    document.addEventListener('click', cerrarDropdownEdicionUsuario);
+
+    await cargarDropdownUsuariosEdicion();
+
+}
+
+/**
+ * Cargar usuarios en el dropdown de edición
+ */
+export async function cargarDropdownUsuariosEdicion() {
+
+    try {
+        const usuarios = await obtenerUsuarios();
+        const lista = document.getElementById('listaEditarUsuariosDisponibles');
+
+        if (!lista) {
+            return;
+        }
+
+        lista.innerHTML = '';
+
+        usuarios.forEach(usuario => {
+            const item = document.createElement('div');
+            item.classList.add('dropdown-item');
+
+            const nombre = document.createElement('span');
+            nombre.classList.add('dropdown-item-titulo');
+            nombre.textContent = usuario.name;
+
+            item.appendChild(nombre);
+
+            item.addEventListener('click', function () {
+                seleccionarUsuarioParaEdicion(usuario);
+            });
+
+            lista.appendChild(item);
+        });
+    } catch (error) {
+        console.error('Error al cargar usuarios para edición:', error);
+    }
+
+}
+
+/**
+ * Sincronizar usuario seleccionado con el formulario de edición
+ *
+ * @param {Object} usuario
+ */
+export function seleccionarUsuarioParaEdicion(usuario) {
+
+    document.getElementById('editarAsignadaUsuarioId').value = usuario.id;
+    document.getElementById('editarAsignadaUsuario').value = usuario.name;
+    document.getElementById('dropdownEditarUsuarioTexto').textContent = usuario.name;
+
+    cerrarDropdownEdicionUsuario();
+
+}
+
+/**
+ * Cerrar dropdown de usuarios disponibles en edición
+ */
+function cerrarDropdownEdicionUsuario() {
+
+    const lista = document.getElementById('listaEditarUsuariosDisponibles');
+
+    if (lista) {
+        lista.classList.remove('abierto');
+    }
+
 }
 
 /**
@@ -418,11 +609,13 @@ export async function manejarGuardarEdicionTareaAsignada(evento) {
     const id = document.getElementById('editarAsignadaId').value;
 
     // Enviamos únicamente los campos modificados.
-    // json-server mantendrá intactos el usuarioId, tareaId y fechaAsignacion.
+    // json-server mantendrá intactos el usuarioId y fechaAsignacion.
     const datosActualizados = {
+        tareaId: document.getElementById('editarAsignadaTareaId').value,
         titulo: document.getElementById('editarAsignadaTitulo').value.trim(),
         descripcion: document.getElementById('editarAsignadaDescripcion').value.trim(),
         estado: document.getElementById('editarAsignadaEstado').value,
+        usuarioId: document.getElementById('editarAsignadaUsuarioId').value,
         usuarioNombre: document.getElementById('editarAsignadaUsuario').value.trim()
     };
 

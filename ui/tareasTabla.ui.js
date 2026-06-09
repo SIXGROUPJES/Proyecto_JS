@@ -190,10 +190,14 @@ export function renderizarTareas(tareas, onTareaEliminada) {
 
                     // 1. Rellenar los campos de la sección de edición con los datos actuales
                     document.getElementById('editarAsignadaId').value = tareaSeleccionada.id;
+                    document.getElementById('editarAsignadaTareaId').value = tareaSeleccionada.tareaId;
                     document.getElementById('editarAsignadaTitulo').value = tareaSeleccionada.titulo;
                     document.getElementById('editarAsignadaDescripcion').value = tareaSeleccionada.descripcion;
                     document.getElementById('editarAsignadaEstado').value = tareaSeleccionada.estado;
+                    document.getElementById('editarAsignadaUsuarioId').value = tareaSeleccionada.usuarioId;
                     document.getElementById('editarAsignadaUsuario').value = tareaSeleccionada.usuarioNombre;
+                    document.getElementById('dropdownEditarTareaTexto').textContent = tareaSeleccionada.titulo;
+                    document.getElementById('dropdownEditarUsuarioTexto').textContent = tareaSeleccionada.usuarioNombre;
 
                     // 2. Mostrar la sección removiendo la clase 'hidden'
                     const seccionEdicion = document.getElementById('seccionEditarTareaAsignada');
@@ -206,5 +210,3 @@ export function renderizarTareas(tareas, onTareaEliminada) {
 
         });
 } // <- Este es el cierre final de la función renderizarTareas "boton editar (tarea asignada)Ely"
-
-

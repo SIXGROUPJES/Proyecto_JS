@@ -53,11 +53,6 @@
   ],
   "tareasDisponibles": [
     {
-      "id": "3",
-      "titulo": "Crear base de datos",
-      "descripcion": "Configurar JSON Server correctamente"
-    },
-    {
       "id": "5",
       "titulo": "Practicar GitHub",
       "descripcion": "Realizar commits y push correctamente"
@@ -90,8 +85,8 @@
       "id": 3
     },
     {
-      "usuarioId": "1000000001",
-      "usuarioNombre": "Ana Torres",
+      "usuarioId": "1000000004",
+      "usuarioNombre": "Juan Pérez",
       "tareaId": "1",
       "titulo": "Practicar JavaScript",
       "descripcion": "Estudiar DOM, eventos y fetch API",
@@ -110,8 +105,8 @@
       "id": 7
     },
     {
-      "usuarioId": "1000000004",
-      "usuarioNombre": "Juan Pérez",
+      "usuarioId": "1000000003",
+      "usuarioNombre": "María López",
       "tareaId": "2",
       "titulo": "Diseñar interfaz",
       "descripcion": "Crear estilos CSS responsivos",
@@ -168,6 +163,16 @@
       "estado": "Pendiente",
       "fechaAsignacion": "2026-06-09T02:11:54.046Z",
       "id": 13
+    },
+    {
+      "usuarioId": "1000000009",
+      "usuarioNombre": "Valentina Cruz",
+      "tareaId": "5",
+      "titulo": "Practicar GitHub",
+      "descripcion": "Realizar commits y push correctamente",
+      "estado": "En progreso",
+      "fechaAsignacion": "2026-06-09T03:53:41.336Z",
+      "id": 14
     }
   ]
 }
