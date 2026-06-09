@@ -1,5 +1,6 @@
 //import { eliminarTareaAsignada } from '../services/tareasAsignadas.service.js';
 import { eliminarTareaAsignada, actualizarTareaAsignada } from '../services/tareasAsignadas.service.js';
+import { notificarExito, notificarError } from './notificaciones.ui.js';
 // ============================================
 // RENDERIZAR TAREAS
 // ============================================
@@ -128,8 +129,7 @@ export function renderizarTareas(tareas, onTareaEliminada) {
         );
 
     });
-
-    /*
+/*
         Eventos eliminar
     */
     document
@@ -146,17 +146,29 @@ export function renderizarTareas(tareas, onTareaEliminada) {
                         evento.target.getAttribute(
                             'data-id'
                         );
+                    
+                    const confirmar = confirm('¿Seguro que deseas eliminar esta tarea asignada?');
+                    if (!confirmar) return;
 
-                    await eliminarTareaAsignada(
-                        id
-                    );
+                    try {
+                        // 1. Ejecutar el borrado en el servidor
+                        await eliminarTareaAsignada(id);
+                        
+                        // 2. RF03 - Mostrar el aviso flotante de éxito
+                        notificarExito('Tarea asignada eliminada exitosamente.');
 
-                    if (typeof onTareaEliminada === 'function') {
+                        // 3. RECARGA VISUAL: Ejecutar el callback para actualizar la tabla en pantalla
+                        if (typeof onTareaEliminada === 'function') {
+                            await onTareaEliminada();
+                        }
 
-                        await onTareaEliminada();
-
+                    } catch (error) {
+                        console.error('Error al eliminar tarea asignada:', error);   
+                        
+                        // RF03 - Mostrar aviso de error si el servidor falla
+                        notificarError('No se pudo eliminar la tarea asignada.');
                     }
-
+                
                 }
             );
 

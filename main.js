@@ -33,6 +33,11 @@ import {
     crearTareaDisponible,
 } from './services/tareasDisponibles.service.js';
 
+// ============================================
+import { 
+    notificarExito, notificarError 
+} from './ui/notificaciones.ui.js';
+
 
 // ============================================
 // INICIALIZACIÓN
@@ -206,6 +211,9 @@ async function manejarBusquedaUsuario(evento) {
             'Usuario no encontrado'
         );
 
+        // Agregar notificación de error
+        notificarError('No se encontró ningún usuario con ese documento.');
+
         return;
 
     }
@@ -216,7 +224,8 @@ async function manejarBusquedaUsuario(evento) {
     mostrarDatosUsuario(
         usuario
     );
-
+    // Agregar notificación de éxito
+    notificarExito(`Usuario "${usuario.name}" cargado correctamente.`);
 }
 
 

@@ -83,5 +83,26 @@
       "descripcion": "Mejorar legibilidad y reutilización"
     }
   ],
-  "tareasAsignadas": []
+  "tareasAsignadas": [
+    {
+      "usuarioId": "1000000006",
+      "usuarioNombre": "Pedro Sánchez",
+      "tareaId": "3",
+      "titulo": "Crear base de datos",
+      "descripcion": "Configurar JSON Server correctamente",
+      "estado": "Pendiente",
+      "fechaAsignacion": "2026-06-09T20:37:20.638Z",
+      "id": 2
+    },
+    {
+      "usuarioId": "1000000003",
+      "usuarioNombre": "María López",
+      "tareaId": "2",
+      "titulo": "Diseñar interfaz",
+      "descripcion": "Crear estilos CSS responsivos",
+      "estado": "Pendiente",
+      "fechaAsignacion": "2026-06-09T21:47:13.016Z",
+      "id": 5
+    }
+  ]
 }
