@@ -552,7 +552,7 @@ select {
 
 /* Panel inline agregar/editar */
 .panel-tarea {
-    background-color: #1e2a3a;
+    background-color: #001e46;
     border: 1px solid #2e4a6a;
     border-radius: 8px;
     margin-top: 8px;
@@ -566,7 +566,7 @@ select {
 
 .panel-tarea h4 {
     margin: 0 0 12px 0;
-    color: #a0c4ff;
+    color: #0062ff;
     font-size: 0.95rem;
     font-weight: 600;
 }
