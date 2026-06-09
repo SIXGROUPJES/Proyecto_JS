@@ -622,3 +622,67 @@ select {
     color: #7ab8dc;
 }
 
+/* Edición de tarea asignada */
+.seccion-editar-tarea-asignada {
+    background-color: var(--color-contenedor);
+    border: 1px solid var(--color-borde);
+    border-radius: 15px;
+    padding: 25px;
+    margin-bottom: 25px;
+    box-shadow: 0 5px 20px rgba(0,0,0,0.3);
+}
+
+.textarea-editar-tarea {
+    width: 100%;
+    border-radius: 10px;
+    padding: 12px;
+}
+
+.acciones-formulario {
+    display: flex;
+    gap: 10px;
+    margin-top: 15px;
+}
+
+.boton-editar-asignada,
+.boton-eliminar,
+.boton-guardar-edicion {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 100px;
+    padding: 12px 20px;
+    border-radius: 10px;
+    cursor: pointer;
+    font-size: 1rem;
+    margin-right: 10px;
+}
+
+.boton-editar-asignada,
+.boton-guardar-edicion {
+    background-color: var(--color-boton);
+    color: white;
+    border: none;
+}
+
+.boton-editar-asignada:hover,
+.boton-guardar-edicion:hover {
+    background-color: var(--color-boton-hover);
+}
+
+button.boton-cancelar-edicion {
+    background-color: var(--color-error);
+    color: white;
+    border: none;
+    margin-left: 10px;
+}
+
+button.boton-cancelar-edicion:hover {
+    background-color: #dc2626;
+}
+
+@media (min-width: 770px) and (max-width: 1060px) {
+    .boton-editar-asignada {
+        margin-bottom: 10px;
+    }
+}

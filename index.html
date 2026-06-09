@@ -174,10 +174,22 @@
 
          <!--esta secsion es para editar la tarea asignada en la tabla -->
         
-        <section id="seccionEditarTareaAsignada" class="hidden" style="background-color: #fcf8e3; border: 1px solid #faebcc; padding: 20px; border-radius: 8px; margin-bottom: 20px;">
+        <section id="seccionEditarTareaAsignada" class="seccion-editar-tarea-asignada hidden">
             <h2>Editar Tarea Asignada</h2>
             <form id="formularioEditarTarea">
                 <input type="hidden" id="editarAsignadaId">
+                <input type="hidden" id="editarAsignadaTareaId">
+                <input type="hidden" id="editarAsignadaUsuarioId">
+
+                <div class="grupo-formulario">
+                    <label for="dropdownEditarTareaCabecera">Selecciona una tarea disponible</label>
+                    <div class="dropdown-tareas">
+                        <div id="dropdownEditarTareaCabecera" class="dropdown-cabecera">
+                            <span id="dropdownEditarTareaTexto">-- Selecciona una tarea --</span>
+                        </div>
+                        <div id="listaEditarTareasDisponibles" class="dropdown-lista"></div>
+                    </div>
+                </div>
 
                 <div class="grupo-formulario">
                     <label for="editarAsignadaTitulo">Título de la Tarea</label>
@@ -186,7 +198,7 @@
 
                 <div class="grupo-formulario">
                     <label for="editarAsignadaDescripcion">Descripción</label>
-                    <textarea id="editarAsignadaDescripcion" rows="3" style="width: 100%; border-radius: 4px; padding: 8px;" required></textarea>
+                    <textarea id="editarAsignadaDescripcion" class="textarea-editar-tarea" rows="3" required></textarea>
                 </div>
 
                 <div class="grupo-formulario">
@@ -199,13 +211,23 @@
                 </div>
 
                 <div class="grupo-formulario">
-                    <label for="editarAsignadaUsuario">Nombre del Usuario Asignado</label>
-                    <input type="text" id="editarAsignadaUsuario" required>
+                    <label for="dropdownEditarUsuarioCabecera">Selecciona un usuario asignado</label>
+                    <div class="dropdown-tareas">
+                        <div id="dropdownEditarUsuarioCabecera" class="dropdown-cabecera">
+                            <span id="dropdownEditarUsuarioTexto">-- Selecciona un usuario --</span>
+                        </div>
+                        <div id="listaEditarUsuariosDisponibles" class="dropdown-lista"></div>
+                    </div>
                 </div>
 
-                <div class="acciones-formulario" style="margin-top: 15px;">
-                    <button type="submit" style="background-color: #f1c40f; color: white;">Guardar Cambios</button>
-                    <button type="button" id="botonCancelarEdicion" style="background-color: #95a5a6; color: white; margin-left: 10px;">Cancelar</button>
+                <div class="grupo-formulario">
+                    <label for="editarAsignadaUsuario">Nombre del Usuario Asignado</label>
+                    <input type="text" id="editarAsignadaUsuario" placeholder="Selecciona un usuario desde el dropdown" readonly required>
+                </div>
+
+                <div class="acciones-formulario acciones-editar-tarea">
+                    <button type="submit" class="boton-guardar-edicion">Guardar Cambios</button>
+                    <button type="button" id="botonCancelarEdicion" class="boton-cancelar-edicion">Cancelar</button>
                 </div>
             </form>
         </section>    

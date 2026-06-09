@@ -13,6 +13,38 @@ let usuarioActual = null;
 
 
 // ============================================
+// OBTENER USUARIOS
+// ============================================
+
+/**
+ * Obtener todos los usuarios
+ *
+ * @returns {Array}
+ */
+export async function obtenerUsuarios() {
+
+    const respuesta =
+        await fetch(
+            `${API_URL}/usuarios`
+        );
+
+    if (!respuesta.ok) {
+
+        throw new Error(
+            'Error al cargar usuarios'
+        );
+
+    }
+
+    const usuarios =
+        await respuesta.json();
+
+    return usuarios;
+
+}
+
+
+// ============================================
 // BUSCAR USUARIO
 // ============================================
 
