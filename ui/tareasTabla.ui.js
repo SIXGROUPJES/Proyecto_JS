@@ -104,7 +104,6 @@ export function renderizarTareas(tareas, onTareaEliminada) {
                 data-id="${tarea.id}"
                 data-titulo="${tarea.titulo}"
                 data-estado="${tarea.estado}"
-                style="background-color: #f1c40f; color: white; border: none; padding: 10px 25px; border-radius: 8px; cursor: pointer; margin-right: 10px;"
             >
                 Editar
             </button>

@@ -51,13 +51,11 @@
       "email": "diego.herrera@mail.com"
     }
   ],
-
-  
   "tareasDisponibles": [
     {
       "id": "2",
-      "titulo": "yai",
-      "descripcion": "tagfhjgj"
+      "titulo": "yrgdsdg",
+      "descripcion": "dfbh"
     },
     {
       "id": "3",
@@ -75,10 +73,7 @@
       "descripcion": "Mejorar legibilidad y reutilización"
     }
   ],
-
-
   "tareasAsignadas": [
-
     {
       "usuarioId": "1000000003",
       "usuarioNombre": "María López",
@@ -131,11 +126,11 @@
     },
     {
       "usuarioId": "1000000005",
-      "usuarioNombre": "linny saray",
+      "usuarioNombre": "linny saraybxcvb",
       "tareaId": "3",
-      "titulo": "Crear base de datos",
-      "descripcion": "Configurar JSON Server correctamente",
-      "estado": "En progreso",
+      "titulo": "acbafb",
+      "descripcion": "Configurar JSON Server correctamenteacbacxb",
+      "estado": "Completada",
       "fechaAsignacion": "2026-06-08T06:03:48.397Z",
       "id": 9
     },
@@ -158,6 +153,26 @@
       "estado": "Pendiente",
       "fechaAsignacion": "2026-06-08T23:50:52.834Z",
       "id": 11
+    },
+    {
+      "usuarioId": "1000000005",
+      "usuarioNombre": "Laura Martínez",
+      "tareaId": "3",
+      "titulo": "Crear base de datos",
+      "descripcion": "Configurar JSON Server correctamente",
+      "estado": "Pendiente",
+      "fechaAsignacion": "2026-06-09T02:11:30.657Z",
+      "id": 12
+    },
+    {
+      "usuarioId": "1000000005",
+      "usuarioNombre": "Laura Martínez",
+      "tareaId": "3",
+      "titulo": "Crear base de datos",
+      "descripcion": "Configurar JSON Server correctamente",
+      "estado": "Pendiente",
+      "fechaAsignacion": "2026-06-09T02:11:54.046Z",
+      "id": 13
     }
   ]
 }

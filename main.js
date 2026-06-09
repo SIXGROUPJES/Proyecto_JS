@@ -166,6 +166,13 @@ function configurarEventos() {
                 alert('Ocurrió un error al intentar guardar los cambios.');
             }
         });
+
+    document
+        .getElementById('botonCancelarEdicion')
+        .addEventListener('click', function () {
+            document.getElementById('formularioEditarTarea').reset();
+            document.getElementById('seccionEditarTareaAsignada').classList.add('hidden');
+        });
 }
 
 
