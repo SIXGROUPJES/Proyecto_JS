@@ -51,6 +51,8 @@
       "email": "diego.herrera@mail.com"
     }
   ],
+
+  
   "tareasDisponibles": [
     {
       "id": "2",
@@ -73,17 +75,10 @@
       "descripcion": "Mejorar legibilidad y reutilización"
     }
   ],
+
+
   "tareasAsignadas": [
-    {
-      "usuarioId": "1000000001",
-      "usuarioNombre": "Ana Torres",
-      "tareaId": "2",
-      "titulo": "Diseñar interfaz",
-      "descripcion": "Crear estilos CSS responsivos",
-      "estado": "Pendiente",
-      "fechaAsignacion": "2026-06-06T20:41:55.306Z",
-      "id": 1
-    },
+
     {
       "usuarioId": "1000000003",
       "usuarioNombre": "María López",
@@ -163,16 +158,6 @@
       "estado": "Pendiente",
       "fechaAsignacion": "2026-06-08T23:50:52.834Z",
       "id": 11
-    },
-    {
-      "usuarioId": "1000000002",
-      "usuarioNombre": "Carlos Gómez",
-      "tareaId": "2",
-      "titulo": "yai",
-      "descripcion": "tagfhjgj",
-      "estado": "Pendiente",
-      "fechaAsignacion": "2026-06-09T00:02:54.603Z",
-      "id": 12
     }
   ]
 }
