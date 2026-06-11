@@ -643,10 +643,16 @@ export async function manejarGuardarEdicionTareaAsignada(evento) {
             await cargarTareasUsuario(documentoUsuario);
         }
 
-        alert('¡Tarea actualizada correctamente!');
+        //alert('¡Tarea actualizada correctamente!');
+        notificarExito('¡Los cambios de la tarea fueron guardados con éxito! 💾');
     } catch (error) {
         console.error('Error al actualizar la tarea:', error);
-        alert('Ocurrió un error al intentar guardar los cambios.');
+        //alert('Ocurrió un error al intentar guardar los cambios.');
+        console.error('Error al guardar la edición:', error);
+        // ============================================
+        // RF03 - NOTIFICACIÓN DE ERROR VISUAL
+        // ============================================
+        notificarError('Error en el servidor al intentar actualizar la tarea.');
     }
 
 }
