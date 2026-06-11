@@ -273,16 +273,22 @@ async function poblarFiltroUsuarios() {
 /**
  * Leer los selectores y actualizar la tabla sin llamar al servidor
  */
-function aplicarFiltros() {
+function aplicarFiltrosYorden() {
     const estado  = document.getElementById('filtroEstado')?.value  || 'Todas';
     const nombre  = document.getElementById('filtroNombre')?.value  || 'Todas';
     const usuario = document.getElementById('filtroUsuario')?.value || 'Todos';
+    const fecha  = document.getElementById('filtroFecha')?.value   || 'reciente';
 
-    const resultado = _todasLasTareas.filter(tarea => {
+    let resultado = _todasLasTareas.filter(tarea => {
         const pasaEstado  = estado  === 'Todas' || tarea.estado        === estado;
         const pasaNombre  = nombre  === 'Todas' || tarea.titulo        === nombre;
         const pasaUsuario = usuario === 'Todos' || tarea.usuarioNombre === usuario;
         return pasaEstado && pasaNombre && pasaUsuario;
+    });
+    //ordenar por fecha 
+    resultado = [...resultado].sort((a, b)  => {
+        const diff = new Date(a.fechaAsignacion) - new Date (b.fechaAsignacion);
+        return fecha === 'reciente' ? -diff : diff;
     });
 
     renderizarSoloTabla(resultado);
@@ -334,19 +340,19 @@ function renderizarSoloTabla(tareas) {
     //Conectar los 3 selectores de filtro y el botón limpia y Se exporta para llamarse desde tareas.ui.js
 
 export function configurarFiltros() {
-    ['filtroEstado', 'filtroNombre', 'filtroUsuario'].forEach(id => {
+    ['filtroEstado', 'filtroNombre', 'filtroUsuario', 'filtroFecha'].forEach(id => {
         const el = document.getElementById(id);
-        if (el) el.addEventListener('change', aplicarFiltros);
+        if (el) el.addEventListener('change', aplicarFiltrosYorden);
     });
 
     const botonLimpiar = document.getElementById('botonLimpiarFiltros');
     if (botonLimpiar) {
         botonLimpiar.addEventListener('click', () => {
-            ['filtroEstado', 'filtroNombre', 'filtroUsuario'].forEach(id => {
+            ['filtroEstado', 'filtroNombre', 'filtroUsuario', 'filtroFecha'].forEach(id => {
                 const el = document.getElementById(id);
                 if (el) el.selectedIndex = 0;
             });
-            aplicarFiltros();
+            aplicarFiltrosYorden();
         });
     }
 }
