@@ -93,6 +93,16 @@
       "estado": "Completada",
       "fechaAsignacion": "2026-06-09T22:17:04.217Z",
       "id": 1
+    },
+    {
+      "usuarioId": "1000000001",
+      "usuarioNombre": "Ana Torres",
+      "tareaId": "2",
+      "titulo": "Diseñar interfaz",
+      "descripcion": "Crear estilos CSS responsivos",
+      "estado": "En progreso",
+      "fechaAsignacion": "2026-06-11T21:43:11.529Z",
+      "id": 2
     }
   ]
 }
