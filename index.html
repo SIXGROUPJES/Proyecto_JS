@@ -114,24 +114,56 @@
                     <button type="button" id="botonLimpiarTareas" 
                         class="hidden">Limpiar Tareas
                     </button>
+
+                    <!-- Botón filtrar tareas -->
+                    <button type="button" id="botonFiltrarTareas" class="hidden">
+                        Filtrar tareas
+                    </button>
                 </div>
             </form>
         </section>
-               
 
         <!-- FILTRO DE TAREAS -->
         <section id="seccionFiltroTareas" class="hidden">
-            <h2>Filtrar Tareas</h2>
-            <div class="grupo-formulario">
-                <label for="filtroEstado">Filtrar por estado</label>
-                <select id="filtroEstado">
-                    <option value="Todas">Todas</option>
-                    <option value="Pendiente">Pendiente</option>
-                    <option value="En progreso">En progreso</option>
-                    <option value="Completada">Completada</option>
-                </select>
+            <div class="panel-filtros">
+                <h3>Filtrar Tareas</h3>
+            <div class="filtros-fila">
+
+            <!-- Filtro estado -->
+                <div class="filtro-item">
+                    <label for="filtroEstado">Estado</label>
+                    <select id="filtroEstado" class="select-filtro">
+                        <option value="Todas">Todas</option>
+                        <option value="Pendiente">Pendiente</option>
+                        <option value="En progreso">En progreso</option>
+                        <option value="Completada">Completada</option>
+                    </select>
+                </div>
+
+                <!-- Filtro nombre -->
+                <div class="filtro-item">
+                    <label for="filtroNombre">Nombre de tarea</label>
+                    <select id="filtroNombre" class="select-filtro">
+                        <option value="Todas">Todas</option>
+                    </select>
+                </div>
+
+                <!-- Filtro usuario -->
+                <div class="filtro-item">
+                    <label for="filtroUsuario">Usuario</label>
+                    <select id="filtroUsuario" class="select-filtro">
+                        <option value="Todos">Todos</option>
+                    </select>
+                </div>
+
             </div>
-        </section>
+
+            <!-- Botón limpiar filtros -->
+            <button type="button" id="botonLimpiarFiltros" class="boton-limpiar-filtros">
+                Limpiar filtros
+            </button>
+        </div>
+    </section>
 
 
         <!-- TABLA DE TAREAS -->

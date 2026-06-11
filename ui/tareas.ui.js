@@ -1,5 +1,10 @@
+//IMPORTACIONES
 
-import { renderizarTareas } from './tareasTabla.ui.js';
+import {
+    renderizarTareas,
+    configurarFiltros   
+
+} from './tareasTabla.ui.js';
 import {
     obtenerTareasDisponibles,
     actualizarTareaDisponible,
@@ -62,10 +67,20 @@ export function mostrarDatosUsuario(usuario) {
         'botonLimpiarTareas'
     ).classList.remove('hidden');
 
+    //Mostrar botón y conectar panel de filtros
+    const botonFiltrar = document.getElementById('botonFiltrarTareas');
+    if (botonFiltrar){
+        botonFiltrar.classList.remove('hidden');
+        botonFiltrar.onclick = () => {
+            document.getElementById('seccionFiltroTareas').classList.toggle('hidden');
+        };
+    }
+    configurarFiltros();
     /*
         Cargar tareas disponibles
     */
     cargarTareasDisponibles();
+    cargarTareasUsuario(usuario.id);
 
     /*
         Cargar tareas usuario

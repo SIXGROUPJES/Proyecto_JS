@@ -103,6 +103,46 @@
       "estado": "En progreso",
       "fechaAsignacion": "2026-06-11T21:43:11.529Z",
       "id": 2
+    },
+    {
+      "usuarioId": "1000000002",
+      "usuarioNombre": "Carlos Gómez",
+      "tareaId": "1",
+      "titulo": "Practicar JavaScript",
+      "descripcion": "Estudiar DOM, eventos y fetch API",
+      "estado": "Pendiente",
+      "fechaAsignacion": "2026-06-11T22:53:36.894Z",
+      "id": 3
+    },
+    {
+      "usuarioId": "1000000002",
+      "usuarioNombre": "Carlos Gómez",
+      "tareaId": "1",
+      "titulo": "Practicar JavaScript",
+      "descripcion": "Estudiar DOM, eventos y fetch API",
+      "estado": "En progreso",
+      "fechaAsignacion": "2026-06-11T22:53:48.285Z",
+      "id": 4
+    },
+    {
+      "usuarioId": "1000000001",
+      "usuarioNombre": "Ana Torres",
+      "tareaId": "1",
+      "titulo": "Practicar JavaScript",
+      "descripcion": "Estudiar DOM, eventos y fetch API",
+      "estado": "Pendiente",
+      "fechaAsignacion": "2026-06-11T22:56:59.817Z",
+      "id": 5
+    },
+    {
+      "usuarioId": "1000000001",
+      "usuarioNombre": "Ana Torres",
+      "tareaId": "1",
+      "titulo": "Practicar JavaScript",
+      "descripcion": "Estudiar DOM, eventos y fetch API",
+      "estado": "Pendiente",
+      "fechaAsignacion": "2026-06-11T22:58:09.649Z",
+      "id": 6
     }
   ]
 }
