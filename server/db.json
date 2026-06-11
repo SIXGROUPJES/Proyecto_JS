@@ -90,8 +90,8 @@
       "tareaId": "1",
       "titulo": "Practicar JavaScript",
       "descripcion": "Estudiar DOM, eventos y fetch API",
-      "estado": "Completada",
-      "fechaAsignacion": "2026-06-09T22:17:04.217Z",
+      "estado": "Pendiente",
+      "fechaAsignacion": "2026-06-11T19:32:27.082Z",
       "id": 1
     }
   ]

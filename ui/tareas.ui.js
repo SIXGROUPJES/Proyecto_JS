@@ -19,7 +19,10 @@ import {
 
 let usuarioActual = null;
 let dropdownsEdicionConfigurados = false;
-
+import {
+     notificarExito,
+      notificarError
+} from './notificaciones.ui.js';
 // ============================================
 // MOSTRAR DATOS USUARIO
 // ============================================
@@ -374,7 +377,7 @@ export async function registrarTarea(datosTarea) {
         await cargarTareasUsuario(
             usuarioActual.id
         );
-
+        notificarExito(`¡Tarea "${tareaAsignada.titulo}" asignada exitosamente! 🚀`);
     } catch (error) {
 
         console.error(
@@ -382,9 +385,8 @@ export async function registrarTarea(datosTarea) {
             error
         );
 
-        alert(
-            'Ocurrió un error al asignar la tarea'
-        );
+        notificarError('Ocurrió un error en el servidor al intentar asignar la tarea.');
+        
 
     }
 
