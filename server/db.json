@@ -87,9 +87,9 @@
     {
       "usuarioId": "1000000001",
       "usuarioNombre": "Ana Torres",
-      "tareaId": "1",
-      "titulo": "Practicar JavaScript",
-      "descripcion": "Estudiar DOM, eventos y fetch API",
+      "tareaId": "3",
+      "titulo": "Crear base de datos",
+      "descripcion": "Configurar JSON Server correctamente",
       "estado": "Pendiente",
       "fechaAsignacion": "2026-06-11T19:32:27.082Z",
       "id": 1
@@ -103,6 +103,16 @@
       "estado": "Pendiente",
       "fechaAsignacion": "2026-06-11T19:59:57.028Z",
       "id": 2
+    },
+    {
+      "usuarioId": "1000000001",
+      "usuarioNombre": "Ana Torres",
+      "tareaId": "1",
+      "titulo": "Practicar JavaScript",
+      "descripcion": "Estudiar DOM, eventos y fetch API",
+      "estado": "Pendiente",
+      "fechaAsignacion": "2026-06-11T20:51:55.014Z",
+      "id": 3
     }
   ]
 }

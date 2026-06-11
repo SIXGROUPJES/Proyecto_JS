@@ -1,6 +1,11 @@
-//import { eliminarTareaAsignada } from '../services/tareasAsignadas.service.js';
-import { eliminarTareaAsignada, actualizarTareaAsignada } from '../services/tareasAsignadas.service.js';
-import { notificarExito, notificarError } from './notificaciones.ui.js';
+import { eliminarTareaAsignada } from '../services/tareasAsignadas.service.js';
+import { 
+    exportarAJsonDescargable 
+} from '../services/exportador.service.js';
+   import { 
+    notificarExito, 
+    notificarError 
+} from './notificaciones.ui.js';
 // ============================================
 // RENDERIZAR TAREAS
 // ============================================
@@ -27,6 +32,10 @@ export function renderizarTareas(tareas, onTareaEliminada) {
         document.getElementById(
             'mensajeSinTareas'
         );
+    const botonExportar = 
+        document.getElementById(
+            'botonExportarJson'
+        );
 
     /*
         Limpiar tabla
@@ -45,6 +54,7 @@ export function renderizarTareas(tareas, onTareaEliminada) {
         mensaje.classList.remove(
             'hidden'
         );
+        if (botonExportar) botonExportar.classList.add('hidden');
 
         return;
 
@@ -62,6 +72,25 @@ export function renderizarTareas(tareas, onTareaEliminada) {
     mensaje.classList.add(
         'hidden'
     );
+
+    // Si hay tareas visibles, mostramos el botón de exportar
+    if (botonExportar) {
+        botonExportar.classList.remove('hidden');
+        
+        // Asignación directa y limpia que no rompe los otros botones de la tabla
+        botonExportar.onclick = () => {
+            try {
+                const nombreUsuario = tareas[0]?.usuarioNombre || 'usuario';
+                const nombreArchivo = `tareas_${nombreUsuario.toLowerCase().replace(/\s+/g, '_')}.json`;
+                
+                exportarAJsonDescargable(tareas, nombreArchivo);
+                notificarExito('¡Archivo JSON descargado con éxito! 📥');
+            } catch (error) {
+                console.error(error);
+                notificarError('No se pudieron exportar las tareas visibles.');
+            }
+        };
+    }
 
     /*
         Recorrer tareas
@@ -98,8 +127,9 @@ export function renderizarTareas(tareas, onTareaEliminada) {
 
         <td>
             ${tarea.usuarioNombre}
-        </td>   
-        <td> 
+        </td>
+
+        <td>
             <button 
                 class="boton-editar-asignada"
                 data-id="${tarea.id}"
@@ -129,7 +159,8 @@ export function renderizarTareas(tareas, onTareaEliminada) {
         );
 
     });
-/*
+
+    /*
         Eventos eliminar
     */
     document
@@ -146,29 +177,17 @@ export function renderizarTareas(tareas, onTareaEliminada) {
                         evento.target.getAttribute(
                             'data-id'
                         );
-                    
-                    const confirmar = confirm('¿Seguro que deseas eliminar esta tarea asignada?');
-                    if (!confirmar) return;
 
-                    try {
-                        // 1. Ejecutar el borrado en el servidor
-                        await eliminarTareaAsignada(id);
-                        
-                        // 2. RF03 - Mostrar el aviso flotante de éxito
-                        notificarExito('Tarea asignada eliminada exitosamente.');
+                    await eliminarTareaAsignada(
+                        id
+                    );
 
-                        // 3. RECARGA VISUAL: Ejecutar el callback para actualizar la tabla en pantalla
-                        if (typeof onTareaEliminada === 'function') {
-                            await onTareaEliminada();
-                        }
+                    if (typeof onTareaEliminada === 'function') {
 
-                    } catch (error) {
-                        console.error('Error al eliminar tarea asignada:', error);   
-                        
-                        // RF03 - Mostrar aviso de error si el servidor falla
-                        notificarError('No se pudo eliminar la tarea asignada.');
+                        await onTareaEliminada();
+
                     }
-                
+
                 }
             );
 
@@ -178,12 +197,6 @@ export function renderizarTareas(tareas, onTareaEliminada) {
         Eventos editar tarea asignada
         esto es del boton editar de tareas asignadas
         Ely
-    
-  
-    /*
-    Ely
-       
-    Eventos editar tarea asignada (Abrir sección de formulario)
     */
     document
         .querySelectorAll(
@@ -194,31 +207,32 @@ export function renderizarTareas(tareas, onTareaEliminada) {
             boton.addEventListener(
                 'click',
                 (evento) => {
-                    // Encontrar el objeto de la tarea correspondiente buscando en el array recibido
                     const id = evento.target.getAttribute('data-id');
                     const tareaSeleccionada = tareas.find(t => t.id == id);
 
                     if (!tareaSeleccionada) return;
 
-                    // 1. Rellenar los campos de la sección de edición con los datos actuales
+                    // 1. Rellenar los campos de la sección de edición inferior
                     document.getElementById('editarAsignadaId').value = tareaSeleccionada.id;
-                    document.getElementById('editarAsignadaTareaId').value = tareaSeleccionada.tareaId;
+                    document.getElementById('editarAsignadaTareaId').value = tareaSeleccionada.tareaId || '';
                     document.getElementById('editarAsignadaTitulo').value = tareaSeleccionada.titulo;
                     document.getElementById('editarAsignadaDescripcion').value = tareaSeleccionada.descripcion;
                     document.getElementById('editarAsignadaEstado').value = tareaSeleccionada.estado;
-                    document.getElementById('editarAsignadaUsuarioId').value = tareaSeleccionada.usuarioId;
+                    document.getElementById('editarAsignadaUsuarioId').value = tareaSeleccionada.usuarioId || '';
                     document.getElementById('editarAsignadaUsuario').value = tareaSeleccionada.usuarioNombre;
-                    document.getElementById('dropdownEditarTareaTexto').textContent = tareaSeleccionada.titulo;
-                    document.getElementById('dropdownEditarUsuarioTexto').textContent = tareaSeleccionada.usuarioNombre;
 
                     // 2. Mostrar la sección removiendo la clase 'hidden'
                     const seccionEdicion = document.getElementById('seccionEditarTareaAsignada');
-                    seccionEdicion.classList.remove('hidden');
-
-                    // 3. Hacer un scroll suave hacia el formulario para que el usuario note que se abrió
-                    seccionEdicion.scrollIntoView({ behavior: 'smooth' });
+                    if (seccionEdicion) {
+                        seccionEdicion.classList.remove('hidden');
+                        // 3. Desplazamiento suave al formulario
+                        seccionEdicion.scrollIntoView({ behavior: 'smooth' });
+                    }
                 }
             );
 
         });
+
 } // <- Este es el cierre final de la función renderizarTareas "boton editar (tarea asignada)Ely"
+
+
