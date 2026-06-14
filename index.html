@@ -113,9 +113,9 @@
                 <div class="acciones-formulario">
                     <button type="submit">Asignar tarea</button>
 
-                    <!-- Botón limpiar -->
-                    <button type="button" id="botonLimpiarTareas" 
-                        class="hidden">Limpiar Tareas
+                    <!-- Botón borrar -->
+                    <button type="button" id="botonBorrarTareas" 
+                        class="hidden">Borrar tareas
                     </button>
                 </div>
             </form>
@@ -129,14 +129,6 @@
 
         <section id="seccionControlesTareas" class="hidden">
             <h2>Filtrar Tareas</h2>
-            <div class="grupo-formulario">
-                <label for="tipoFiltro">Tipo de filtro</label>
-                <select id="tipoFiltro">
-                    <option value="usuario">Usuario</option>
-                    <option value="estado">Estado</option>
-                    <option value="tarea">Tarea</option>
-                </select>
-            </div>
 
             <div id="controlFiltroUsuario" class="grupo-formulario">
                 <label for="filtroUsuario">Filtrar por usuario</label>
@@ -145,7 +137,7 @@
                 </select>
             </div>
 
-            <div id="controlFiltroEstado" class="grupo-formulario hidden">
+            <div id="controlFiltroEstado" class="grupo-formulario">
                 <label for="filtroEstado">Filtrar por estado</label>
                 <select id="filtroEstado">
                     <option value="Todas">Todas</option>
@@ -155,7 +147,7 @@
                 </select>
             </div>
 
-            <div id="controlFiltroTarea" class="grupo-formulario hidden">
+            <div id="controlFiltroTarea" class="grupo-formulario">
                 <label for="filtroTarea">Filtrar por tarea</label>
                 <select id="filtroTarea">
                     <option value="">Todas las tareas</option>

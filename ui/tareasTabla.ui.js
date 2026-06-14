@@ -29,6 +29,14 @@ export function renderizarTareas(tareas, onTareaEliminada) {
 
 }
 
+export function renderizarVistaFiltrada(tareasGlobales, vista, onRecarga) {
+
+    tareasBase = Array.isArray(tareasGlobales) ? tareasGlobales : [];
+    callbackRecarga = onRecarga || callbackRecarga;
+    aplicarVistaTareas(vista);
+
+}
+
 export function aplicarVistaTareas(opciones = {}) {
 
     vistaActual = {
@@ -36,15 +44,12 @@ export function aplicarVistaTareas(opciones = {}) {
         orden: opciones.orden || 'fecha'
     };
 
-    const tareas = filtrarPorTarea(
-        ordenarTareas(
-            filtrarTareas(
-                tareasBase,
-                vistaActual.filtros
-            ),
-            vistaActual.orden
+    const tareas = ordenarTareas(
+        filtrarTareas(
+            tareasBase,
+            vistaActual.filtros
         ),
-        vistaActual.filtros?.tarea
+        vistaActual.orden
     );
 
     tareasVisibles = tareas;
@@ -255,15 +260,19 @@ export function obtenerTareasVisibles() {
     return [...tareasVisibles];
 }
 
-function filtrarPorTarea(tareas, textoFiltro = '') {
-    const texto = String(textoFiltro || '').trim().toLowerCase();
+export function obtenerTareasBase() {
+    return [...tareasBase];
+}
 
-    if (!texto) {
-        return tareas;
-    }
+export function resetearVistaTareas() {
+    vistaActual = {
+        filtros: {
+            usuarioId: '',
+            estado: 'Todas',
+            tareaId: ''
+        },
+        orden: 'fecha'
+    };
 
-    return tareas.filter((tarea) => {
-        return String(tarea.titulo || '').toLowerCase().includes(texto) ||
-            String(tarea.descripcion || '').toLowerCase().includes(texto);
-    });
+    aplicarVistaTareas(vistaActual);
 }

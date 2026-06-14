@@ -79,8 +79,13 @@
     },
     {
       "id": "6",
-      "titulo": "Optimizar código",
-      "descripcion": "Reutilización de funciones"
+      "titulo": "Optimizar",
+      "descripcion": ""
+    },
+    {
+      "titulo": "dfgdfsb",
+      "descripcion": "fbhxb",
+      "id": "wizdKtN"
     }
   ],
   "tareasAsignadas": [
@@ -113,6 +118,56 @@
       "estado": "Completada",
       "fechaAsignacion": "2026-06-14T05:35:13.432Z",
       "id": 4
+    },
+    {
+      "usuarioId": "1000000001",
+      "usuarioNombre": "Ana Torres",
+      "tareaId": "1",
+      "titulo": "Practicar JavaScript",
+      "descripcion": "Estudiar DOM, eventos y fetch API",
+      "estado": "Pendiente",
+      "fechaAsignacion": "2026-06-14T06:02:22.572Z",
+      "id": 5
+    },
+    {
+      "usuarioId": "1000000002",
+      "usuarioNombre": "Carlos Gómez",
+      "tareaId": "2",
+      "titulo": "Diseñar interfaz",
+      "descripcion": "Crear estilos CSS responsivos",
+      "estado": "Pendiente",
+      "fechaAsignacion": "2026-06-14T06:08:49.930Z",
+      "id": 6
+    },
+    {
+      "usuarioId": "1000000009",
+      "usuarioNombre": "Valentina Cruz",
+      "tareaId": "1",
+      "titulo": "Practicar JavaScript",
+      "descripcion": "Estudiar DOM, eventos y fetch API",
+      "estado": "Pendiente",
+      "fechaAsignacion": "2026-06-14T06:20:55.090Z",
+      "id": 7
+    },
+    {
+      "usuarioId": "1000000009",
+      "usuarioNombre": "Valentina Cruz",
+      "tareaId": "2",
+      "titulo": "Diseñar interfaz",
+      "descripcion": "Crear estilos CSS responsivos",
+      "estado": "Pendiente",
+      "fechaAsignacion": "2026-06-14T06:21:05.147Z",
+      "id": 8
+    },
+    {
+      "usuarioId": "1000000009",
+      "usuarioNombre": "Valentina Cruz",
+      "tareaId": "3",
+      "titulo": "Crear base de datos",
+      "descripcion": "Configurar JSON Server correctamente",
+      "estado": "En progreso",
+      "fechaAsignacion": "2026-06-14T06:21:19.116Z",
+      "id": 9
     }
   ]
 }

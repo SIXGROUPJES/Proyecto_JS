@@ -9,8 +9,9 @@ import {
 import {
     mostrarDatosUsuario,
     cargarTareasDisponibles,
+    cargarTareasUsuario,
     registrarTarea,
-    limpiarTodasLasTareas,
+    borrarTodasLasTareas,
     configurarEdicionTareaAsignada,
     cerrarPanel,
     abrirPanelEditar,
@@ -33,6 +34,10 @@ import {
     crearTareaDisponible,
 } from './services/tareasDisponibles.service.js';
 
+import {
+    obtenerTodasLasTareasAsignadas
+} from './services/tareasAsignadas.service.js';
+
 // ============================================
 import { 
     notificarExito, notificarError 
@@ -45,7 +50,8 @@ import {
 
 import {
     aplicarVistaTareas,
-    obtenerTareasVisibles
+    obtenerTareasVisibles,
+    renderizarVistaFiltrada
 } from './ui/tareasTabla.ui.js';
 
 import {
@@ -79,7 +85,8 @@ document.addEventListener(
         configurarEventos();
         configurarDropdown();
         configurarControlesTareas({
-            onChange: aplicarVistaTareas,
+            onChange: manejarAplicacionFiltros,
+            onCancel: manejarCancelacionFiltros,
             onExport: manejarExportacionTareas
         });
 
@@ -132,17 +139,17 @@ function configurarEventos() {
         );
 
     /*
-        Limpiar tareas
+        Borrar tareas
     */
     document
         .getElementById(
-            'botonLimpiarTareas'
+            'botonBorrarTareas'
         )
         .addEventListener(
             'click',
             async function () {
 
-                await limpiarTodasLasTareas();
+                await borrarTodasLasTareas();
 
             }
         );
@@ -354,12 +361,20 @@ async function manejarRegistroTarea(evento) {
     /*
         Registrar tarea
     */
-    await registrarTarea({
+    const tareaAsignada = await registrarTarea({
 
         idTarea,
         estado
 
     });
+
+    if (!tareaAsignada) {
+        notificarError(
+            'No se pudo asignar la tarea.'
+        );
+
+        return;
+    }
 
     /*
         Reiniciar formulario
@@ -376,6 +391,11 @@ async function manejarRegistroTarea(evento) {
     console.log(
         '✅ Tarea asignada correctamente'
     );
+
+    notificarExito(
+        'Tarea asignada correctamente.'
+    );
+
     return false;
 
 }
@@ -385,14 +405,43 @@ function manejarExportacionTareas() {
         obtenerControlesTareas()
     );
 
+    const tareasVisibles = obtenerTareasVisibles();
+
+    if (tareasVisibles.length === 0) {
+        notificarError(
+            'No hay tareas para exportar.'
+        );
+
+        return;
+    }
+
     exportarJson(
         'tareas-visibles.json',
-        obtenerTareasVisibles()
+        tareasVisibles
     );
 
     notificarExito(
         'Tareas visibles exportadas correctamente.'
     );
+}
+
+async function manejarAplicacionFiltros(vista) {
+    try {
+        const tareasGlobales = await obtenerTodasLasTareasAsignadas();
+
+        renderizarVistaFiltrada(
+            tareasGlobales,
+            vista,
+            () => manejarAplicacionFiltros(vista)
+        );
+    } catch (error) {
+        console.error('Error al aplicar filtros:', error);
+        notificarError('No se pudieron aplicar los filtros.');
+    }
+}
+
+async function manejarCancelacionFiltros() {
+    await cargarTareasUsuario();
 }
 
 // DROPDOWN PERSONALIZADO

@@ -1,6 +1,7 @@
 export function filtrarTareas(tareas, filtros = {}) {
     const estado = normalizar(filtros.estado);
-    const usuario = normalizar(filtros.usuario);
+    const usuarioId = String(filtros.usuarioId ?? '').trim();
+    const tareaId = String(filtros.tareaId ?? '').trim();
 
     return tareas.filter((tarea) => {
         const coincideEstado =
@@ -9,11 +10,14 @@ export function filtrarTareas(tareas, filtros = {}) {
             normalizar(tarea.estado) === estado;
 
         const coincideUsuario =
-            !usuario ||
-            normalizar(tarea.usuarioNombre).includes(usuario) ||
-            normalizar(tarea.usuarioId).includes(usuario);
+            !usuarioId ||
+            String(tarea.usuarioId ?? '') === usuarioId;
 
-        return coincideEstado && coincideUsuario;
+        const coincideTarea =
+            !tareaId ||
+            String(tarea.tareaId ?? '') === tareaId;
+
+        return coincideUsuario && coincideEstado && coincideTarea;
     });
 }
 
