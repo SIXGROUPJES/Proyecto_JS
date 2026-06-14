@@ -83,5 +83,36 @@
       "descripcion": "Reutilización de funciones"
     }
   ],
-  "tareasAsignadas": []
+  "tareasAsignadas": [
+    {
+      "usuarioId": "1000000007",
+      "usuarioNombre": "Sofía Ramírez",
+      "tareaId": "2",
+      "titulo": "Diseñar interfaz",
+      "descripcion": "Crear estilos CSS responsivos",
+      "estado": "Pendiente",
+      "fechaAsignacion": "2026-06-14T05:12:42.790Z",
+      "id": 2
+    },
+    {
+      "usuarioId": "1000000005",
+      "usuarioNombre": "Laura Martínez",
+      "tareaId": "2",
+      "titulo": "Diseñar interfaz",
+      "descripcion": "Crear estilos CSS responsivos",
+      "estado": "Pendiente",
+      "fechaAsignacion": "2026-06-14T05:14:22.038Z",
+      "id": 3
+    },
+    {
+      "usuarioId": "1000000004",
+      "usuarioNombre": "Juan Pérez",
+      "tareaId": "2",
+      "titulo": "Diseñar interfaz",
+      "descripcion": "Crear estilos CSS responsivos",
+      "estado": "Completada",
+      "fechaAsignacion": "2026-06-14T05:35:13.432Z",
+      "id": 4
+    }
+  ]
 }

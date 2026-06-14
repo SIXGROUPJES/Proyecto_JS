@@ -759,3 +759,7 @@ button.boton-cancelar-edicion:hover {
     color: white;
     border-left: 5px solid #2980b9;
 }
+
+#botonMostrarFiltros {
+    margin-bottom: 12px;
+}

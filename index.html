@@ -82,7 +82,7 @@
                         </div>
                         <div id="listaTareasDisponibles" class="dropdown-lista"></div>
                         <button type="button" id="panelBotonAgregarTarea" class="boton-agregar">
-                            Agregar tarea
+                            Registrar tarea
                         </button>
                     
                         <div id="panelTarea" class="panel-tarea hidden">
@@ -111,7 +111,7 @@
 
                 <!-- BOTONES -->
                 <div class="acciones-formulario">
-                    <button type="submit">Registrar Tarea</button>
+                    <button type="submit">Asignar tarea</button>
 
                     <!-- Botón limpiar -->
                     <button type="button" id="botonLimpiarTareas" 
@@ -123,9 +123,29 @@
                
 
         <!-- FILTRO DE TAREAS -->
+        <button type="button" id="botonMostrarFiltros" class="hidden">
+            Filtrar
+        </button>
+
         <section id="seccionControlesTareas" class="hidden">
-            <h2>Filtrar y Ordenar Tareas</h2>
+            <h2>Filtrar Tareas</h2>
             <div class="grupo-formulario">
+                <label for="tipoFiltro">Tipo de filtro</label>
+                <select id="tipoFiltro">
+                    <option value="usuario">Usuario</option>
+                    <option value="estado">Estado</option>
+                    <option value="tarea">Tarea</option>
+                </select>
+            </div>
+
+            <div id="controlFiltroUsuario" class="grupo-formulario">
+                <label for="filtroUsuario">Filtrar por usuario</label>
+                <select id="filtroUsuario">
+                    <option value="">Todos los usuarios</option>
+                </select>
+            </div>
+
+            <div id="controlFiltroEstado" class="grupo-formulario hidden">
                 <label for="filtroEstado">Filtrar por estado</label>
                 <select id="filtroEstado">
                     <option value="Todas">Todas</option>
@@ -134,10 +154,14 @@
                     <option value="Completada">Completada</option>
                 </select>
             </div>
-            <div class="grupo-formulario">
-                <label for="filtroUsuario">Filtrar por usuario</label>
-                <input type="search" id="filtroUsuario" placeholder="Nombre o documento">
+
+            <div id="controlFiltroTarea" class="grupo-formulario hidden">
+                <label for="filtroTarea">Filtrar por tarea</label>
+                <select id="filtroTarea">
+                    <option value="">Todas las tareas</option>
+                </select>
             </div>
+
             <div class="grupo-formulario">
                 <label for="ordenTareas">Ordenar por</label>
                 <select id="ordenTareas">
@@ -146,7 +170,9 @@
                     <option value="estado">Estado</option>
                 </select>
             </div>
-            <button type="button" id="botonExportarTareas">Exportar JSON</button>
+
+            <button type="button" id="botonAplicarFiltro">Aplicar</button>
+            <button type="button" id="botonCancelarFiltro">Cancelar</button>
         </section>
 
 
@@ -154,6 +180,10 @@
         <section class="seccion-tabla-tareas">
 
             <h2>Tareas Registradas</h2>
+
+            <button type="button" id="botonExportarTareas" class="hidden">
+                Exportar JSON
+            </button>
 
             <!-- Mensaje sin tareas -->
             <div id="mensajeSinTareas">

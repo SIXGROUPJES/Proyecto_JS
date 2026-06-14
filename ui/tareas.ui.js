@@ -63,7 +63,11 @@ export function mostrarDatosUsuario(usuario) {
     ).classList.remove('hidden');
 
     document.getElementById(
-        'seccionControlesTareas'
+        'botonMostrarFiltros'
+    )?.classList.remove('hidden');
+
+    document.getElementById(
+        'botonExportarTareas'
     )?.classList.remove('hidden');
 
     /*

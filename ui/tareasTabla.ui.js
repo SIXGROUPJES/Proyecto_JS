@@ -36,12 +36,15 @@ export function aplicarVistaTareas(opciones = {}) {
         orden: opciones.orden || 'fecha'
     };
 
-    const tareas = ordenarTareas(
-        filtrarTareas(
-            tareasBase,
-            vistaActual.filtros
+    const tareas = filtrarPorTarea(
+        ordenarTareas(
+            filtrarTareas(
+                tareasBase,
+                vistaActual.filtros
+            ),
+            vistaActual.orden
         ),
-        vistaActual.orden
+        vistaActual.filtros?.tarea
     );
 
     tareasVisibles = tareas;
@@ -50,12 +53,10 @@ export function aplicarVistaTareas(opciones = {}) {
         document.getElementById(
             'cuerpoTablaTareas'
         );
-
     const tabla =
         document.getElementById(
             'tablaTareas'
         );
-
     const mensaje =
         document.getElementById(
             'mensajeSinTareas'
@@ -70,17 +71,13 @@ export function aplicarVistaTareas(opciones = {}) {
         Verificar tareas
     */
     if (tareas.length === 0) {
-
         tabla.classList.add(
             'hidden'
         );
-
         mensaje.classList.remove(
             'hidden'
         );
-
         return;
-
     }
 
     /*
@@ -89,9 +86,7 @@ export function aplicarVistaTareas(opciones = {}) {
     tabla.classList.remove(
         'hidden'
     );
-
     tabla.style.display = '';
-
     mensaje.classList.add(
         'hidden'
     );
@@ -258,4 +253,17 @@ export function aplicarVistaTareas(opciones = {}) {
 
 export function obtenerTareasVisibles() {
     return [...tareasVisibles];
+}
+
+function filtrarPorTarea(tareas, textoFiltro = '') {
+    const texto = String(textoFiltro || '').trim().toLowerCase();
+
+    if (!texto) {
+        return tareas;
+    }
+
+    return tareas.filter((tarea) => {
+        return String(tarea.titulo || '').toLowerCase().includes(texto) ||
+            String(tarea.descripcion || '').toLowerCase().includes(texto);
+    });
 }
