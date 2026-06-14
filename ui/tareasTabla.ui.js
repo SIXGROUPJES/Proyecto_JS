@@ -1,6 +1,16 @@
-//import { eliminarTareaAsignada } from '../services/tareasAsignadas.service.js';
-import { eliminarTareaAsignada, actualizarTareaAsignada } from '../services/tareasAsignadas.service.js';
+import { eliminarTareaAsignada } from '../services/tareasAsignadas.service.js';
 import { notificarExito, notificarError } from './notificaciones.ui.js';
+import { filtrarTareas } from '../utils/filtros.js';
+import { ordenarTareas } from '../utils/ordenamiento.js';
+
+let tareasBase = [];
+let tareasVisibles = [];
+let callbackRecarga = null;
+let vistaActual = {
+    filtros: {},
+    orden: 'fecha'
+};
+
 // ============================================
 // RENDERIZAR TAREAS
 // ============================================
@@ -13,16 +23,45 @@ import { notificarExito, notificarError } from './notificaciones.ui.js';
  */
 export function renderizarTareas(tareas, onTareaEliminada) {
 
+    tareasBase = Array.isArray(tareas) ? tareas : [];
+    callbackRecarga = onTareaEliminada;
+    aplicarVistaTareas(vistaActual);
+
+}
+
+export function renderizarVistaFiltrada(tareasGlobales, vista, onRecarga) {
+
+    tareasBase = Array.isArray(tareasGlobales) ? tareasGlobales : [];
+    callbackRecarga = onRecarga || callbackRecarga;
+    aplicarVistaTareas(vista);
+
+}
+
+export function aplicarVistaTareas(opciones = {}) {
+
+    vistaActual = {
+        filtros: opciones.filtros || {},
+        orden: opciones.orden || 'fecha'
+    };
+
+    const tareas = ordenarTareas(
+        filtrarTareas(
+            tareasBase,
+            vistaActual.filtros
+        ),
+        vistaActual.orden
+    );
+
+    tareasVisibles = tareas;
+
     const cuerpoTabla =
         document.getElementById(
             'cuerpoTablaTareas'
         );
-
     const tabla =
         document.getElementById(
             'tablaTareas'
         );
-
     const mensaje =
         document.getElementById(
             'mensajeSinTareas'
@@ -37,17 +76,13 @@ export function renderizarTareas(tareas, onTareaEliminada) {
         Verificar tareas
     */
     if (tareas.length === 0) {
-
         tabla.classList.add(
             'hidden'
         );
-
         mensaje.classList.remove(
             'hidden'
         );
-
         return;
-
     }
 
     /*
@@ -56,9 +91,7 @@ export function renderizarTareas(tareas, onTareaEliminada) {
     tabla.classList.remove(
         'hidden'
     );
-
     tabla.style.display = '';
-
     mensaje.classList.add(
         'hidden'
     );
@@ -158,8 +191,8 @@ export function renderizarTareas(tareas, onTareaEliminada) {
                         notificarExito('Tarea asignada eliminada exitosamente.');
 
                         // 3. RECARGA VISUAL: Ejecutar el callback para actualizar la tabla en pantalla
-                        if (typeof onTareaEliminada === 'function') {
-                            await onTareaEliminada();
+                        if (typeof callbackRecarga === 'function') {
+                            await callbackRecarga();
                         }
 
                     } catch (error) {
@@ -221,4 +254,25 @@ export function renderizarTareas(tareas, onTareaEliminada) {
             );
 
         });
-} // <- Este es el cierre final de la función renderizarTareas "boton editar (tarea asignada)Ely"
+} // <- Este es el cierre final de la función aplicarVistaTareas "boton editar (tarea asignada)Ely"
+
+export function obtenerTareasVisibles() {
+    return [...tareasVisibles];
+}
+
+export function obtenerTareasBase() {
+    return [...tareasBase];
+}
+
+export function resetearVistaTareas() {
+    vistaActual = {
+        filtros: {
+            usuarioId: '',
+            estado: 'Todas',
+            tareaId: ''
+        },
+        orden: 'fecha'
+    };
+
+    aplicarVistaTareas(vistaActual);
+}

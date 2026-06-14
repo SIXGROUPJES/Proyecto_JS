@@ -1,5 +1,7 @@
 
-import { renderizarTareas } from './tareasTabla.ui.js';
+import { renderizarTareas, resetearVistaTareas } from './tareasTabla.ui.js';
+import { recargarOpcionesFiltro, resetearControlesTareas } from './filtros.ui.js';
+import { notificarExito, notificarError, notificarInfo } from './notificaciones.ui.js';
 import {
     obtenerTareasDisponibles,
     actualizarTareaDisponible,
@@ -7,6 +9,7 @@ import {
     crearTareaDisponible
 } from '../services/tareasDisponibles.service.js';
 import {
+    obtenerTodasLasTareasAsignadas,
     obtenerTareasAsignadasPorUsuario,
     crearTareaAsignada,
     eliminarTareasAsignadasPorUsuario,
@@ -59,8 +62,16 @@ export function mostrarDatosUsuario(usuario) {
     ).classList.remove('hidden');
 
     document.getElementById(
-        'botonLimpiarTareas'
+        'botonBorrarTareas'
     ).classList.remove('hidden');
+
+    document.getElementById(
+        'botonMostrarFiltros'
+    )?.classList.remove('hidden');
+
+    document.getElementById(
+        'botonExportarTareas'
+    )?.classList.remove('hidden');
 
     /*
         Cargar tareas disponibles
@@ -68,7 +79,7 @@ export function mostrarDatosUsuario(usuario) {
     cargarTareasDisponibles();
 
     /*
-        Cargar tareas usuario
+        Cargar tareas del usuario
     */
     cargarTareasUsuario(
         usuario.id
@@ -99,11 +110,15 @@ export async function abrirPanelEditar(id, titulo) {
     document.getElementById('panelTarea').classList.remove('hidden');
 }
 
-export async function cerrarPanel() {
+export async function cerrarPanel(informarCancelacion = true) {
     tareaEnEdicion = null;
     document.getElementById('panelTarea').classList.add('hidden');
     document.getElementById('panelInputTitulo').value = '';
     document.getElementById('panelInputDescripcion').value = '';
+
+    if (informarCancelacion) {
+        notificarInfo('Registro de tarea cancelado.');
+    }
 }
 
 export async function cargarTareasDisponibles() {
@@ -163,13 +178,25 @@ export async function cargarTareasDisponibles() {
             // Eliminar (sin confirmar)
             botonEliminar.addEventListener('click', async function (e) {
                 e.stopPropagation();
-                const id = this.dataset.id;
-                await eliminarTareaDisponible(id);
-                if (document.getElementById('selectorTareas').value === id) {
-                    document.getElementById('selectorTareas').value = '';
-                    document.getElementById('dropdownTexto').textContent = '-- Selecciona una tarea --';
+                try {
+                    const id = this.dataset.id;
+                    const respuesta = await eliminarTareaDisponible(id);
+
+                    if (!respuesta.ok) {
+                        throw new Error('Error al eliminar tarea disponible');
+                    }
+
+                    if (document.getElementById('selectorTareas').value === id) {
+                        document.getElementById('selectorTareas').value = '';
+                        document.getElementById('dropdownTexto').textContent = '-- Selecciona una tarea --';
+                    }
+
+                    await cargarTareasDisponibles();
+                    notificarExito('Tarea disponible eliminada correctamente.');
+                } catch (error) {
+                    console.error('Error al eliminar tarea disponible:', error);
+                    notificarError('No se pudo eliminar la tarea disponible.');
                 }
-                await cargarTareasDisponibles();
             });
 
             lista.appendChild(fila);
@@ -185,40 +212,51 @@ export async function cargarTareasDisponibles() {
                 return;
             }
 
-            if (tareaEnEdicion) {
-                // Modo EDITAR
-                await actualizarTareaDisponible(Number(tareaEnEdicion), { titulo, descripcion });
-                if (document.getElementById('selectorTareas').value === tareaEnEdicion) {
-                    document.getElementById('dropdownTexto').textContent = titulo;
-                }
-            } else {
-                // Modo AGREGAR
-                await crearTareaDisponible({ titulo, descripcion });
-            }
+            try {
+                if (tareaEnEdicion) {
+                    // Modo EDITAR
+                    await actualizarTareaDisponible(Number(tareaEnEdicion), { titulo, descripcion });
+                    if (document.getElementById('selectorTareas').value === tareaEnEdicion) {
+                        document.getElementById('dropdownTexto').textContent = titulo;
+                    }
+                    notificarExito('Tarea disponible actualizada correctamente.');
+                } else {
+                    // Modo AGREGAR
+                    const respuesta = await crearTareaDisponible({ titulo, descripcion });
 
-            cerrarPanel();
-            await cargarTareasDisponibles();
+                    if (!respuesta.ok) {
+                        throw new Error('Error al registrar tarea disponible');
+                    }
+
+                    notificarExito('Tarea disponible registrada correctamente.');
+                }
+
+                cerrarPanel(false);
+                await cargarTareasDisponibles();
+            } catch (error) {
+                console.error('Error al registrar tarea disponible:', error);
+                notificarError('No se pudo registrar la tarea disponible.');
+            }
         };
         
         
         // Conectar botón Cancelar
-        document.getElementById('panelBotonCancelar').onclick = cerrarPanel;
+        document.getElementById('panelBotonCancelar').onclick = () => cerrarPanel(true);
 
        } catch (error) {
            console.error('Error al cargar tareas:', error);
+           notificarError('No se pudieron cargar las tareas disponibles.');
     }
 }
 
 // ============================================
-// CARGAR TAREAS USUARIO
+// CARGAR TAREAS ASIGNADAS
 // ============================================
 
 /**
- * Cargar tareas asignadas
- * 
- * @param {number} usuarioId
+ * Cargar todas las tareas asignadas
  */
-export async function cargarTareasUsuario(usuarioId) {
+export async function cargarTareasAsignadas() {
 
     try {
 
@@ -229,7 +267,7 @@ export async function cargarTareasUsuario(usuarioId) {
             Convertir respuesta
         */
         const tareas =
-            await obtenerTareasAsignadasPorUsuario(usuarioId);
+            await obtenerTodasLasTareasAsignadas();
 
         console.log(
             'Tareas encontradas:',
@@ -241,8 +279,12 @@ export async function cargarTareasUsuario(usuarioId) {
         */
         renderizarTareas(
             tareas,
-            () => cargarTareasUsuario(usuarioId)
+            cargarTareasAsignadas
         );
+
+        resetearVistaTareas();
+        resetearControlesTareas();
+        await recargarOpcionesFiltro();
 
     } catch (error) {
 
@@ -250,6 +292,39 @@ export async function cargarTareasUsuario(usuarioId) {
             'Error:',
             error
         );
+        notificarError('No se pudieron cargar las tareas asignadas.');
+
+    }
+
+}
+
+export async function cargarTareasUsuario(usuarioId = usuarioActual?.id) {
+
+    if (!usuarioId) {
+        return;
+    }
+
+    try {
+
+        const tareas =
+            await obtenerTareasAsignadasPorUsuario(usuarioId);
+
+        renderizarTareas(
+            tareas,
+            () => cargarTareasUsuario(usuarioId)
+        );
+
+        resetearVistaTareas();
+        resetearControlesTareas();
+        await recargarOpcionesFiltro();
+
+    } catch (error) {
+
+        console.error(
+            'Error:',
+            error
+        );
+        notificarError('No se pudieron cargar las tareas asignadas del usuario.');
 
     }
 
@@ -375,6 +450,8 @@ export async function registrarTarea(datosTarea) {
             usuarioActual.id
         );
 
+        return true;
+
     } catch (error) {
 
         console.error(
@@ -382,9 +459,7 @@ export async function registrarTarea(datosTarea) {
             error
         );
 
-        alert(
-            'Ocurrió un error al asignar la tarea'
-        );
+        return false;
 
     }
 
@@ -497,6 +572,7 @@ export async function cargarDropdownTareasEdicion() {
         });
     } catch (error) {
         console.error('Error al cargar tareas para edición:', error);
+        notificarError('No se pudieron cargar las tareas para edición.');
     }
 
 }
@@ -577,6 +653,7 @@ export async function cargarDropdownUsuariosEdicion() {
         });
     } catch (error) {
         console.error('Error al cargar usuarios para edición:', error);
+        notificarError('No se pudieron cargar los usuarios para edición.');
     }
 
 }
@@ -636,15 +713,12 @@ export async function manejarGuardarEdicionTareaAsignada(evento) {
 
         document.getElementById('seccionEditarTareaAsignada').classList.add('hidden');
 
-        const documentoUsuario = document.getElementById('documentoUsuario').value.trim();
-        if (documentoUsuario) {
-            await cargarTareasUsuario(documentoUsuario);
-        }
+        await cargarTareasUsuario();
 
-        alert('¡Tarea actualizada correctamente!');
+        notificarExito('Tarea actualizada correctamente.');
     } catch (error) {
         console.error('Error al actualizar la tarea:', error);
-        alert('Ocurrió un error al intentar guardar los cambios.');
+        notificarError('No se pudo actualizar la tarea.');
     }
 
 }
@@ -656,18 +730,19 @@ export function cancelarEdicionTareaAsignada() {
 
     document.getElementById('formularioEditarTarea').reset();
     document.getElementById('seccionEditarTareaAsignada').classList.add('hidden');
+    notificarInfo('Edición cancelada.');
 
 }
 
 
 // ============================================
-// LIMPIAR TODAS LAS TAREAS
+// BORRAR TODAS LAS TAREAS
 // ============================================
 
 /**
  * Eliminar todas las tareas
  */
-export async function limpiarTodasLasTareas() {
+export async function borrarTodasLasTareas() {
 
     try {
 
@@ -684,6 +759,7 @@ export async function limpiarTodasLasTareas() {
         await cargarTareasUsuario(
             usuarioActual.id
         );
+        notificarExito('Tareas borradas.');
 
     } catch (error) {
 
@@ -691,6 +767,7 @@ export async function limpiarTodasLasTareas() {
             'Error:',
             error
         );
+        notificarError('No se pudieron borrar las tareas.');
 
     }
 

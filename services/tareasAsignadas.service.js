@@ -1,5 +1,27 @@
 import { API_URL } from '../config/api.config.js';
 
+export async function obtenerTodasLasTareasAsignadas() {
+
+    const respuesta =
+        await fetch(
+            `${API_URL}/tareasAsignadas`
+        );
+
+    if (!respuesta.ok) {
+
+        throw new Error(
+            'Error al cargar tareas asignadas'
+        );
+
+    }
+
+    const tareas =
+        await respuesta.json();
+
+    return tareas;
+
+}
+
 export async function obtenerTareasAsignadasPorUsuario(usuarioId) {
 
     const respuesta =
