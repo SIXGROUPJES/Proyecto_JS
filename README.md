@@ -70,15 +70,28 @@ La división de roles evita duplicidad de tareas y establece una jerarquía clar
 
 Para estandarizar el desarrollo y evitar errores de compatibilidad, sigue estos pasos en tu terminal:
 
+### Instalación
+
 ```bash
 # Paso 1. Clonar el repositorio
 git clone [URL-del-repositorio-grupal]
 
 # Paso 2. Instalar dependencias
+cd server
 npm install
+```
 
-# Paso 3. Ejecutar el servidor local
+### Comandos
+
+```bash
+# API JSON Server en el puerto 3000
+npm run server
+
+# Frontend Vite en el puerto 5173
 npm run dev
+
+# Verificación de dependencias circulares
+npm run lint:cycles
 ```
 
 ### El "por que"
@@ -101,7 +114,7 @@ Mantenemos una organización modular para facilitar el mantenimiento:
 │   ├── views/            # Secciones o páginas principales
 │   └── main.js           # Punto de entrada de la aplicación
 ├── .gitignore            # Archivos que Git debe ignorar
-├── package.json          # Dependencias y scripts del proyecto
+├── server/package.json   # Dependencias y scripts del proyecto
 ├── README.md             # Manual principal del repositorio
 └── TEAM_AGREEMENT.md     # Acuerdo y normas de convivencia del equipo
 ```

@@ -729,3 +729,33 @@ button.boton-cancelar-edicion:hover {
     color: white;
     border-left: 5px solid #2980b9;
 }
+
+.notificacion {
+    position: fixed;
+    top: 20px;
+    right: 20px;
+    z-index: 9999;
+    max-width: 350px;
+    padding: 12px 20px;
+    border-radius: 6px;
+    font-weight: bold;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+}
+
+.notificacion.exito {
+    background-color: #2ecc71;
+    color: white;
+    border-left: 5px solid #27ae60;
+}
+
+.notificacion.error {
+    background-color: #e74c3c;
+    color: white;
+    border-left: 5px solid #c0392b;
+}
+
+.notificacion.info {
+    background-color: #3498db;
+    color: white;
+    border-left: 5px solid #2980b9;
+}

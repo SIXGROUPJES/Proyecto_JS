@@ -62,6 +62,10 @@ export function mostrarDatosUsuario(usuario) {
         'botonLimpiarTareas'
     ).classList.remove('hidden');
 
+    document.getElementById(
+        'seccionControlesTareas'
+    )?.classList.remove('hidden');
+
     /*
         Cargar tareas disponibles
     */

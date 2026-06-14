@@ -38,6 +38,20 @@ import {
     notificarExito, notificarError 
 } from './ui/notificaciones.ui.js';
 
+import {
+    configurarControlesTareas,
+    obtenerControlesTareas
+} from './ui/filtros.ui.js';
+
+import {
+    aplicarVistaTareas,
+    obtenerTareasVisibles
+} from './ui/tareasTabla.ui.js';
+
+import {
+    exportarJson
+} from './utils/exportador.js';
+
 
 // ============================================
 // INICIALIZACIÓN
@@ -64,6 +78,10 @@ document.addEventListener(
         */
         configurarEventos();
         configurarDropdown();
+        configurarControlesTareas({
+            onChange: aplicarVistaTareas,
+            onExport: manejarExportacionTareas
+        });
 
     }
 
@@ -362,6 +380,21 @@ async function manejarRegistroTarea(evento) {
 
 }
 
+function manejarExportacionTareas() {
+    aplicarVistaTareas(
+        obtenerControlesTareas()
+    );
+
+    exportarJson(
+        'tareas-visibles.json',
+        obtenerTareasVisibles()
+    );
+
+    notificarExito(
+        'Tareas visibles exportadas correctamente.'
+    );
+}
+
 // DROPDOWN PERSONALIZADO
 async function configurarDropdown() {
     const cabecera = document.getElementById('dropdownCabecera');
@@ -386,7 +419,7 @@ async function configurarDropdown() {
 }
 // BOTON AGREGAR TAREAS
 
-const boton = document.getElementById('botonAgregarTarea');
+const boton = document.getElementById('panelBotonAgregarTarea');
 if (boton) {
     boton.addEventListener('click', () => {
         abrirPanelAgregar();

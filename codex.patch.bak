@@ -1,0 +1,450 @@
+diff --git a/package.json b/package.json
+  new file mode 100644
+  index 0000000..d7f7c31
+--- /dev/null
++++ b/package.json
+  @@ -0,0 +1,13 @@
+  +{
+  +  "name": "proyecto-js-tareas",
+  +  "version": "1.0.0",
+  +  "private": true,
+  +  "type": "module",
+  +  "scripts": {
+  +    "dev": "vite --host 0.0.0.0",
+  +    "server": "json-server --watch server/db.json --host 0.0.0.0 --port 3000",
+  +    "lint:cycles": "madge --circular --extensions js ."
+  +  },
+  +  "devDependencies": {
+  +    "json-server": "0.17.4",
+  +    "madge": "^8.0.0",
+  +    "vite": "^7.0.0"
+  +  }
+  +}
+diff --git a/server/db.json b/server/db.json
+  index 0000000..99e8c9f 100644
+--- a/server/db.json
++++ b/server/db.json
+  @@ -80,8 +80,8 @@
+       },
+       {
+         "id": "6",
+  -      "titulo": "Optimizar códigogit",
+  -      "descripcion": " reutilizaciónes de funciones"
+  +      "titulo": "Optimizar código",
+  +      "descripcion": "Reutilización de funciones"
+       }
+     ],
+     "tareasAsignadas": [
+diff --git a/utils/filtros.js b/utils/filtros.js
+  new file mode 100644
+  index 0000000..9ed102a
+--- /dev/null
++++ b/utils/filtros.js
+  @@ -0,0 +1,29 @@
+  +export function filtrarTareas(tareas, filtros = {}) {
+  +  const estado = normalizar(filtros.estado);
+  +  const usuario = normalizar(filtros.usuario);
+  +
+  +  return tareas.filter((tarea) => {
+  +    const coincideEstado =
+  +      !estado ||
+  +      estado === 'todas' ||
+  +      normalizar(tarea.estado) === estado;
+  +
+  +    const coincideUsuario =
+  +      !usuario ||
+  +      normalizar(tarea.usuarioNombre).includes(usuario) ||
+  +      normalizar(tarea.usuarioId).includes(usuario);
+  +
+  +    return coincideEstado && coincideUsuario;
+  +  });
+  +}
+  +
+  +function normalizar(valor) {
+  +  return String(valor ?? '')
+  +    .trim()
+  +    .toLowerCase();
+  +}
+diff --git a/utils/ordenamiento.js b/utils/ordenamiento.js
+  new file mode 100644
+  index 0000000..0ad55ff
+--- /dev/null
++++ b/utils/ordenamiento.js
+  @@ -0,0 +1,38 @@
+  +const ORDENADORES = {
+  +  fecha: (a, b) =>
+  +    new Date(b.fechaAsignacion || 0) - new Date(a.fechaAsignacion || 0),
+  +  nombre: (a, b) =>
+  +    String(a.usuarioNombre || '').localeCompare(String(b.usuarioNombre || ''), 'es'),
+  +  estado: (a, b) =>
+  +    String(a.estado || '').localeCompare(String(b.estado || ''), 'es')
+  +};
+  +
+  +export function ordenarTareas(tareas, criterio = 'fecha') {
+  +  const ordenar = ORDENADORES[criterio] || ORDENADORES.fecha;
+  +  return [...tareas].sort(ordenar);
+  +}
+diff --git a/utils/exportador.js b/utils/exportador.js
+  new file mode 100644
+  index 0000000..2e28420
+--- /dev/null
++++ b/utils/exportador.js
+  @@ -0,0 +1,19 @@
+  +export function exportarJson(nombreArchivo, datos) {
+  +  const contenido = JSON.stringify(datos, null, 2);
+  +  const blob = new Blob([contenido], { type: 'application/json' });
+  +  const url = URL.createObjectURL(blob);
+  +  const enlace = document.createElement('a');
+  +
+  +  enlace.href = url;
+  +  enlace.download = nombreArchivo;
+  +  enlace.click();
+  +
+  +  URL.revokeObjectURL(url);
+  +}
+diff --git a/ui/filtros.ui.js b/ui/filtros.ui.js
+  new file mode 100644
+  index 0000000..b2b364a
+--- /dev/null
++++ b/ui/filtros.ui.js
+  @@ -0,0 +1,47 @@
+  +export function configurarControlesTareas({ onChange, onExport }) {
+  +  const filtroEstado = document.getElementById('filtroEstado');
+  +  const filtroUsuario = document.getElementById('filtroUsuario');
+  +  const ordenTareas = document.getElementById('ordenTareas');
+  +  const botonExportar = document.getElementById('botonExportarTareas');
+  +
+  +  [filtroEstado, filtroUsuario, ordenTareas].forEach((control) => {
+  +    if (!control) return;
+  +    control.addEventListener('input', () => onChange(obtenerControlesTareas()));
+  +    control.addEventListener('change', () => onChange(obtenerControlesTareas()));
+  +  });
+  +
+  +  if (botonExportar) {
+  +    botonExportar.addEventListener('click', () => onExport(obtenerControlesTareas()));
+  +  }
+  +}
+  +
+  +export function obtenerControlesTareas() {
+  +  return {
+  +    filtros: {
+  +      estado: document.getElementById('filtroEstado')?.value || 'Todas',
+  +      usuario: document.getElementById('filtroUsuario')?.value || ''
+  +    },
+  +    orden: document.getElementById('ordenTareas')?.value || 'fecha'
+  +  };
+  +}
+diff --git a/ui/notificaciones.ui.js b/ui/notificaciones.ui.js
+  index 6c1a7ac..9a7f65e 100644
+--- a/ui/notificaciones.ui.js
++++ b/ui/notificaciones.ui.js
+  @@ -1,56 +1,29 @@
+  -// ============================================
+  -// MÓDULO INDEPENDIENTE DE NOTIFICACIONES (RF03)
+  -// ============================================
+  -
+  -/**
+  - * Muestra un mensaje dinámico en el contenedor del sistema.
+  - * * @param {string} mensaje - Texto a mostrar.
+  - * @param {string} tipo - Clase CSS del mensaje ('exito', 'error', 'info').
+  - */
+   function mostrarNotificacion(mensaje, tipo = 'info') {
+  -    const contenedor = document.getElementById('mensajeSistema');
+  -
+  -    if (!contenedor) {
+  -        console.warn('⚠️ No se encontró el contenedor #mensajeSistema en el DOM.');
+  -        return;
+  -    }
+  -
+  -    // Insertar el texto del mensaje
+  -    contenedor.textContent = mensaje;
+  +  const contenedor = document.getElementById('mensajeSistema');
+
+  -    // Limpiar clases previas para evitar conflictos de estilos
+  -    contenedor.className = '';
+  -
+  -    // Añadir la clase base del sistema de notificaciones y el tipo específico
+  -    contenedor.classList.add('notificacion-activa', tipo);
+  +  if (!contenedor) return;
+
+  -    // Desaparecer automáticamente después de 4 segundos
+  -    setTimeout(() => {
+  -        contenedor.textContent = '';
+  -        contenedor.className = '';
+  -    }, 4000);
+  +  contenedor.textContent = mensaje;
+  +  contenedor.className = '';
+  +  contenedor.classList.add('notificacion', tipo);
+  +
+  +  setTimeout(() => {
+  +    contenedor.textContent = '';
+  +    contenedor.className = '';
+  +  }, 4000);
+   }
+
+  -/**
+  - * Notificación de éxito (Verde)
+  - * @param {string} mensaje
+  - */
+   export function notificarExito(mensaje) {
+  -    mostrarNotificacion(mensaje, 'exito');
+  +  mostrarNotificacion(mensaje, 'exito');
+   }
+
+  -/**
+  - * Notificación de error (Rojo)
+  - * @param {string} mensaje
+  - */
+   export function notificarError(mensaje) {
+  -    mostrarNotificacion(mensaje, 'error');
+  +  mostrarNotificacion(mensaje, 'error');
+   }
+
+  -/**
+  - * Notificación de información (Azul/Gris)
+  - * @param {string} mensaje
+  - */
+   export function notificarInfo(mensaje) {
+  -    mostrarNotificacion(mensaje, 'info');
+  +  mostrarNotificacion(mensaje, 'info');
+   }
+diff --git a/ui/tareasTabla.ui.js b/ui/tareasTabla.ui.js
+  index 91d38a7..e5c6fb1 100644
+--- a/ui/tareasTabla.ui.js
++++ b/ui/tareasTabla.ui.js
+  @@ -1,7 +1,11 @@
+  -//import { eliminarTareaAsignada } from '../services/tareasAsignadas.service.js';
+  -import { eliminarTareaAsignada, actualizarTareaAsignada } from '../services/
+  tareasAsignadas.service.js';
+  +import { eliminarTareaAsignada } from '../services/tareasAsignadas.service.js';
+   import { notificarExito, notificarError } from './notificaciones.ui.js';
+  -// ============================================
+  -// RENDERIZAR TAREAS
+  -// ============================================
+  +import { filtrarTareas } from '../utils/filtros.js';
+  +import { ordenarTareas } from '../utils/ordenamiento.js';
+  +
+  +let tareasBase = [];
+  +let tareasVisibles = [];
+  +let callbackRecarga = null;
+  +let vistaActual = { filtros: {}, orden: 'fecha' };
+
+   /**
+    * Mostrar tareas en tabla
+  @@ -14,6 +18,17 @@ import { notificarExito, notificarError } from './notificaciones.ui.js';
+    */
+   export function renderizarTareas(tareas, onTareaEliminada) {
+  +    tareasBase = Array.isArray(tareas) ? tareas : [];
+  +    callbackRecarga = onTareaEliminada;
+  +    aplicarVistaTareas(vistaActual);
+  +}
+  +
+  +export function aplicarVistaTareas(opciones = {}) {
+  +    vistaActual = {
+  +        filtros: opciones.filtros || {},
+  +        orden: opciones.orden || 'fecha'
+  +    };
+  +
+  +    const tareas = ordenarTareas(filtrarTareas(tareasBase, vistaActual.filtros),
+  vistaActual.orden);
+  +    tareasVisibles = tareas;
+
+       const cuerpoTabla =
+           document.getElementById(
+  @@ -158,8 +173,8 @@ export function renderizarTareas(tareas, onTareaEliminada) {
+                           notificarExito('Tarea asignada eliminada exitosamente.');
+
+                           // 3. RECARGA VISUAL: Ejecutar el callback para actualizar la
+                           tabla en pantalla
+  -                        if (typeof onTareaEliminada === 'function') {
+  -                            await onTareaEliminada();
+  +                        if (typeof callbackRecarga === 'function') {
+  +                            await callbackRecarga();
+                           }
+
+                       } catch (error) {
+  @@ -224,3 +239,7 @@ export function renderizarTareas(tareas, onTareaEliminada) {
+
+           });
+   } // <- Este es el cierre final de la función renderizarTareas "boton editar (tarea
+   asignada)Ely"
+  +
+  +export function obtenerTareasVisibles() {
+  +    return [...tareasVisibles];
+  +}
+diff --git a/ui/tareas.ui.js b/ui/tareas.ui.js
+  index 9a5b925..bb58b9f 100644
+--- a/ui/tareas.ui.js
++++ b/ui/tareas.ui.js
+  @@ -61,6 +61,10 @@ export function mostrarDatosUsuario(usuario) {
+           'botonLimpiarTareas'
+       ).classList.remove('hidden');
+
+  +    document.getElementById(
+  +        'seccionControlesTareas'
+  +    )?.classList.remove('hidden');
+  +
+       /*
+           Cargar tareas disponibles
+       */
+diff --git a/main.js b/main.js
+  index 22df912..8ad89a1 100644
+--- a/main.js
++++ b/main.js
+  @@ -37,10 +37,20 @@ import {
+   import {
+       notificarExito, notificarError
+   } from './ui/notificaciones.ui.js';
+  +
+  +import {
+  +    configurarControlesTareas,
+  +    obtenerControlesTareas
+  +} from './ui/filtros.ui.js';
+  +
+  +import {
+  +    aplicarVistaTareas,
+  +    obtenerTareasVisibles
+  +} from './ui/tareasTabla.ui.js';
+  +
+  +import { exportarJson } from './utils/exportador.js';
+  @@
+           configurarEventos();
+           configurarDropdown();
+  +        configurarControlesTareas({
+  +            onChange: aplicarVistaTareas,
+  +            onExport: manejarExportacionTareas
+  +        });
+
+       }
+  @@
+       return false;
+
+   }
+  +
+  +function manejarExportacionTareas() {
+  +    aplicarVistaTareas(obtenerControlesTareas());
+  +    exportarJson('tareas-visibles.json', obtenerTareasVisibles());
+  +    notificarExito('Tareas visibles exportadas correctamente.');
+  +}
+  @@
+  -const boton = document.getElementById('botonAgregarTarea');
+  +const boton = document.getElementById('panelBotonAgregarTarea');
+   if (boton) {
+       boton.addEventListener('click', () => {
+           abrirPanelAgregar();
+diff --git a/index.html b/index.html
+  index b42d6c0..71d48bb 100644
+--- a/index.html
++++ b/index.html
+  @@ -79,6 +79,7 @@
+                       <div class="dropdown-tareas">
+                           <div id="dropdownCabecera" class="dropdown-cabecera">
+                               <span id="dropdownTexto">-- Selecciona una tarea --</span>
+                           </div>
+                           <div id="listaTareasDisponibles" class="dropdown-lista"></div>
+  +                        <button type="button" id="panelBotonAgregarTarea" class="boton-
+  agregar">Agregar tarea</button>
+  @@ -122,15 +123,30 @@
+           <!-- FILTRO DE TAREAS -->
+  -        <section id="seccionFiltroTareas" class="hidden">
+  -            <h2>Filtrar Tareas</h2>
+  +        <section id="seccionControlesTareas" class="hidden">
+  +            <h2>Filtrar y Ordenar Tareas</h2>
+               <div class="grupo-formulario">
+                   <label for="filtroEstado">Filtrar por estado</label>
+                   <select id="filtroEstado">
+                       <option value="Todas">Todas</option>
+                       <option value="Pendiente">Pendiente</option>
+                       <option value="En progreso">En progreso</option>
+                       <option value="Completada">Completada</option>
+                   </select>
+               </div>
+  +            <div class="grupo-formulario">
+  +                <label for="filtroUsuario">Filtrar por usuario</label>
+  +                <input type="search" id="filtroUsuario" placeholder="Nombre o documento">
+  +            </div>
+  +            <div class="grupo-formulario">
+  +                <label for="ordenTareas">Ordenar por</label>
+  +                <select id="ordenTareas">
+  +                    <option value="fecha">Fecha</option>
+  +                    <option value="nombre">Nombre de usuario</option>
+  +                    <option value="estado">Estado</option>
+  +                </select>
+  +            </div>
+  +            <button type="button" id="botonExportarTareas">Exportar JSON</button>
+           </section>
+diff --git a/styles/main.css b/styles/main.css
+  index 2c40ac6..c42d224 100644
+--- a/styles/main.css
++++ b/styles/main.css
+  @@ -727,3 +727,26 @@ button.boton-cancelar-edicion:hover {
+       color: white;
+       border-left: 5px solid #2980b9;
+   }
+  +
+  +.notificacion {
+  +    position: fixed;
+  +    top: 20px;
+  +    right: 20px;
+  +    z-index: 9999;
+  +    max-width: 350px;
+  +    padding: 12px 20px;
+  +    border-radius: 6px;
+  +    font-weight: bold;
+  +    box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+  +}
+  +
+  +.notificacion.exito {
+  +    background-color: #2ecc71;
+  +}
+  +
+  +.notificacion.error {
+  +    background-color: #e74c3c;
+  +}
+  +
+  +.notificacion.info {
+  +    background-color: #3498db;
+  +}
+diff --git a/.github/PULL_REQUEST_TEMPLATE.md b/.github/PULL_REQUEST_TEMPLATE.md
+  new file mode 100644
+  index 0000000..bfe7382
+--- /dev/null
++++ b/.github/PULL_REQUEST_TEMPLATE.md
+  @@ -0,0 +1,39 @@
+  +## Resumen
+  +
+  +Describe el cambio realizado y el problema que resuelve.
+  +
+  +## Requisitos Cubiertos
+  +
+  +- [ ] RF01 - Filtro avanzado por estado y usuario
+  +- [ ] RF02 - Ordenamiento por fecha, nombre y estado
+  +- [ ] RF03 - Módulo independiente de notificaciones
+  +- [ ] RF04 - Exportación de tareas visibles a JSON
+  +- [ ] RNF01 - Separación de responsabilidades
+  +- [ ] RNF02 - ES Modules sin globals nuevos
+  +- [ ] RNF03 - PR documentado
+  +- [ ] RNF04 - Commits Conventional Commits
+  +- [ ] RNF05 - Sin dependencias circulares
+  +
+  +## Módulos Creados o Modificados
+  +
+  +Lista los archivos principales y su responsabilidad.
+  +
+  +## Decisiones Técnicas
+  +
+  +Explica decisiones relevantes de arquitectura, UI, datos o dependencias.
+  +
+  +## Pruebas Realizadas
+  +
+  +- [ ] Frontend iniciado con `npm run dev`
+  +- [ ] JSON Server iniciado con `npm run server`
+  +- [ ] Filtro por estado probado
+  +- [ ] Filtro por usuario probado
+  +- [ ] Orden por fecha/nombre/estado probado
+  +- [ ] Exportación JSON probada
+  +- [ ] Ciclos validados con `npm run lint:cycles`
+  +
+  +## Evidencia
+  +
+  +Agrega capturas, comandos o descripción breve del resultado.

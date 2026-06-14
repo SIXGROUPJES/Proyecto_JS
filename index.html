@@ -81,6 +81,9 @@
                             <span id="dropdownTexto">-- Selecciona una tarea --</span>
                         </div>
                         <div id="listaTareasDisponibles" class="dropdown-lista"></div>
+                        <button type="button" id="panelBotonAgregarTarea" class="boton-agregar">
+                            Agregar tarea
+                        </button>
                     
                         <div id="panelTarea" class="panel-tarea hidden">
                             <h4 id="tituloTareaSeleccionada">agregar tarea</h4>
@@ -120,8 +123,8 @@
                
 
         <!-- FILTRO DE TAREAS -->
-        <section id="seccionFiltroTareas" class="hidden">
-            <h2>Filtrar Tareas</h2>
+        <section id="seccionControlesTareas" class="hidden">
+            <h2>Filtrar y Ordenar Tareas</h2>
             <div class="grupo-formulario">
                 <label for="filtroEstado">Filtrar por estado</label>
                 <select id="filtroEstado">
@@ -131,6 +134,19 @@
                     <option value="Completada">Completada</option>
                 </select>
             </div>
+            <div class="grupo-formulario">
+                <label for="filtroUsuario">Filtrar por usuario</label>
+                <input type="search" id="filtroUsuario" placeholder="Nombre o documento">
+            </div>
+            <div class="grupo-formulario">
+                <label for="ordenTareas">Ordenar por</label>
+                <select id="ordenTareas">
+                    <option value="fecha">Fecha</option>
+                    <option value="nombre">Nombre de usuario</option>
+                    <option value="estado">Estado</option>
+                </select>
+            </div>
+            <button type="button" id="botonExportarTareas">Exportar JSON</button>
         </section>
 
 
