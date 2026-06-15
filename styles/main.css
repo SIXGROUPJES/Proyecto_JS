@@ -441,6 +441,126 @@ button.boton-cancelar-edicion {
 }
 
 
+/* RESUMEN DE TAREAS */
+.resumen-tareas {
+
+    display: grid;
+
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+
+    gap: 14px;
+
+    margin: 20px 0 8px;
+
+}
+
+.tarjeta-resumen {
+
+    position: relative;
+
+    overflow: hidden;
+
+    min-height: 112px;
+
+    padding: 18px;
+
+    border-radius: 16px;
+
+    background-color: rgba(15, 23, 42, 0.62);
+
+    border: 1px solid rgba(148, 163, 184, 0.2);
+
+    box-shadow: 0 12px 28px rgba(0,0,0,0.24);
+
+    backdrop-filter: blur(10px);
+
+    -webkit-backdrop-filter: blur(10px);
+
+}
+
+.tarjeta-resumen::before {
+
+    content: "";
+
+    position: absolute;
+
+    inset: 0;
+
+    border-top: 3px solid var(--resumen-color, #38bdf8);
+
+    background: linear-gradient(135deg, var(--resumen-brillo, rgba(56,189,248,0.14)), transparent 56%);
+
+    pointer-events: none;
+
+}
+
+.resumen-etiqueta {
+
+    position: relative;
+
+    display: block;
+
+    color: var(--color-texto-secundario);
+
+    font-size: 0.82rem;
+
+    font-weight: 700;
+
+    letter-spacing: 0;
+
+    text-transform: uppercase;
+
+}
+
+.tarjeta-resumen strong {
+
+    position: relative;
+
+    display: block;
+
+    margin-top: 14px;
+
+    color: var(--resumen-color, #38bdf8);
+
+    font-size: 2.35rem;
+
+    line-height: 1;
+
+}
+
+.tarjeta-total {
+
+    --resumen-color: #38bdf8;
+
+    --resumen-brillo: rgba(56,189,248,0.16);
+
+}
+
+.tarjeta-pendientes {
+
+    --resumen-color: #f59e0b;
+
+    --resumen-brillo: rgba(245,158,11,0.16);
+
+}
+
+.tarjeta-en-progreso {
+
+    --resumen-color: #22d3ee;
+
+    --resumen-brillo: rgba(34,211,238,0.16);
+
+}
+
+.tarjeta-completadas {
+
+    --resumen-color: #22c55e;
+
+    --resumen-brillo: rgba(34,197,94,0.16);
+
+}
+
+
 /* TABLA */
 table {
 
@@ -702,6 +822,12 @@ select {
 
     }
 
+    .resumen-tareas {
+
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+
+    }
+
     .acciones-formulario {
 
         flex-direction: column;
@@ -732,6 +858,22 @@ select {
         margin-right: 0;
 
         margin-bottom: 10px;
+
+    }
+
+}
+
+@media (max-width: 520px) {
+
+    .resumen-tareas {
+
+        grid-template-columns: 1fr;
+
+    }
+
+    .tarjeta-resumen {
+
+        min-height: 96px;
 
     }
 
