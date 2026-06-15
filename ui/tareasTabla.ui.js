@@ -11,6 +11,64 @@ let vistaActual = {
     orden: 'fecha'
 };
 
+function obtenerClaseEstado(estado = '') {
+    const estadoNormalizado = String(estado).trim().toLowerCase();
+
+    if (estadoNormalizado === 'pendiente') {
+        return 'badge-pendiente';
+    }
+
+    if (estadoNormalizado === 'en progreso') {
+        return 'badge-en-progreso';
+    }
+
+    if (estadoNormalizado === 'completada') {
+        return 'badge-completada';
+    }
+
+    return 'badge-neutro';
+}
+
+function hayFiltrosActivos(filtros = {}) {
+    return Object.values(filtros).some(valor => valor !== '' && valor !== 'Todas');
+}
+
+function actualizarResumenTareas(tareas = []) {
+    const resumen = tareas.reduce(
+        (acumulador, tarea) => {
+            const estado = String(tarea.estado || '').trim().toLowerCase();
+
+            acumulador.total += 1;
+
+            if (estado === 'pendiente') {
+                acumulador.pendientes += 1;
+            } else if (estado === 'en progreso') {
+                acumulador.enProgreso += 1;
+            } else if (estado === 'completada') {
+                acumulador.completadas += 1;
+            }
+
+            return acumulador;
+        },
+        {
+            total: 0,
+            pendientes: 0,
+            enProgreso: 0,
+            completadas: 0
+        }
+    );
+
+    const contadorTotal = document.getElementById('contadorTotalTareas');
+    const contadorPendientes = document.getElementById('contadorPendientes');
+    const contadorEnProgreso = document.getElementById('contadorEnProgreso');
+    const contadorCompletadas = document.getElementById('contadorCompletadas');
+
+    if (contadorTotal) contadorTotal.textContent = resumen.total;
+    if (contadorPendientes) contadorPendientes.textContent = resumen.pendientes;
+    if (contadorEnProgreso) contadorEnProgreso.textContent = resumen.enProgreso;
+    if (contadorCompletadas) contadorCompletadas.textContent = resumen.completadas;
+}
+
 // ============================================
 // RENDERIZAR TAREAS
 // ============================================
@@ -53,6 +111,7 @@ export function aplicarVistaTareas(opciones = {}) {
     );
 
     tareasVisibles = tareas;
+    actualizarResumenTareas(tareasVisibles);
 
     const cuerpoTabla =
         document.getElementById(
@@ -79,6 +138,9 @@ export function aplicarVistaTareas(opciones = {}) {
         tabla.classList.add(
             'hidden'
         );
+        mensaje.textContent = hayFiltrosActivos(vistaActual.filtros)
+            ? 'No se encontraron tareas con los filtros seleccionados.'
+            : 'Este usuario aún no tiene tareas asignadas.';
         mensaje.classList.remove(
             'hidden'
         );
@@ -120,7 +182,9 @@ export function aplicarVistaTareas(opciones = {}) {
         </td>
 
         <td>
-            ${tarea.estado}
+            <span class="badge-estado ${obtenerClaseEstado(tarea.estado)}">
+                ${tarea.estado}
+            </span>
         </td>
 
         <td>

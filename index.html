@@ -8,6 +8,8 @@
 </head>
 
 <body>
+    <div id="particles-js" aria-hidden="true"></div>
+
     <!-- CONTENEDOR PRINCIPAL -->
     <div class="contenedor-principal">
 
@@ -177,6 +179,28 @@
                 Exportar JSON
             </button>
 
+            <div id="resumenTareas" class="resumen-tareas">
+                <article class="tarjeta-resumen tarjeta-total">
+                    <span class="resumen-etiqueta">Total</span>
+                    <strong id="contadorTotalTareas">0</strong>
+                </article>
+
+                <article class="tarjeta-resumen tarjeta-pendientes">
+                    <span class="resumen-etiqueta">Pendientes</span>
+                    <strong id="contadorPendientes">0</strong>
+                </article>
+
+                <article class="tarjeta-resumen tarjeta-en-progreso">
+                    <span class="resumen-etiqueta">En progreso</span>
+                    <strong id="contadorEnProgreso">0</strong>
+                </article>
+
+                <article class="tarjeta-resumen tarjeta-completadas">
+                    <span class="resumen-etiqueta">Completadas</span>
+                    <strong id="contadorCompletadas">0</strong>
+                </article>
+            </div>
+
             <!-- Mensaje sin tareas -->
             <div id="mensajeSinTareas">
                 <p>No hay tareas registradas.</p>
@@ -273,6 +297,8 @@
 
                 
     <!-- SCRIPT PRINCIPAL -->
+    <script src="./assets/vendor/particles.min.js"></script>
+    <script type="module" src="./config/particles.config.js"></script>
     <script src="main.js" type="module"></script>
 </body>
 </html>
