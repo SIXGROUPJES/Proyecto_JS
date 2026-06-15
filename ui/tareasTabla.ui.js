@@ -11,6 +11,28 @@ let vistaActual = {
     orden: 'fecha'
 };
 
+function obtenerClaseEstado(estado = '') {
+    const estadoNormalizado = estado.toLowerCase();
+
+    if (estadoNormalizado === 'pendiente') {
+        return 'badge-pendiente';
+    }
+
+    if (estadoNormalizado === 'en progreso') {
+        return 'badge-en-progreso';
+    }
+
+    if (estadoNormalizado === 'completada') {
+        return 'badge-completada';
+    }
+
+    return 'badge-neutro';
+}
+
+function hayFiltrosActivos(filtros = {}) {
+    return Object.values(filtros).some(valor => valor !== '' && valor !== 'Todas');
+}
+
 // ============================================
 // RENDERIZAR TAREAS
 // ============================================
@@ -79,6 +101,9 @@ export function aplicarVistaTareas(opciones = {}) {
         tabla.classList.add(
             'hidden'
         );
+        mensaje.textContent = hayFiltrosActivos(vistaActual.filtros)
+            ? 'No se encontraron tareas con los filtros seleccionados.'
+            : 'Este usuario aún no tiene tareas asignadas.';
         mensaje.classList.remove(
             'hidden'
         );
@@ -120,7 +145,9 @@ export function aplicarVistaTareas(opciones = {}) {
         </td>
 
         <td>
-            ${tarea.estado}
+            <span class="badge-estado ${obtenerClaseEstado(tarea.estado)}">
+                ${tarea.estado}
+            </span>
         </td>
 
         <td>
