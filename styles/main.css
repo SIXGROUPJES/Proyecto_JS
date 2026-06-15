@@ -34,7 +34,7 @@
 
     --color-borde: #475569;
 
-    --glass-fondo: rgba(15, 23, 42, 0.78);
+    --glass-fondo: rgba(15, 23, 42, 0.66);
 
     --glass-borde: rgba(148, 163, 184, 0.22);
 
@@ -195,7 +195,7 @@ select {
 
     width: 100%;
 
-    background-color: rgba(15, 23, 42, 0.72);
+    background-color: rgba(15, 23, 42, 0.64);
 
     color: var(--color-texto);
 
@@ -248,7 +248,7 @@ select:focus {
 
 .dropdown-cabecera {
 
-    background-color: rgba(15, 23, 42, 0.72);
+    background-color: rgba(15, 23, 42, 0.64);
 
     color: var(--color-texto);
 
@@ -280,7 +280,7 @@ select:focus {
 
     overflow-y: auto;
 
-    background-color: rgba(15, 23, 42, 0.96);
+    background-color: rgba(15, 23, 42, 0.88);
 
     border: 1px solid rgba(148, 163, 184, 0.28);
 
@@ -466,7 +466,7 @@ button.boton-cancelar-edicion {
 
     border-radius: 16px;
 
-    background-color: rgba(15, 23, 42, 0.62);
+    background-color: rgba(15, 23, 42, 0.54);
 
     border: 1px solid rgba(148, 163, 184, 0.2);
 
@@ -576,7 +576,7 @@ table {
 
     border-radius: 16px;
 
-    background-color: rgba(15, 23, 42, 0.58);
+    background-color: rgba(15, 23, 42, 0.52);
 
     border: 1px solid rgba(148, 163, 184, 0.2);
 
@@ -759,7 +759,7 @@ tbody tr:last-child td {
 
     border-radius: 16px;
 
-    background-color: rgba(15, 23, 42, 0.48);
+    background-color: rgba(15, 23, 42, 0.42);
 
     color: var(--color-texto-secundario);
 
@@ -881,7 +881,7 @@ select {
 
 /* Panel inline agregar/editar */
 .panel-tarea {
-    background-color: rgba(2, 6, 23, 0.58);
+    background-color: rgba(2, 6, 23, 0.48);
     border: 1px solid rgba(56, 189, 248, 0.22);
     border-radius: 14px;
     margin-top: 8px;
