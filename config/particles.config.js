@@ -4,7 +4,7 @@ if (particlesContainer && window.particlesJS) {
     window.particlesJS("particles-js", {
         particles: {
             number: {
-                value: 72,
+                value: 90,
                 density: {
                     enable: true,
                     value_area: 900
@@ -17,14 +17,14 @@ if (particlesContainer && window.particlesJS) {
                 type: "circle"
             },
             opacity: {
-                value: 0.46,
+                value: 0.54,
                 random: true,
                 anim: {
                     enable: false
                 }
             },
             size: {
-                value: 2.8,
+                value: 3,
                 random: true,
                 anim: {
                     enable: false
@@ -33,8 +33,8 @@ if (particlesContainer && window.particlesJS) {
             line_linked: {
                 enable: true,
                 distance: 150,
-                color: "#6366f1",
-                opacity: 0.34,
+                color: "#38bdf8",
+                opacity: 0.42,
                 width: 1
             },
             move: {
@@ -63,7 +63,7 @@ if (particlesContainer && window.particlesJS) {
                 grab: {
                     distance: 130,
                     line_linked: {
-                        opacity: 0.42
+                        opacity: 0.5
                     }
                 }
             }
