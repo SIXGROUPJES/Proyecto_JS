@@ -1,36 +1,37 @@
-## Descripción del Cambio
-*Resumen claro de qué hace este código y por qué es necesario.*
+## Resumen
 
-## Tipo de Cambio
-- [ ] **feat**: Nueva funcionalidad.
-- [ ] **fix**: Corrección de error.
-- [ ] **docs / style**: Documentación o formato.
-- [ ] **refactor**: Mejora de código (sin cambios funcionales).
+Describe el cambio realizado y el problema que resuelve.
 
-## Relación con Tareas
-**Vínculo:** Closes # [Número de Issue]
+## Requisitos Cubiertos
 
----
+- [ ] RF01 - Filtro avanzado por estado y usuario
+- [ ] RF02 - Ordenamiento por fecha, nombre y estado
+- [ ] RF03 - Módulo independiente de notificaciones
+- [ ] RF04 - Exportación de tareas visibles a JSON
+- [ ] RNF01 - Separación de responsabilidades
+- [ ] RNF02 - ES Modules sin globals nuevos
+- [ ] RNF03 - PR documentado
+- [ ] RNF04 - Commits Conventional Commits
+- [ ] RNF05 - Sin dependencias circulares
 
-## Checklist de Calidad Universal
-- [ ] [cite_start]**Sincronización:** He actualizado mi rama con `origin/develop` y resolví conflictos[cite: 19].
-- [ ] **Limpieza:** Sin `console.log`, comentarios de prueba o archivos `.env`.
-- [ ] **Estándares:** Uso de JSDoc para funciones y nombres de variables en camelCase.
+## Módulos Creados o Modificados
 
-### Validación FRONTEND (Si aplica)
-- [ ] **Responsive:** Probado en resoluciones de móvil y escritorio.
-- [ ] **Assets:** Las imágenes están optimizadas y en la carpeta `public/assets`.
-- [ ] **Componentización:** El código se separó en componentes reutilizables (si aplica).
+Lista los archivos principales y su responsabilidad.
 
-### Validación BACKEND (Si aplica)
-- [ ] **Endpoints:** He probado las rutas en Postman/Thunder Client y retornan el código HTTP correcto.
-- [ ] **Validación:** Se implementó manejo de errores (try/catch) y validación de datos de entrada.
-- [ ] **Modelos:** Los cambios en la base de datos o modelos fueron comunicados al equipo.
+## Decisiones Técnicas
 
----
+Explica decisiones relevantes de arquitectura, UI, datos o dependencias.
 
-## Evidencia de Trabajo
-*Adjunta un screenshot (Frontend) o un snippet del JSON de respuesta (Backend).*
+## Pruebas Realizadas
 
-## Análisis de Impacto
-*¿Este cambio requiere que mis compañeros actualicen algo? (Ej: "Deben ejecutar npm install" o "Cambió la URL de la API").*
+- [ ] Frontend iniciado con `npm run dev`
+- [ ] JSON Server iniciado con `npm run server`
+- [ ] Filtro por estado probado
+- [ ] Filtro por usuario probado
+- [ ] Orden por fecha/nombre/estado probado
+- [ ] Exportación JSON probada
+- [ ] Ciclos validados con `npm run lint:cycles`
+
+## Evidencia
+
+Agrega capturas, comandos o descripción breve del resultado.
