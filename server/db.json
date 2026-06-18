@@ -110,16 +110,6 @@
       "id": 3
     },
     {
-      "usuarioId": "1000000004",
-      "usuarioNombre": "Juan Pérez",
-      "tareaId": "2",
-      "titulo": "Diseñar interfaz",
-      "descripcion": "Crear estilos CSS responsivos",
-      "estado": "Completada",
-      "fechaAsignacion": "2026-06-14T05:35:13.432Z",
-      "id": 4
-    },
-    {
       "usuarioId": "1000000001",
       "usuarioNombre": "Ana Torres",
       "tareaId": "1",
