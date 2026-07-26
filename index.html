@@ -23,6 +23,97 @@
       </p>
     </header>
 
+    <!-- ADMINISTRACIÓN DE USUARIOS -->
+    <section class="usuario-admin" aria-labelledby="usuario-admin-titulo">
+      <header class="usuario-admin__encabezado">
+        <h2 id="usuario-admin-titulo">Administración de usuarios</h2>
+        <p>Registra, edita y elimina los usuarios disponibles en el sistema.</p>
+      </header>
+
+      <form id="usuario-admin-formulario" class="usuario-admin__formulario">
+        <div class="usuario-admin__campo">
+          <label for="usuario-admin-id">ID</label>
+          <input
+            id="usuario-admin-id"
+            name="id"
+            type="text"
+            required
+            autocomplete="off"
+            aria-describedby="usuario-admin-id-ayuda"
+          >
+          <small id="usuario-admin-id-ayuda" class="usuario-admin__ayuda">
+            Corresponde al documento o identificador del usuario.
+          </small>
+        </div>
+
+        <div class="usuario-admin__campo">
+          <label for="usuario-admin-name">Nombre</label>
+          <input
+            id="usuario-admin-name"
+            name="name"
+            type="text"
+            required
+            autocomplete="name"
+          >
+        </div>
+
+        <div class="usuario-admin__campo">
+          <label for="usuario-admin-email">Correo</label>
+          <input
+            id="usuario-admin-email"
+            name="email"
+            type="email"
+            required
+            autocomplete="email"
+          >
+        </div>
+
+        <div class="usuario-admin__campo">
+          <label for="usuario-admin-role">Rol</label>
+          <select id="usuario-admin-role" name="role" required>
+            <option value="user" selected>Usuario</option>
+            <option value="admin">Administrador</option>
+          </select>
+        </div>
+
+        <div class="usuario-admin__acciones-formulario">
+          <button id="usuario-admin-enviar" type="submit">
+            Registrar usuario
+          </button>
+          <button
+            id="usuario-admin-cancelar"
+            class="usuario-admin__boton-cancelar hidden"
+            type="button"
+          >
+            Cancelar edición
+          </button>
+        </div>
+      </form>
+
+      <div
+        id="usuario-admin-mensaje"
+        class="usuario-admin__mensaje"
+        aria-live="polite"
+        aria-atomic="true"
+      ></div>
+
+      <div class="usuario-admin__tabla-contenedor">
+        <table class="usuario-admin__tabla">
+          <caption>Usuarios registrados en el sistema</caption>
+          <thead>
+            <tr>
+              <th scope="col">ID</th>
+              <th scope="col">Nombre</th>
+              <th scope="col">Correo</th>
+              <th scope="col">Rol</th>
+              <th scope="col">Acciones</th>
+            </tr>
+          </thead>
+          <tbody id="usuario-admin-tabla-cuerpo"></tbody>
+        </table>
+      </div>
+    </section>
+
 
     <!-- FORMULARIO DE BÚSQUEDA DE USUARIO -->
     <section class="seccion-busqueda-usuario">
