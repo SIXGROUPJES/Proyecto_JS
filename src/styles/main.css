@@ -1094,3 +1094,178 @@ button.boton-cancelar-edicion:hover {
 #botonMostrarFiltros {
     margin-bottom: 12px;
 }
+
+/* ============================================
+   ADMINISTRACIÓN DE USUARIOS
+   ============================================ */
+.usuario-admin {
+    border-color: rgba(56, 189, 248, 0.3);
+}
+
+.usuario-admin__encabezado {
+    margin-bottom: 22px;
+}
+
+.usuario-admin__encabezado h2 {
+    margin-bottom: 8px;
+}
+
+.usuario-admin__encabezado p,
+.usuario-admin__ayuda {
+    color: var(--color-texto-secundario);
+}
+
+.usuario-admin__formulario {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 18px;
+}
+
+.usuario-admin__campo {
+    display: flex;
+    flex-direction: column;
+}
+
+.usuario-admin__campo label {
+    display: block;
+}
+
+.usuario-admin__campo input,
+.usuario-admin__campo select {
+    min-height: 48px;
+}
+
+.usuario-admin__campo input[readonly] {
+    background-color: rgba(71, 85, 105, 0.42);
+    color: var(--color-texto-secundario);
+    cursor: not-allowed;
+}
+
+.usuario-admin__ayuda {
+    display: block;
+    margin-top: 7px;
+    font-size: 0.85rem;
+    line-height: 1.4;
+}
+
+.usuario-admin__acciones-formulario {
+    display: flex;
+    align-items: center;
+    grid-column: 1 / -1;
+    gap: 10px;
+}
+
+.usuario-admin__acciones-formulario button {
+    margin-right: 0;
+}
+
+.usuario-admin__boton-cancelar {
+    background: rgba(71, 85, 105, 0.72);
+    border-color: rgba(148, 163, 184, 0.38);
+    box-shadow: none;
+}
+
+.usuario-admin__mensaje {
+    min-height: 24px;
+    margin-top: 20px;
+    padding: 12px 14px;
+    border: 1px solid transparent;
+    border-radius: 10px;
+    line-height: 1.45;
+}
+
+.usuario-admin__mensaje:empty {
+    min-height: 0;
+    padding: 0;
+}
+
+.usuario-admin__mensaje--info {
+    background-color: rgba(14, 165, 233, 0.14);
+    border-color: rgba(56, 189, 248, 0.42);
+    color: #bae6fd;
+}
+
+.usuario-admin__mensaje--success {
+    background-color: rgba(34, 197, 94, 0.14);
+    border-color: rgba(74, 222, 128, 0.42);
+    color: #bbf7d0;
+}
+
+.usuario-admin__mensaje--warning {
+    background-color: rgba(245, 158, 11, 0.14);
+    border-color: rgba(251, 191, 36, 0.46);
+    color: #fde68a;
+}
+
+.usuario-admin__mensaje--error {
+    background-color: rgba(239, 68, 68, 0.14);
+    border-color: rgba(248, 113, 113, 0.46);
+    color: #fecaca;
+}
+
+.usuario-admin__tabla-contenedor {
+    width: 100%;
+    margin-top: 12px;
+    overflow-x: auto;
+}
+
+.usuario-admin__tabla {
+    min-width: 760px;
+}
+
+.usuario-admin__tabla caption {
+    padding: 12px;
+    color: var(--color-texto-secundario);
+    font-weight: 700;
+    text-align: left;
+}
+
+.usuario-admin__acciones-tabla {
+    display: flex;
+    gap: 8px;
+    white-space: nowrap;
+}
+
+.usuario-admin__acciones-tabla button {
+    min-width: 88px;
+    margin-right: 0;
+    padding: 9px 14px;
+}
+
+.usuario-admin__boton-editar {
+    background: linear-gradient(135deg, #2563eb, #38bdf8);
+}
+
+.usuario-admin__boton-eliminar {
+    background: linear-gradient(135deg, #dc2626, #991b1b);
+    box-shadow: 0 10px 22px rgba(220, 38, 38, 0.18);
+}
+
+.usuario-admin button:disabled {
+    cursor: not-allowed;
+    opacity: 0.58;
+    transform: none;
+    box-shadow: none;
+}
+
+.usuario-admin button:focus-visible,
+.usuario-admin input:focus-visible,
+.usuario-admin select:focus-visible {
+    outline: 3px solid #f8fafc;
+    outline-offset: 3px;
+}
+
+@media (max-width: 768px) {
+    .usuario-admin__formulario {
+        grid-template-columns: 1fr;
+    }
+
+    .usuario-admin__acciones-formulario {
+        align-items: stretch;
+        flex-direction: column;
+    }
+
+    .usuario-admin__acciones-formulario button {
+        width: 100%;
+    }
+}

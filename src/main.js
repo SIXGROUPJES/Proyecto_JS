@@ -58,6 +58,10 @@ import {
     exportarJson
 } from './utils/exportador.js';
 
+import {
+    inicializarAdministracionUsuarios
+} from './ui/usuarios.ui.js';
+
 
 // ============================================
 // INICIALIZACIÓN
@@ -89,6 +93,15 @@ document.addEventListener(
             onCancel: manejarCancelacionFiltros,
             onExport: manejarExportacionTareas
         });
+
+        try {
+            inicializarAdministracionUsuarios();
+        } catch (error) {
+            console.error(
+                'No fue posible iniciar la administración de usuarios:',
+                error
+            );
+        }
 
     }
 

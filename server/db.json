@@ -3,52 +3,62 @@
     {
       "id": "1000000001",
       "name": "Ana Torres",
-      "email": "ana.torres@mail.com"
+      "email": "ana.torres@mail.com",
+      "role": "user"
     },
     {
       "id": "1000000002",
       "name": "Carlos Gómez",
-      "email": "carlos.gomez@mail.com"
+      "email": "carlos.gomez@mail.com",
+      "role": "user"
     },
     {
       "id": "1000000003",
       "name": "María López",
-      "email": "maria.lopez@mail.com"
+      "email": "maria.lopez@mail.com",
+      "role": "user"
     },
     {
       "id": "1000000004",
       "name": "Juan Pérez",
-      "email": "juan.perez@mail.com"
+      "email": "juan.perez@mail.com",
+      "role": "user"
     },
     {
       "id": "1000000005",
       "name": "Laura Martínez",
-      "email": "laura.martinez@mail.com"
+      "email": "laura.martinez@mail.com",
+      "role": "user"
     },
     {
       "id": "1000000006",
       "name": "Pedro Sánchez",
-      "email": "pedro.sanchez@mail.com"
+      "email": "pedro.sanchez@mail.com",
+      "role": "user"
     },
     {
       "id": "1000000007",
       "name": "Sofía Ramírez",
-      "email": "sofia.ramirez@mail.com"
+      "email": "sofia.ramirez@mail.com",
+      "role": "user"
     },
     {
       "id": "1000000008",
       "name": "Andrés Morales",
-      "email": "andres.morales@mail.com"
+      "email": "andres.morales@mail.com",
+      "role": "user"
     },
     {
       "id": "1000000009",
       "name": "Valentina Cruz",
-      "email": "valentina.cruz@mail.com"
+      "email": "valentina.cruz@mail.com",
+      "role": "user"
     },
     {
       "id": "1000000010",
       "name": "Diego Herrera",
-      "email": "diego.herrera@mail.com"
+      "email": "diego.herrera@mail.com",
+      "role": "user"
     }
   ],
   "tareasDisponibles": [
