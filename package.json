@@ -9,7 +9,7 @@
   },
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "dev": "vite",
+    "dev": "concurrently -n data,backend,frontend -c blue,green,cyan \"json-server --watch server/db.json --host 0.0.0.0 --port 3000\" \"nodemon src/server.js\" \"vite --host\"",
     "build": "vite build",
     "preview": "vite preview",
     "data": "json-server --watch server/db.json --host 0.0.0.0 --port 3000",
@@ -19,7 +19,9 @@
   "author": "",
   "license": "ISC",
   "devDependencies": {
+    "concurrently": "^9.1.2",
     "json-server": "^0.17.4",
+    "nodemon": "^3.1.9",
     "vite": "^8.0.16"
   },
   "dependencies": {
