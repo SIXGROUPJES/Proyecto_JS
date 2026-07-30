@@ -64,6 +64,60 @@ import {
 
 
 // ============================================
+// NAVEGACIÓN POR TABS
+// ============================================
+
+function inicializarTabs() {
+    var tabButtons = document.querySelectorAll('.tab-btn');
+    var tabGroups = {
+        usuarios: ['.usuario-admin'],
+        tareas: [
+            '.seccion-busqueda-usuario',
+            '#seccionDatosUsuario',
+            '#seccionFormularioTareas',
+            '#botonMostrarFiltros',
+            '#seccionControlesTareas',
+            '.seccion-tabla-tareas',
+            '#seccionEditarTareaAsignada'
+        ]
+    };
+
+    function activarTab(tabName) {
+        tabButtons.forEach(function (btn) {
+            var isActive = btn.dataset.tab === tabName;
+            btn.classList.toggle('active', isActive);
+            btn.setAttribute('aria-selected', isActive);
+        });
+
+        document.querySelectorAll('.contenedor-principal > section').forEach(function (s) {
+            s.classList.add('tab-hidden');
+        });
+
+        document.querySelectorAll('.contenedor-principal > button').forEach(function (b) {
+            if (b.id === 'botonMostrarFiltros') {
+                b.classList.add('tab-hidden');
+            }
+        });
+
+        var selectors = tabGroups[tabName] || [];
+        selectors.forEach(function (sel) {
+            document.querySelectorAll(sel).forEach(function (el) {
+                el.classList.remove('tab-hidden');
+            });
+        });
+    }
+
+    tabButtons.forEach(function (btn) {
+        btn.addEventListener('click', function () {
+            activarTab(btn.dataset.tab);
+        });
+    });
+
+    activarTab('usuarios');
+}
+
+
+// ============================================
 // INICIALIZACIÓN
 // ============================================
 
@@ -82,6 +136,11 @@ document.addEventListener(
 
         console.log(
             '📝 Sistema de asignación de tareas iniciado');
+
+        /*
+            Inicializar tabs de navegación
+        */
+        inicializarTabs();
 
         /*
             Configurar eventos
