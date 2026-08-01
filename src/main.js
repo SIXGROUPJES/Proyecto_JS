@@ -9,7 +9,6 @@ import {
 import {
     mostrarDatosUsuario,
     cargarTareasDisponibles,
-    cargarTareasUsuario,
     registrarTarea,
     borrarTodasLasTareas,
     configurarEdicionTareaAsignada,
@@ -675,7 +674,20 @@ async function manejarAplicacionFiltros(vista) {
 }
 
 async function manejarCancelacionFiltros() {
-    await cargarTareasUsuario();
+    try {
+        const tareasGlobales = await obtenerTodasLasTareasAsignadas();
+
+        renderizarVistaFiltrada(
+            tareasGlobales,
+            { filtros: {}, orden: 'fecha' },
+            () => manejarCancelacionFiltros()
+        );
+
+        resetearVistaTareas();
+    } catch (error) {
+        console.error('Error al restablecer filtros:', error);
+        notificarError('No se pudieron restablecer los filtros.');
+    }
 }
 
 // DROPDOWN PERSONALIZADO

@@ -1,24 +1,69 @@
 export function filtrarTareas(tareas, filtros = {}) {
-    const estado = normalizar(filtros.estado);
-    const usuarioId = String(filtros.usuarioId ?? '').trim();
-    const tareaId = String(filtros.tareaId ?? '').trim();
+    const tipo = normalizar(filtros.tipo);
+
+    if (!tipo) {
+        return tareas;
+    }
 
     return tareas.filter((tarea) => {
-        const coincideEstado =
-            !estado ||
-            estado === 'todas' ||
-            normalizar(tarea.estado) === estado;
+        if (tipo === 'fecha') {
+            return coincideFecha(
+                tarea.fechaAsignacion,
+                filtros.fechaDesde,
+                filtros.fechaHasta
+            );
+        }
 
-        const coincideUsuario =
-            !usuarioId ||
-            String(tarea.usuarioId ?? '') === usuarioId;
+        if (tipo === 'estado') {
+            return coincideEstado(tarea.estado, filtros.estado);
+        }
 
-        const coincideTarea =
-            !tareaId ||
-            String(tarea.tareaId ?? '') === tareaId;
+        if (tipo === 'nombre') {
+            return coincideNombre(tarea.usuarioNombre, filtros.nombre);
+        }
 
-        return coincideUsuario && coincideEstado && coincideTarea;
+        return true;
     });
+}
+
+function coincideFecha(fechaAsignacion, desde, hasta) {
+    const fecha = String(fechaAsignacion ?? '').slice(0, 10);
+
+    if (!fecha) {
+        return false;
+    }
+
+    if (desde && fecha < desde) {
+        return false;
+    }
+
+    if (hasta && fecha > hasta) {
+        return false;
+    }
+
+    return true;
+}
+
+function coincideEstado(estado, estadoFiltro) {
+    const estadoNormalizado = normalizar(estadoFiltro);
+
+    return (
+        !estadoNormalizado ||
+        estadoNormalizado === 'todas' ||
+        normalizar(estado) === estadoNormalizado
+    );
+}
+
+function coincideNombre(usuarioNombre, nombreFiltro) {
+    const nombre = String(nombreFiltro ?? '').trim().toLowerCase();
+
+    return (
+        !nombre ||
+        String(usuarioNombre ?? '')
+            .trim()
+            .toLowerCase()
+            .includes(nombre)
+    );
 }
 
 function normalizar(valor) {

@@ -5,8 +5,8 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>GRUPO 6</title>
-  <script type="module" crossorigin src="/assets/index-vTWU6J4l.js"></script>
-  <link rel="stylesheet" crossorigin href="/assets/index-ChLpSQpI.css">
+  <script type="module" crossorigin src="/assets/index-tkBiC7FC.js"></script>
+  <link rel="stylesheet" crossorigin href="/assets/index-CzLwQ6Cx.css">
 </head>
 
 <body>
@@ -125,6 +125,10 @@
     <!-- FORMULARIO DE BÚSQUEDA DE USUARIO -->
     <section class="seccion-busqueda-usuario">
       <h2>Buscar Usuario</h2>
+
+      <!-- Botón de filtrado antes de la búsqueda de usuario -->
+      <button type="button" id="botonMostrarFiltros" class="boton-filtrar">Filtrar Tareas</button>
+
       <form id="formularioBusquedaUsuario">
 
         <!-- Documento -->
@@ -155,9 +159,8 @@
       </div>
       <div class="usuario-info-acciones">
         <button type="button" id="botonAsignarTarea">Asignar tarea</button>
-        <button type="button" id="botonNuevaTarea">Nueva tarea</button>
-        <button type="button" id="botonMostrarFiltros" class="hidden">Filtrar</button>
-        <button type="button" id="botonBorrarTareas" class="hidden">Borrar tareas</button>
+        <button type="button" id="botonNuevaTarea"> Crear Nueva tarea</button>
+        <button type="button" id="botonBorrarTareas" class="hidden">Borrar tareas Asignadas</button>
         <button type="button" id="botonExportarTareas" class="hidden">Exportar JSON</button>
       </div>
     </section>
@@ -315,15 +318,25 @@
         </div>
 
         <div class="modal-contenido">
-          <div id="controlFiltroUsuario" class="grupo-formulario">
-            <label for="filtroUsuario">Filtrar por usuario</label>
-            <select id="filtroUsuario">
-              <option value="">Todos los usuarios</option>
+          <div id="controlTipoFiltro" class="grupo-formulario">
+            <label for="filtroTipo">Filtrar por</label>
+            <select id="filtroTipo">
+              <option value="">Sin filtro (todas las tareas)</option>
+              <option value="fecha">Fecha</option>
+              <option value="estado">Estado</option>
+              <option value="nombre">Nombre del usuario</option>
             </select>
           </div>
 
-          <div id="controlFiltroEstado" class="grupo-formulario">
-            <label for="filtroEstado">Filtrar por estado</label>
+          <div id="controlFiltroFecha" class="grupo-formulario hidden">
+            <label for="filtroFechaDesde">Fecha desde</label>
+            <input type="date" id="filtroFechaDesde">
+            <label for="filtroFechaHasta">Fecha hasta</label>
+            <input type="date" id="filtroFechaHasta">
+          </div>
+
+          <div id="controlFiltroEstado" class="grupo-formulario hidden">
+            <label for="filtroEstado">Estado</label>
             <select id="filtroEstado">
               <option value="Todas">Todas</option>
               <option value="Pendiente">Pendiente</option>
@@ -332,11 +345,9 @@
             </select>
           </div>
 
-          <div id="controlFiltroTarea" class="grupo-formulario">
-            <label for="filtroTarea">Filtrar por tarea</label>
-            <select id="filtroTarea">
-              <option value="">Todas las tareas</option>
-            </select>
+          <div id="controlFiltroNombre" class="grupo-formulario hidden">
+            <label for="filtroNombre">Nombre del usuario</label>
+            <input type="text" id="filtroNombre" placeholder="Ejemplo: jhon">
           </div>
 
           <div class="grupo-formulario">

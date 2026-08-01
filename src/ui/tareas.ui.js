@@ -1,6 +1,6 @@
 
 import { renderizarTareas, resetearVistaTareas } from './tareasTabla.ui.js';
-import { recargarOpcionesFiltro, resetearControlesTareas } from './filtros.ui.js';
+import { resetearControlesTareas } from './filtros.ui.js';
 import { notificarExito, notificarError, notificarInfo } from './notificaciones.ui.js';
 import {
     obtenerTareasDisponibles,
@@ -65,10 +65,6 @@ export function mostrarDatosUsuario(usuario) {
     document.getElementById(
         'botonBorrarTareas'
     ).classList.remove('hidden');
-
-    document.getElementById(
-        'botonMostrarFiltros'
-    )?.classList.remove('hidden');
 
     document.getElementById(
         'botonExportarTareas'
@@ -285,7 +281,6 @@ export async function cargarTareasAsignadas() {
 
         resetearVistaTareas();
         resetearControlesTareas();
-        await recargarOpcionesFiltro();
 
     } catch (error) {
 
@@ -317,7 +312,6 @@ export async function cargarTareasUsuario(usuarioId = usuarioActual?.id) {
 
         resetearVistaTareas();
         resetearControlesTareas();
-        await recargarOpcionesFiltro();
 
     } catch (error) {
 

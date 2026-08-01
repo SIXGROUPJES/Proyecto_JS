@@ -1,6 +1,4 @@
-import { obtenerUsuarios } from '../services/usuarios.service.js';
-import { obtenerTodasLasTareasAsignadas } from '../services/tareasAsignadas.service.js';
-import { notificarError, notificarInfo } from './notificaciones.ui.js';
+import { notificarInfo } from './notificaciones.ui.js';
 import { abrirModal, cerrarModal } from './modales.ui.js';
 
 export function configurarControlesTareas({ onChange, onCancel, onExport }) {
@@ -8,14 +6,18 @@ export function configurarControlesTareas({ onChange, onCancel, onExport }) {
     const botonAplicar = document.getElementById('botonAplicarFiltro');
     const botonCancelar = document.getElementById('botonCancelarFiltro');
     const botonExportar = document.getElementById('botonExportarTareas');
+    const filtroTipo = document.getElementById('filtroTipo');
 
     if (botonMostrarFiltros) {
         botonMostrarFiltros.addEventListener('click', () => {
+            actualizarVisibilidadFiltros();
             abrirModal('modalFiltrar');
         });
     }
 
-    recargarOpcionesFiltro();
+    if (filtroTipo) {
+        filtroTipo.addEventListener('change', actualizarVisibilidadFiltros);
+    }
 
     if (botonAplicar) {
         botonAplicar.addEventListener('click', async () => {
@@ -45,88 +47,42 @@ export function configurarControlesTareas({ onChange, onCancel, onExport }) {
 }
 
 export function obtenerControlesTareas() {
+    const tipo = document.getElementById('filtroTipo')?.value || '';
+    const filtros = { tipo };
+
+    if (tipo === 'fecha') {
+        filtros.fechaDesde = document.getElementById('filtroFechaDesde')?.value || '';
+        filtros.fechaHasta = document.getElementById('filtroFechaHasta')?.value || '';
+    } else if (tipo === 'estado') {
+        filtros.estado = document.getElementById('filtroEstado')?.value || 'Todas';
+    } else if (tipo === 'nombre') {
+        filtros.nombre = document.getElementById('filtroNombre')?.value.trim() || '';
+    }
+
     return {
-        filtros: {
-            usuarioId: document.getElementById('filtroUsuario')?.value || '',
-            estado: document.getElementById('filtroEstado')?.value || 'Todas',
-            tareaId: document.getElementById('filtroTarea')?.value || ''
-        },
+        filtros,
         orden: document.getElementById('ordenTareas')?.value || 'fecha'
     };
 }
 
-export async function recargarOpcionesFiltro() {
-    await Promise.all([
-        cargarUsuariosFiltro(),
-        cargarTareasFiltro()
-    ]);
-}
+function actualizarVisibilidadFiltros() {
+    const tipo = document.getElementById('filtroTipo')?.value || '';
 
-async function cargarUsuariosFiltro() {
-    const selector = document.getElementById('filtroUsuario');
+    const controlFecha = document.getElementById('controlFiltroFecha');
+    const controlEstado = document.getElementById('controlFiltroEstado');
+    const controlNombre = document.getElementById('controlFiltroNombre');
 
-    if (!selector) {
-        return;
+    if (controlFecha) {
+        controlFecha.classList.toggle('hidden', tipo !== 'fecha');
     }
 
-    try {
-        const valorActual = selector.value;
-        const usuarios = await obtenerUsuarios();
-
-        selector.innerHTML = '<option value="">Todos los usuarios</option>';
-
-        usuarios.forEach((usuario) => {
-            const opcion = document.createElement('option');
-            opcion.value = usuario.id;
-            opcion.textContent = `${usuario.name} (${usuario.id})`;
-            selector.appendChild(opcion);
-        });
-
-        selector.value = existeOpcion(selector, valorActual) ? valorActual : '';
-    } catch (error) {
-        console.error('Error al cargar usuarios para filtros:', error);
-        notificarError('No se pudieron cargar usuarios.');
-    }
-}
-
-async function cargarTareasFiltro() {
-    const selector = document.getElementById('filtroTarea');
-
-    if (!selector) {
-        return;
+    if (controlEstado) {
+        controlEstado.classList.toggle('hidden', tipo !== 'estado');
     }
 
-    try {
-        const valorActual = selector.value;
-        const tareas = await obtenerTodasLasTareasAsignadas();
-        const tareasUnicas = new Map();
-
-        tareas.forEach((tarea) => {
-            const id = String(tarea.tareaId ?? '').trim();
-
-            if (id && !tareasUnicas.has(id)) {
-                tareasUnicas.set(id, tarea.titulo);
-            }
-        });
-
-        selector.innerHTML = '<option value="">Todas las tareas</option>';
-
-        tareasUnicas.forEach((titulo, id) => {
-            const opcion = document.createElement('option');
-            opcion.value = id;
-            opcion.textContent = titulo;
-            selector.appendChild(opcion);
-        });
-
-        selector.value = existeOpcion(selector, valorActual) ? valorActual : '';
-    } catch (error) {
-        console.error('Error al cargar tareas para filtros:', error);
-        notificarError('No se pudieron cargar tareas.');
+    if (controlNombre) {
+        controlNombre.classList.toggle('hidden', tipo !== 'nombre');
     }
-}
-
-function existeOpcion(selector, valor) {
-    return Array.from(selector.options).some((opcion) => opcion.value === valor);
 }
 
 export function resetearControlesTareas() {
@@ -134,24 +90,36 @@ export function resetearControlesTareas() {
 }
 
 function restablecerFiltros() {
-    const filtroUsuario = document.getElementById('filtroUsuario');
+    const filtroTipo = document.getElementById('filtroTipo');
+    const filtroFechaDesde = document.getElementById('filtroFechaDesde');
+    const filtroFechaHasta = document.getElementById('filtroFechaHasta');
     const filtroEstado = document.getElementById('filtroEstado');
-    const filtroTarea = document.getElementById('filtroTarea');
+    const filtroNombre = document.getElementById('filtroNombre');
     const ordenTareas = document.getElementById('ordenTareas');
 
-    if (filtroUsuario) {
-        filtroUsuario.value = '';
+    if (filtroTipo) {
+        filtroTipo.value = '';
+    }
+
+    if (filtroFechaDesde) {
+        filtroFechaDesde.value = '';
+    }
+
+    if (filtroFechaHasta) {
+        filtroFechaHasta.value = '';
     }
 
     if (filtroEstado) {
         filtroEstado.value = 'Todas';
     }
 
-    if (filtroTarea) {
-        filtroTarea.value = '';
+    if (filtroNombre) {
+        filtroNombre.value = '';
     }
 
     if (ordenTareas) {
         ordenTareas.value = 'fecha';
     }
+
+    actualizarVisibilidadFiltros();
 }

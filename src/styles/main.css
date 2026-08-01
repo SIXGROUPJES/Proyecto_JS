@@ -1283,6 +1283,13 @@ button.boton-cancelar-edicion:hover {
     margin-bottom: 12px;
 }
 
+/* BOTÓN DE FILTRADO ANTES DE LA BÚSQUEDA DE USUARIO */
+.seccion-busqueda-usuario .boton-filtrar {
+    width: 100%;
+    margin-bottom: 18px;
+    color: white;
+}
+
 /* ============================================
    ADMINISTRACIÓN DE USUARIOS
    ============================================ */

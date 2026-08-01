@@ -31,7 +31,26 @@ function obtenerClaseEstado(estado = '') {
 }
 
 function hayFiltrosActivos(filtros = {}) {
-    return Object.values(filtros).some(valor => valor !== '' && valor !== 'Todas');
+    const tipo = String(filtros.tipo ?? '').trim();
+
+    if (!tipo) {
+        return false;
+    }
+
+    if (tipo === 'fecha') {
+        return Boolean(filtros.fechaDesde || filtros.fechaHasta);
+    }
+
+    if (tipo === 'estado') {
+        const estado = String(filtros.estado ?? '').trim().toLowerCase();
+        return Boolean(estado) && estado !== 'todas';
+    }
+
+    if (tipo === 'nombre') {
+        return Boolean(String(filtros.nombre ?? '').trim());
+    }
+
+    return true;
 }
 
 function actualizarResumenTareas(tareas = []) {
@@ -327,11 +346,7 @@ export function obtenerTareasBase() {
 
 export function resetearVistaTareas() {
     vistaActual = {
-        filtros: {
-            usuarioId: '',
-            estado: 'Todas',
-            tareaId: ''
-        },
+        filtros: {},
         orden: 'fecha'
     };
 
