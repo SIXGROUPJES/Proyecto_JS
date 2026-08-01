@@ -69,9 +69,14 @@ function mostrarEstadoTabla(texto) {
     cuerpoTabla.replaceChildren(fila);
 }
 
-function crearCelda(texto) {
+function crearCelda(texto, etiqueta) {
     const celda = document.createElement('td');
     celda.textContent = texto;
+
+    if (etiqueta) {
+        celda.dataset.label = etiqueta;
+    }
+
     return celda;
 }
 
@@ -126,11 +131,12 @@ function renderizarUsuarios(usuarios) {
 
         acciones.append(botonEditar, botonEliminar);
         celdaAcciones.appendChild(acciones);
+        celdaAcciones.dataset.label = 'Acciones';
         fila.append(
-            crearCelda(String(usuario.id)),
-            crearCelda(String(usuario.name)),
-            crearCelda(String(usuario.email)),
-            crearCelda(obtenerNombreRole(usuario.role)),
+            crearCelda(String(usuario.id), 'ID'),
+            crearCelda(String(usuario.name), 'Nombre'),
+            crearCelda(String(usuario.email), 'Correo'),
+            crearCelda(obtenerNombreRole(usuario.role), 'Rol'),
             celdaAcciones
         );
         fragmento.appendChild(fila);

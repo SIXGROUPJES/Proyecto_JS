@@ -20,6 +20,11 @@ import {
     obtenerUsuarios
 } from '../services/usuarios.service.js';
 
+import {
+    abrirModal,
+    cerrarModal
+} from './modales.ui.js';
+
 let usuarioActual = null;
 let dropdownsEdicionConfigurados = false;
 
@@ -55,10 +60,6 @@ export function mostrarDatosUsuario(usuario) {
     */
     document.getElementById(
         'seccionDatosUsuario'
-    ).classList.remove('hidden');
-
-    document.getElementById(
-        'seccionFormularioTareas'
     ).classList.remove('hidden');
 
     document.getElementById(
@@ -711,7 +712,7 @@ export async function manejarGuardarEdicionTareaAsignada(evento) {
     try {
         await actualizarTareaAsignada(id, datosActualizados);
 
-        document.getElementById('seccionEditarTareaAsignada').classList.add('hidden');
+        cerrarModal('modalEditarTareaAsignada');
 
         await cargarTareasUsuario();
 
@@ -729,7 +730,7 @@ export async function manejarGuardarEdicionTareaAsignada(evento) {
 export function cancelarEdicionTareaAsignada() {
 
     document.getElementById('formularioEditarTarea').reset();
-    document.getElementById('seccionEditarTareaAsignada').classList.add('hidden');
+    cerrarModal('modalEditarTareaAsignada');
     notificarInfo('Edición cancelada.');
 
 }

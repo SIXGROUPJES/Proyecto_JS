@@ -62,6 +62,13 @@ import {
     inicializarAdministracionUsuarios
 } from './ui/usuarios.ui.js';
 
+import {
+    abrirModal,
+    cerrarModal,
+    configurarModales,
+    cerrarTodasLasModales
+} from './ui/modales.ui.js';
+
 
 // ============================================
 // NAVEGACIÓN POR TABS
@@ -74,11 +81,7 @@ function inicializarTabs() {
         tareas: [
             '.seccion-busqueda-usuario',
             '#seccionDatosUsuario',
-            '#seccionFormularioTareas',
-            '#botonMostrarFiltros',
-            '#seccionControlesTareas',
-            '.seccion-tabla-tareas',
-            '#seccionEditarTareaAsignada'
+            '.seccion-tabla-tareas'
         ]
     };
 
@@ -93,18 +96,14 @@ function inicializarTabs() {
             s.classList.add('tab-hidden');
         });
 
-        document.querySelectorAll('.contenedor-principal > button').forEach(function (b) {
-            if (b.id === 'botonMostrarFiltros') {
-                b.classList.add('tab-hidden');
-            }
-        });
-
         var selectors = tabGroups[tabName] || [];
         selectors.forEach(function (sel) {
             document.querySelectorAll(sel).forEach(function (el) {
                 el.classList.remove('tab-hidden');
             });
         });
+
+        cerrarTodasLasModales();
     }
 
     tabButtons.forEach(function (btn) {
@@ -116,6 +115,30 @@ function inicializarTabs() {
     activarTab('usuarios');
 }
 
+
+// ============================================
+// BOTÓN VOLVER ARRIBA
+// ============================================
+
+function configurarBotonSubir() {
+    const boton = document.getElementById('botonSubir');
+
+    if (!boton) {
+        return;
+    }
+
+    window.addEventListener(
+        'scroll',
+        function () {
+            boton.classList.toggle('visible', window.scrollY > 400);
+        },
+        { passive: true }
+    );
+
+    boton.addEventListener('click', function () {
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+    });
+}
 
 // ============================================
 // INICIALIZACIÓN
@@ -141,6 +164,8 @@ document.addEventListener(
             Inicializar tabs de navegación
         */
         inicializarTabs();
+        configurarBotonSubir();
+        configurarModales();
 
         /*
             Configurar eventos
@@ -222,6 +247,141 @@ function configurarEventos() {
             async function () {
 
                 await borrarTodasLasTareas();
+
+            }
+        );
+
+    /*
+        Abrir modal de asignación de tarea
+    */
+    document
+        .getElementById(
+            'botonAsignarTarea'
+        )
+        .addEventListener(
+            'click',
+            function () {
+
+                const formulario =
+                    document.getElementById(
+                        'formularioTareas'
+                    );
+
+                formulario.reset();
+
+                document.getElementById(
+                    'dropdownTexto'
+                ).textContent = '-- Selecciona una tarea --';
+
+                document.getElementById(
+                    'selectorTareas'
+                ).value = '';
+
+                limpiarError(
+                    document.getElementById(
+                        'errorSelectorTareas'
+                    )
+                );
+
+                limpiarError(
+                    document.getElementById(
+                        'errorEstadoTarea'
+                    )
+                );
+
+                abrirModal('modalAsignarTarea');
+                cargarTareasDisponibles();
+            }
+        );
+
+    /*
+        Abrir modal de nueva tarea
+    */
+    document
+        .getElementById(
+            'botonNuevaTarea'
+        )
+        .addEventListener(
+            'click',
+            function () {
+
+                document.getElementById(
+                    'formularioNuevaTarea'
+                ).reset();
+
+                abrirModal('modalNuevaTarea');
+            }
+        );
+
+    /*
+        Registrar nueva tarea disponible
+    */
+    document
+        .getElementById(
+            'formularioNuevaTarea'
+        )
+        .addEventListener(
+            'submit',
+            async function (evento) {
+
+                evento.preventDefault();
+
+                const titulo =
+                    document.getElementById(
+                        'nuevaTareaTitulo'
+                    ).value.trim();
+
+                const descripcion =
+                    document.getElementById(
+                        'nuevaTareaDescripcion'
+                    ).value.trim();
+
+                if (
+                    !validarCampoVacio(
+                        titulo
+                    )
+                ) {
+                    notificarError(
+                        'El título de la tarea es obligatorio.'
+                    );
+
+                    return;
+                }
+
+                try {
+
+                    const respuesta =
+                        await crearTareaDisponible({
+                            titulo,
+                            descripcion
+                        });
+
+                    if (!respuesta.ok) {
+                        throw new Error(
+                            'Error al crear la tarea'
+                        );
+                    }
+
+                    cerrarModal('modalNuevaTarea');
+                    this.reset();
+                    await cargarTareasDisponibles();
+
+                    notificarExito(
+                        'Tarea creada correctamente.'
+                    );
+
+                } catch (error) {
+
+                    console.error(
+                        'Error al crear la tarea:',
+                        error
+                    );
+
+                    notificarError(
+                        'No se pudo crear la tarea.'
+                    );
+
+                }
 
             }
         );
@@ -456,6 +616,8 @@ async function manejarRegistroTarea(evento) {
             'formularioTareas'
         )
         .reset();
+
+    cerrarModal('modalAsignarTarea');
 
     /*
         Mensaje

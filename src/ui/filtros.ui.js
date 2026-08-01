@@ -1,17 +1,17 @@
 import { obtenerUsuarios } from '../services/usuarios.service.js';
 import { obtenerTodasLasTareasAsignadas } from '../services/tareasAsignadas.service.js';
 import { notificarError, notificarInfo } from './notificaciones.ui.js';
+import { abrirModal, cerrarModal } from './modales.ui.js';
 
 export function configurarControlesTareas({ onChange, onCancel, onExport }) {
     const botonMostrarFiltros = document.getElementById('botonMostrarFiltros');
-    const seccionControles = document.getElementById('seccionControlesTareas');
     const botonAplicar = document.getElementById('botonAplicarFiltro');
     const botonCancelar = document.getElementById('botonCancelarFiltro');
     const botonExportar = document.getElementById('botonExportarTareas');
 
-    if (botonMostrarFiltros && seccionControles) {
+    if (botonMostrarFiltros) {
         botonMostrarFiltros.addEventListener('click', () => {
-            seccionControles.classList.toggle('hidden');
+            abrirModal('modalFiltrar');
         });
     }
 
@@ -20,13 +20,14 @@ export function configurarControlesTareas({ onChange, onCancel, onExport }) {
     if (botonAplicar) {
         botonAplicar.addEventListener('click', async () => {
             await onChange(obtenerControlesTareas());
+            cerrarModal('modalFiltrar');
         });
     }
 
     if (botonCancelar) {
         botonCancelar.addEventListener('click', async () => {
             restablecerFiltros();
-            seccionControles?.classList.add('hidden');
+            cerrarModal('modalFiltrar');
             if (typeof onCancel === 'function') {
                 await onCancel(obtenerControlesTareas());
             } else {

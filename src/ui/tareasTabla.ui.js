@@ -1,5 +1,6 @@
 import { eliminarTareaAsignada } from '../services/tareasAsignadas.service.js';
 import { notificarExito, notificarError } from './notificaciones.ui.js';
+import { abrirModal } from './modales.ui.js';
 import { filtrarTareas } from '../utils/filtros.js';
 import { ordenarTareas } from '../utils/ordenamiento.js';
 
@@ -173,30 +174,30 @@ export function aplicarVistaTareas(opciones = {}) {
 
         fila.innerHTML = `
 
-        <td>
+        <td data-label="Título">
             ${tarea.titulo}
         </td>
 
-        <td>
+        <td data-label="Descripción">
             ${tarea.descripcion}
         </td>
 
-        <td>
+        <td data-label="Estado">
             <span class="badge-estado ${obtenerClaseEstado(tarea.estado)}">
                 ${tarea.estado}
             </span>
         </td>
 
-        <td>
+        <td data-label="Fecha">
             ${new Date(
             tarea.fechaAsignacion
         ).toLocaleDateString()}
         </td>
 
-        <td>
+        <td data-label="Usuario">
             ${tarea.usuarioNombre}
         </td>   
-        <td> 
+        <td data-label="Acciones"> 
             <button 
                 class="boton-editar-asignada"
                 data-id="${tarea.id}"
@@ -308,12 +309,8 @@ export function aplicarVistaTareas(opciones = {}) {
                     document.getElementById('dropdownEditarTareaTexto').textContent = tareaSeleccionada.titulo;
                     document.getElementById('dropdownEditarUsuarioTexto').textContent = tareaSeleccionada.usuarioNombre;
 
-                    // 2. Mostrar la sección removiendo la clase 'hidden'
-                    const seccionEdicion = document.getElementById('seccionEditarTareaAsignada');
-                    seccionEdicion.classList.remove('hidden');
-
-                    // 3. Hacer un scroll suave hacia el formulario para que el usuario note que se abrió
-                    seccionEdicion.scrollIntoView({ behavior: 'smooth' });
+                    // 2. Abrir el modal de edición
+                    abrirModal('modalEditarTareaAsignada');
                 }
             );
 
