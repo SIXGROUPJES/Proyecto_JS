@@ -261,6 +261,22 @@ function configurarEventos() {
             'click',
             function () {
 
+                const seccionUsuario =
+                    document.getElementById(
+                        'seccionDatosUsuario'
+                    );
+
+                if (
+                    !seccionUsuario ||
+                    seccionUsuario.classList.contains('hidden')
+                ) {
+                    notificarError(
+                        'Primero debes buscar un usuario.'
+                    );
+
+                    return;
+                }
+
                 const formulario =
                     document.getElementById(
                         'formularioTareas'
@@ -296,20 +312,21 @@ function configurarEventos() {
     /*
         Abrir modal de nueva tarea
     */
+    function abrirModalNuevaTarea() {
+        document.getElementById(
+            'formularioNuevaTarea'
+        ).reset();
+
+        abrirModal('modalNuevaTarea');
+    }
+
     document
         .getElementById(
-            'botonNuevaTarea'
+            'botonNuevaTareaBusqueda'
         )
         .addEventListener(
             'click',
-            function () {
-
-                document.getElementById(
-                    'formularioNuevaTarea'
-                ).reset();
-
-                abrirModal('modalNuevaTarea');
-            }
+            abrirModalNuevaTarea
         );
 
     /*
