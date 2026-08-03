@@ -174,7 +174,8 @@ document.addEventListener(
         configurarControlesTareas({
             onChange: manejarAplicacionFiltros,
             onCancel: manejarCancelacionFiltros,
-            onExport: manejarExportacionTareas
+            onExport: manejarExportacionTareas,
+            onUsuarioEncontrado: manejarBusquedaPorNombre
         });
 
         try {
@@ -705,6 +706,21 @@ async function manejarCancelacionFiltros() {
         console.error('Error al restablecer filtros:', error);
         notificarError('No se pudieron restablecer los filtros.');
     }
+}
+
+// ============================================
+// BUSCAR USUARIO POR NOMBRE (FILTRO)
+// ============================================
+
+/**
+ * Manejar la búsqueda de un usuario desde el filtro por nombre:
+ * muestra su información (nombre y correo) y carga sus tareas
+ * asignadas, igual que la búsqueda por documento.
+ *
+ * @param {Object} usuario
+ */
+function manejarBusquedaPorNombre(usuario) {
+    mostrarDatosUsuario(usuario);
 }
 
 // DROPDOWN PERSONALIZADO
