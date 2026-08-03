@@ -1,3 +1,9 @@
+// ============================================
+// UI: ADMINISTRACIÓN DE USUARIOS
+// ============================================
+// Maneja la tabla y el formulario del tab "Usuarios":
+// registrar, editar y eliminar usuarios usando el servicio
+// usuarios.service.js.
 import {
     actualizarUsuario,
     crearUsuario,
@@ -6,10 +12,12 @@ import {
     obtenerUsuariosAdmin
 } from '../services/usuarios.service.js';
 
+// Estado interno del módulo.
 let idUsuarioEnEdicion = null;
 let enviandoFormulario = false;
 let cargandoUsuarios = false;
 
+// Referencias al DOM (se llenan en obtenerReferencias).
 let formulario;
 let campoId;
 let campoName;
@@ -20,6 +28,11 @@ let botonCancelar;
 let mensaje;
 let cuerpoTabla;
 
+// ============================================
+// REFERENCIAS AL DOM
+// ============================================
+// Busca todos los elementos del formulario y la tabla; si falta
+// alguno, lanza un error claro (evita fallos silenciosos).
 function obtenerReferencias() {
     formulario = document.getElementById('usuario-admin-formulario');
     campoId = document.getElementById('usuario-admin-id');
@@ -50,6 +63,11 @@ function obtenerReferencias() {
     }
 }
 
+// ============================================
+// AYUDANTES DE RENDERIZADO
+// ============================================
+
+// Muestra un mensaje en el área del formulario con estilo por tipo.
 function mostrarMensaje(texto, tipo = 'info') {
     mensaje.textContent = texto;
     mensaje.className = 'usuario-admin__mensaje';
@@ -59,6 +77,7 @@ function mostrarMensaje(texto, tipo = 'info') {
     }
 }
 
+// Muestra un mensaje de una sola fila (carga/estado) en la tabla.
 function mostrarEstadoTabla(texto) {
     const fila = document.createElement('tr');
     const celda = document.createElement('td');
@@ -69,6 +88,7 @@ function mostrarEstadoTabla(texto) {
     cuerpoTabla.replaceChildren(fila);
 }
 
+// Crea una celda con su etiqueta (útil para el responsive).
 function crearCelda(texto, etiqueta) {
     const celda = document.createElement('td');
     celda.textContent = texto;
@@ -80,10 +100,16 @@ function crearCelda(texto, etiqueta) {
     return celda;
 }
 
+// Traduce el rol de la API a un texto legible.
 function obtenerNombreRole(role) {
     return role === 'admin' ? 'Administrador' : 'Usuario';
 }
 
+// ============================================
+// RENDERIZAR TABLA DE USUARIOS
+// ============================================
+// Crea una fila por usuario con los botones Editar y Eliminar,
+// y los inserta todos juntos usando un DocumentFragment.
 function renderizarUsuarios(usuarios) {
     if (usuarios.length === 0) {
         mostrarEstadoTabla('No hay usuarios registrados.');
@@ -145,7 +171,11 @@ function renderizarUsuarios(usuarios) {
     cuerpoTabla.replaceChildren(fragmento);
 }
 
+// ============================================
+// CARGAR USUARIOS DESDE EL BACKEND
+// ============================================
 async function cargarUsuarios(mostrarCargaEnMensaje = true) {
+    // Evita dobles peticiones mientras una ya está en curso.
     if (cargandoUsuarios) {
         return;
     }
@@ -175,6 +205,11 @@ async function cargarUsuarios(mostrarCargaEnMensaje = true) {
     }
 }
 
+// ============================================
+// MODOS DEL FORMULARIO (CREAR / EDITAR)
+// ============================================
+
+// Deja el formulario listo para crear un usuario nuevo.
 function establecerModoCreacion({
     limpiarMensaje = true,
     enfocar = true
@@ -195,6 +230,8 @@ function establecerModoCreacion({
     }
 }
 
+// Carga un usuario por su ID y pone el formulario en modo edición
+// (el ID queda de solo lectura y el botón cambia a "Guardar cambios").
 async function iniciarEdicion(id) {
     mostrarMensaje('Cargando usuario para edición...', 'info');
 
@@ -216,13 +253,18 @@ async function iniciarEdicion(id) {
     }
 }
 
+// ============================================
+// ENVÍO DEL FORMULARIO (CREAR O ACTUALIZAR)
+// ============================================
 async function gestionarFormulario(evento) {
     evento.preventDefault();
 
+    // Evita envíos dobles.
     if (enviandoFormulario) {
         return;
     }
 
+    // Valida los campos nativos del HTML antes de enviar.
     if (!formulario.checkValidity()) {
         formulario.reportValidity();
         return;
@@ -243,6 +285,7 @@ async function gestionarFormulario(evento) {
 
     try {
         if (editando) {
+            // Modo edición: no se envía el ID (no es modificable).
             mostrarMensaje('Guardando cambios...', 'info');
             await actualizarUsuario(
                 idUsuarioEnEdicion,
@@ -261,6 +304,7 @@ async function gestionarFormulario(evento) {
                 'success'
             );
         } else {
+            // Modo creación.
             mostrarMensaje('Registrando usuario...', 'info');
             await crearUsuario(usuario);
             establecerModoCreacion({
@@ -284,6 +328,7 @@ async function gestionarFormulario(evento) {
     }
 }
 
+// Cancela la edición y vuelve al modo creación.
 function cancelarEdicion() {
     if (enviandoFormulario) {
         return;
@@ -292,6 +337,11 @@ function cancelarEdicion() {
     establecerModoCreacion();
 }
 
+// ============================================
+// ELIMINAR USUARIO
+// ============================================
+// Pide confirmación; el backend bloquea el borrado si el usuario
+// tiene tareas activas (responde 409 con el detalle de tareas).
 async function gestionarEliminacion(id, name, botonEliminar) {
     if (botonEliminar.disabled) {
         return;
@@ -313,6 +363,7 @@ async function gestionarEliminacion(id, name, botonEliminar) {
     try {
         const mensajeEliminacion = await eliminarUsuario(id);
 
+        // Si se eliminó al usuario que estaba en edición, se resetea el modo.
         if (idUsuarioEnEdicion === id) {
             establecerModoCreacion({
                 limpiarMensaje: false,
@@ -326,6 +377,7 @@ async function gestionarEliminacion(id, name, botonEliminar) {
         );
         await cargarUsuarios(false);
     } catch (error) {
+        // 409 = el usuario tiene tareas activas: se muestra aviso de advertencia.
         if (error.status === 409) {
             const detalleTareas =
                 typeof error.tareasActivas === 'number'
@@ -346,6 +398,11 @@ async function gestionarEliminacion(id, name, botonEliminar) {
     }
 }
 
+// ============================================
+// INICIALIZACIÓN DEL MÓDULO
+// ============================================
+// Punto de entrada: obtiene las referencias, conecta los eventos
+// del formulario y carga la tabla de usuarios.
 export function inicializarAdministracionUsuarios() {
     obtenerReferencias();
     formulario.addEventListener('submit', gestionarFormulario);

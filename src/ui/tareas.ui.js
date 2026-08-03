@@ -1,4 +1,11 @@
 
+// ============================================
+// UI: GESTIÓN DE TAREAS
+// ============================================
+// Lógica central del tab "Gestión de Tareas":
+// - Muestra los datos del usuario buscado.
+// - Carga el catálogo de tareas disponibles (dropdown y panel).
+// - Asigna, edita y elimina tareas asignadas.
 import { renderizarTareas, resetearVistaTareas } from './tareasTabla.ui.js';
 import { resetearControlesTareas } from './filtros.ui.js';
 import { notificarExito, notificarError, notificarInfo } from './notificaciones.ui.js';
@@ -25,6 +32,7 @@ import {
     cerrarModal
 } from './modales.ui.js';
 
+// Usuario que se está consultando actualmente.
 let usuarioActual = null;
 let dropdownsEdicionConfigurados = false;
 
@@ -86,10 +94,13 @@ export function mostrarDatosUsuario(usuario) {
 
 
 // ============================================
-// CARGAR TAREAS DISPONIBLES
+// PANEL DE REGISTRO RÁPIDO DE TAREAS
 // ============================================
+// Panel que aparece dentro del dropdown de tareas para crear o
+// editar una tarea disponible sin salir del modal de asignación.
 let tareaEnEdicion = null;
 
+// Abre el panel en modo "Agregar tarea" (limpia los campos).
 export async function abrirPanelAgregar() {
     tareaEnEdicion = null;
     document.getElementById('tituloTareaSeleccionada').textContent = 'Agregar tarea';
@@ -99,6 +110,7 @@ export async function abrirPanelAgregar() {
 
 }
 
+// Abre el panel en modo "Editar tarea" (precarga el título actual).
 export async function abrirPanelEditar(id, titulo) {
     tareaEnEdicion = id;
     document.getElementById('tituloTareaSeleccionada').textContent = 'Editar tarea';
@@ -107,6 +119,7 @@ export async function abrirPanelEditar(id, titulo) {
     document.getElementById('panelTarea').classList.remove('hidden');
 }
 
+// Cierra el panel y limpia los campos; opcionalmente informa la cancelación.
 export async function cerrarPanel(informarCancelacion = true) {
     tareaEnEdicion = null;
     document.getElementById('panelTarea').classList.add('hidden');

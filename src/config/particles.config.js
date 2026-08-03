@@ -1,3 +1,9 @@
+// ============================================
+// CONFIGURACIÓN DEL FONDO DE PARTÍCULAS
+// ============================================
+// Fondo animado del dashboard usando la librería particles.js.
+// Si el contenedor #particles-js existe y la librería está cargada,
+// se crean partículas que se mueven y reaccionan al cursor (modo grab).
 const particlesContainer = document.getElementById("particles-js");
 
 if (particlesContainer && window.particlesJS) {
