@@ -1,7 +1,62 @@
-import { notificarInfo } from './notificaciones.ui.js';
+import { notificarInfo, notificarError, notificarExito } from './notificaciones.ui.js';
 import { abrirModal, cerrarModal } from './modales.ui.js';
+import { obtenerUsuarios } from '../services/usuarios.service.js';
 
-export function configurarControlesTareas({ onChange, onCancel, onExport }) {
+// Cache de usuarios para el autocompletado por nombre y la resolución
+// del usuario al aplicar el filtro.
+let usuariosCache = [];
+
+function normalizarTexto(valor) {
+    return String(valor ?? '')
+        .trim()
+        .toLowerCase()
+        .normalize('NFD')
+        .replace(/[\u0300-\u036f]/g, '');
+}
+
+async function cargarSugerenciasNombres() {
+    const datalist = document.getElementById('listaNombresUsuarios');
+
+    if (!datalist) {
+        return;
+    }
+
+    try {
+        const usuarios = await obtenerUsuarios();
+        usuariosCache = Array.isArray(usuarios) ? usuarios : [];
+
+        datalist.innerHTML = '';
+
+        usuariosCache.forEach(usuario => {
+            const opcion = document.createElement('option');
+            opcion.value = usuario.name;
+            datalist.appendChild(opcion);
+        });
+    } catch (error) {
+        console.error('Error al cargar nombres para autocompletar:', error);
+        usuariosCache = [];
+    }
+}
+
+async function resolverUsuarioPorNombre(nombre) {
+    if (usuariosCache.length === 0) {
+        await cargarSugerenciasNombres();
+    }
+
+    const objetivo = normalizarTexto(nombre);
+
+    if (!objetivo) {
+        return null;
+    }
+
+    return (
+        usuariosCache.find(usuario => normalizarTexto(usuario.name) === objetivo) ||
+        usuariosCache.find(usuario => normalizarTexto(usuario.name).includes(objetivo)) ||
+        null
+    );
+}
+
+export function configurarControlesTareas({ onChange, onCancel, onExport, onUsuarioEncontrado }) {
     const botonMostrarFiltros = document.getElementById('botonMostrarFiltros');
     const botonAplicar = document.getElementById('botonAplicarFiltro');
     const botonCancelar = document.getElementById('botonCancelarFiltro');
@@ -11,6 +66,7 @@ export function configurarControlesTareas({ onChange, onCancel, onExport }) {
     if (botonMostrarFiltros) {
         botonMostrarFiltros.addEventListener('click', () => {
             actualizarVisibilidadFiltros();
+            cargarSugerenciasNombres();
             abrirModal('modalFiltrar');
         });
     }
@@ -21,7 +77,31 @@ export function configurarControlesTareas({ onChange, onCancel, onExport }) {
 
     if (botonAplicar) {
         botonAplicar.addEventListener('click', async () => {
-            await onChange(obtenerControlesTareas());
+            const controles = obtenerControlesTareas();
+
+            // Filtro por nombre: se resuelve el usuario real desde la base
+            // de datos (como la búsqueda por documento) y se cargan sus
+            // tareas asignadas junto con su información y correo.
+            if (controles.filtros.tipo === 'nombre' && controles.filtros.nombre) {
+                const usuario = await resolverUsuarioPorNombre(controles.filtros.nombre);
+
+                if (!usuario) {
+                    notificarError(
+                        `No se encontró ningún usuario con el nombre "${controles.filtros.nombre}".`
+                    );
+                    return;
+                }
+
+                if (typeof onUsuarioEncontrado === 'function') {
+                    await onUsuarioEncontrado(usuario);
+                }
+
+                cerrarModal('modalFiltrar');
+                notificarExito(`Usuario "${usuario.name}" cargado correctamente.`);
+                return;
+            }
+
+            await onChange(controles);
             cerrarModal('modalFiltrar');
         });
     }
