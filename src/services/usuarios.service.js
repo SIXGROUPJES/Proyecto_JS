@@ -1,9 +1,21 @@
+// ============================================
+// SERVICIO: USUARIOS
+// ============================================
+// Capa de comunicación con la API para el CRUD de usuarios.
+// Incluye un helper "solicitar" que centraliza el fetch, la
+// conversión a JSON y el manejo de errores (incluye los 409 del
+// backend con el detalle de tareas activas).
 import { API_URL } from '../config/api.config.js';
 
 const USUARIOS_URL = `${API_URL}/usuarios`;
 
 let usuarioActual = null;
 
+// ============================================
+// CLIENTE HTTP GENÉRICO
+// ============================================
+// Ejecuta el fetch, parsea la respuesta (incluso vacía) y lanza
+// errores descriptivos si el backend no responde o devuelve error.
 async function solicitar(ruta = '', opciones = {}) {
     let respuesta;
 
@@ -44,6 +56,11 @@ async function solicitar(ruta = '', opciones = {}) {
     return datos;
 }
 
+// ============================================
+// OPERACIONES CRUD
+// ============================================
+
+// Listar todos los usuarios (para el autocompletado y la administración).
 export async function obtenerUsuarios() {
     const respuesta = await fetch(USUARIOS_URL);
 
@@ -55,6 +72,8 @@ export async function obtenerUsuarios() {
     return usuarios;
 }
 
+// Buscar un usuario por su documento: descarga la lista y la recorre
+// comparando el id en texto (así no hay problemas entre número y string).
 export async function buscarUsuario(documentoUsuario) {
     try {
         const respuesta = await fetch(USUARIOS_URL);
@@ -69,6 +88,7 @@ export async function buscarUsuario(documentoUsuario) {
     }
 }
 
+// Listar usuarios para la tabla de administración (usa el cliente genérico).
 export async function obtenerUsuariosAdmin() {
     const usuarios = await solicitar();
 
@@ -79,10 +99,12 @@ export async function obtenerUsuariosAdmin() {
     return usuarios;
 }
 
+// Buscar un usuario por ID en el backend (ruta /usuarios/:id).
 export async function obtenerUsuarioPorId(id) {
     return solicitar(`/${encodeURIComponent(String(id))}`);
 }
 
+// Crear un usuario nuevo.
 export async function crearUsuario(usuario) {
     const datosUsuario = {
         id: usuario.id,
@@ -98,6 +120,7 @@ export async function crearUsuario(usuario) {
     });
 }
 
+// Actualizar un usuario (el ID no se envía porque no se puede modificar).
 export async function actualizarUsuario(id, usuario) {
     const datosUsuario = {
         name: usuario.name,
@@ -112,6 +135,7 @@ export async function actualizarUsuario(id, usuario) {
     });
 }
 
+// Eliminar un usuario; devuelve el mensaje del backend.
 export async function eliminarUsuario(id) {
     const resultado = await solicitar(`/${encodeURIComponent(String(id))}`, {
         method: 'DELETE'

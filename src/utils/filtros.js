@@ -1,6 +1,14 @@
+// ============================================
+// UTILIDAD: FILTRADO DE TAREAS
+// ============================================
+// Función pura que filtra una lista de tareas según el tipo de
+// filtro elegido (fecha, estado o nombre de usuario).
+// No toca el DOM: solo recibe datos y devuelve los que coinciden.
+
 export function filtrarTareas(tareas, filtros = {}) {
     const tipo = normalizar(filtros.tipo);
 
+    // Sin tipo de filtro se devuelven todas las tareas.
     if (!tipo) {
         return tareas;
     }
@@ -26,6 +34,7 @@ export function filtrarTareas(tareas, filtros = {}) {
     });
 }
 
+// Compara solo la parte de fecha (YYYY-MM-DD) contra el rango indicado.
 function coincideFecha(fechaAsignacion, desde, hasta) {
     const fecha = String(fechaAsignacion ?? '').slice(0, 10);
 
@@ -44,6 +53,7 @@ function coincideFecha(fechaAsignacion, desde, hasta) {
     return true;
 }
 
+// Compara el estado; "Todas" o vacío devuelven true (no filtra).
 function coincideEstado(estado, estadoFiltro) {
     const estadoNormalizado = normalizar(estadoFiltro);
 
@@ -54,6 +64,8 @@ function coincideEstado(estado, estadoFiltro) {
     );
 }
 
+// Compara el nombre del usuario; la búsqueda es parcial (includes)
+// e insensible a mayúsculas.
 function coincideNombre(usuarioNombre, nombreFiltro) {
     const nombre = String(nombreFiltro ?? '').trim().toLowerCase();
 
@@ -66,6 +78,7 @@ function coincideNombre(usuarioNombre, nombreFiltro) {
     );
 }
 
+// Normaliza un texto: lo convierte a minúsculas y le quita los espacios.
 function normalizar(valor) {
     return String(valor ?? '')
         .trim()

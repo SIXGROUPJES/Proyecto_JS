@@ -1,9 +1,17 @@
+// ============================================
+// UI: TABLA DE TAREAS
+// ============================================
+// Renderiza la tabla de tareas asignadas, actualiza el resumen
+// (total/pendientes/en progreso/completadas) y aplica los filtros
+// y el ordenamiento sobre la lista de tareas.
 import { eliminarTareaAsignada } from '../services/tareasAsignadas.service.js';
 import { notificarExito, notificarError } from './notificaciones.ui.js';
 import { abrirModal } from './modales.ui.js';
 import { filtrarTareas } from '../utils/filtros.js';
 import { ordenarTareas } from '../utils/ordenamiento.js';
 
+// Estado interno: lista base, lista visible, callback de recarga
+// y la vista actual (filtros + orden) para reaplicar al renderizar.
 let tareasBase = [];
 let tareasVisibles = [];
 let callbackRecarga = null;
@@ -12,6 +20,11 @@ let vistaActual = {
     orden: 'fecha'
 };
 
+// ============================================
+// AYUDANTES DE RENDERIZADO
+// ============================================
+
+// Devuelve la clase CSS del badge según el estado de la tarea.
 function obtenerClaseEstado(estado = '') {
     const estadoNormalizado = String(estado).trim().toLowerCase();
 
@@ -30,6 +43,8 @@ function obtenerClaseEstado(estado = '') {
     return 'badge-neutro';
 }
 
+// Indica si hay algún filtro realmente activo (para elegir el
+// mensaje que se muestra cuando no hay tareas).
 function hayFiltrosActivos(filtros = {}) {
     const tipo = String(filtros.tipo ?? '').trim();
 
@@ -53,6 +68,11 @@ function hayFiltrosActivos(filtros = {}) {
     return true;
 }
 
+// ============================================
+// RESUMEN DE TAREAS
+// ============================================
+// Cuenta las tareas por estado y actualiza los contadores
+// de las tarjetas (total, pendientes, en progreso, completadas).
 function actualizarResumenTareas(tareas = []) {
     const resumen = tareas.reduce(
         (acumulador, tarea) => {
@@ -336,14 +356,22 @@ export function aplicarVistaTareas(opciones = {}) {
         });
 } // <- Este es el cierre final de la función aplicarVistaTareas "boton editar (tarea asignada)Ely"
 
+// ============================================
+// ACCESO AL ESTADO Y RESETEO
+// ============================================
+
+// Devuelve una copia de las tareas visibles (las que quedan
+// después de aplicar filtros y ordenamiento).
 export function obtenerTareasVisibles() {
     return [...tareasVisibles];
 }
 
+// Devuelve una copia de la lista base (sin filtros).
 export function obtenerTareasBase() {
     return [...tareasBase];
 }
 
+// Limpia los filtros y el orden, y vuelve a renderizar la vista completa.
 export function resetearVistaTareas() {
     vistaActual = {
         filtros: {},

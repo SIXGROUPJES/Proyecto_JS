@@ -651,6 +651,11 @@ async function manejarRegistroTarea(evento) {
 
 }
 
+// ============================================
+// EXPORTACIÓN Y FILTROS GLOBALES
+// ============================================
+
+// Exporta a JSON las tareas visibles (según filtros activos).
 function manejarExportacionTareas() {
     aplicarVistaTareas(
         obtenerControlesTareas()
@@ -676,6 +681,8 @@ function manejarExportacionTareas() {
     );
 }
 
+// Aplica los filtros elegidos en el modal sobre TODAS las tareas
+// asignadas del sistema y renderiza la vista filtrada.
 async function manejarAplicacionFiltros(vista) {
     try {
         const tareasGlobales = await obtenerTodasLasTareasAsignadas();
@@ -723,7 +730,12 @@ function manejarBusquedaPorNombre(usuario) {
     mostrarDatosUsuario(usuario);
 }
 
-// DROPDOWN PERSONALIZADO
+// ============================================
+// DROPDOWN PERSONALIZADO DE TAREAS
+// ============================================
+// Configura el dropdown de selección de tareas del modal de
+// asignación: se abre/cierra con clic en la cabecera y se cierra
+// al hacer clic fuera de él.
 async function configurarDropdown() {
     const cabecera = document.getElementById('dropdownCabecera');
     const lista    = document.getElementById('listaTareasDisponibles');
@@ -745,8 +757,12 @@ async function configurarDropdown() {
         e.stopPropagation();
     });
 }
-// BOTON AGREGAR TAREAS
 
+// ============================================
+// BOTÓN AGREGAR TAREA (PANEL DEL DROPDOWN)
+// ============================================
+// Conecta el botón "Registrar tarea" del dropdown para abrir el
+// panel que permite crear una tarea nueva sobre la marcha.
 const boton = document.getElementById('panelBotonAgregarTarea');
 if (boton) {
     boton.addEventListener('click', () => {
