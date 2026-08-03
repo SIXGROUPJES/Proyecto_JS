@@ -76,23 +76,37 @@ Para estandarizar el desarrollo y evitar errores de compatibilidad, sigue estos 
 # Paso 1. Clonar el repositorio
 git clone [URL-del-repositorio-grupal]
 
-# Paso 2. Instalar dependencias
-cd server
+# Paso 2. Instalar dependencias (en la raíz del frontend)
 npm install
 ```
+
+> El proyecto ya **no usa JSON Server**: los datos viven en una base de datos **MySQL** expuesta por un backend propio (Express) en el puerto `3001`. El frontend se conecta a él a través de `src/config/api.config.js`.
 
 ### Comandos
 
 ```bash
-# API JSON Server en el puerto 3000
-npm run server
-
-# Frontend Vite en el puerto 5173
+# Frontend Vite (puerto 5173 por defecto)
 npm run dev
 
-# Verificación de dependencias circulares
-npm run lint:cycles
+# Compilar el proyecto para producción
+npm run build
+
+# Previsualizar la compilación
+npm run preview
 ```
+
+### Backend (requisito para que la interfaz funcione)
+
+El frontend consume la API del repositorio backend (`BACKENDLY6/backendly`). Para levantarlo:
+
+```bash
+# En el repositorio del backend
+npm install
+npm run migrate   # crea la base de datos y los datos iniciales
+npm run dev       # API disponible en http://localhost:3001
+```
+
+La interfaz carga únicamente cuando el backend está corriendo en `http://localhost:3001/api`.
 
 ### El "por que"
 
@@ -104,20 +118,64 @@ Mantenemos una organización modular para facilitar el mantenimiento:
 
 ```
 /
-├── .github/              # Motor de plantillas (Issues y Pull Requests)
-├── docs/                 # Guías metodológicas y reportes técnicos
-├── public/               # Recursos estáticos (imágenes, iconos)
-├── src/                  # Código fuente principal
-│   ├── assets/           # Estilos globales y multimedia
-│   ├── components/       # Piezas de interfaz reutilizables (UI)
-│   ├── services/         # Lógica de consumo de datos o APIs
-│   ├── views/            # Secciones o páginas principales
-│   └── main.js           # Punto de entrada de la aplicación
-├── .gitignore            # Archivos que Git debe ignorar
-├── server/package.json   # Dependencias y scripts del proyecto
-├── README.md             # Manual principal del repositorio
-└── TEAM_AGREEMENT.md     # Acuerdo y normas de convivencia del equipo
+├── index.html               # Estructura HTML de la interfaz (una sola página)
+├── dist/                    # Compilación de producción (vite build)
+├── docs/                    # Guías metodológicas y reportes técnicos
+├── src/                     # Código fuente principal
+│   ├── config/              # Configuraciones (URL de la API, partículas de fondo)
+│   ├── services/            # Lógica de consumo de datos (fetch a la API)
+│   ├── styles/              # Estilos globales (main.css)
+│   ├── ui/                  # Piezas de interfaz y lógica de presentación
+│   ├── utils/               # Utilidades (filtros, ordenamiento, exportador)
+│   └── main.js              # Punto de entrada de la aplicación
+├── .gitignore               # Archivos que Git debe ignorar
+├── package.json             # Dependencias y scripts del proyecto
+├── README.md                # Manual principal del repositorio
+└── TEAM_AGREEMENT.md        # Acuerdo y normas de convivencia del equipo
 ```
+
+### Detalle de módulos
+
+| Módulo                      | Función                                                      |
+| --------------------------- | ------------------------------------------------------------ |
+| `src/config/api.config.js`  | URL base de la API del backend (`http://localhost:3001/api`) |
+| `src/services/usuarios.service.js` | CRUD de usuarios contra la API                         |
+| `src/services/tareasDisponibles.service.js` | CRUD del catálogo de tareas                   |
+| `src/services/tareasAsignadas.service.js`  | CRUD de tareas asignadas                        |
+| `src/ui/usuarios.ui.js`     | Administración de usuarios (registrar, editar, eliminar)     |
+| `src/ui/tareas.ui.js`       | Asignación de tareas y edición de tareas asignadas           |
+| `src/ui/tareasTabla.ui.js`  | Renderizado de la tabla de tareas y vista filtrada           |
+| `src/ui/filtros.ui.js`      | Modal de filtros y ordenamiento de tareas                    |
+| `src/ui/modales.ui.js`      | Apertura/cierre de modales                                   |
+| `src/ui/formularios.ui.js`  | Validación de formularios                                    |
+| `src/ui/notificaciones.ui.js` | Notificaciones de éxito/error/información                  |
+| `src/utils/filtros.js`      | Lógica de filtrado de tareas                                 |
+| `src/utils/ordenamiento.js` | Lógica de ordenamiento                                       |
+| `src/utils/exportador.js`   | Exportación de tareas a JSON                                 |
+
+## FUNCIONALIDADES DE LA INTERFAZ
+
+La aplicación es una SPA (una sola página) con navegación por **tabs**:
+
+### Tab "Usuarios"
+
+- Registro de nuevos usuarios (ID/documento, nombre, correo y rol).
+- Edición y eliminación de usuarios desde la tabla.
+- No se puede eliminar un usuario con tareas activas (regla del backend).
+
+### Tab "Gestión de Tareas"
+
+- **Filtrar Tareas** (arriba de todo): abre el modal de filtros para buscar tareas por fecha, estado o nombre de usuario, con opción de ordenarlas.
+- **Crear Nueva Tarea** (justo debajo de "Filtrar Tareas"): abre el modal para registrar una tarea en el catálogo de tareas disponibles.
+- **Búsqueda de usuario**: se ingresa el documento y se carga la información del usuario junto con sus tareas asignadas.
+- **Asignar Tarea**: botón que solo aparece después de buscar un usuario, para garantizar que la asignación siempre sea a un usuario real.
+- **Edición de tareas asignadas**: cambia tarea, usuario, estado o título/descripción desde el modal de edición.
+- **Borrar tareas asignadas** y **Exportar JSON** de las tareas visibles.
+
+### Comportamiento de los botones
+
+- El botón **"Crear Nueva Tarea"** solo existe debajo de **"Filtrar Tareas"**, antes de la búsqueda de usuario.
+- El botón **"Asignar Tarea"** únicamente se habilita cuando ya se buscó un usuario; si se intenta abrir sin usuario, el sistema muestra una notificación de error.
 
 ## METODOLOGÍA DE TRABAJO (GITFLOW PROFESIONAL)
 
